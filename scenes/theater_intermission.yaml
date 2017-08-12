@@ -1,0 +1,63 @@
+name: theater_intermission
+entities:
+  light.aikitchengascanmain:
+    state: on
+    brightness_pct: 50
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 5
+  light.ailivingroomorb:
+    state: on
+    brightness_pct: 50
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 5
+  light.the_sun:
+    state: on
+    brightness_pct: 50
+    rgb_color: [73, 48, 11]
+    transition: 5
+  light.ailivingroomsculpture:
+    state: on
+    brightness_pct: 50
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 5
+  light.ailivingroomgascan:
+    state: on
+    brightness_pct: 50
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 5
+  light.aientryumbrella:
+    state: on
+    brightness_pct: 50
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 5
+  switch.accent_lights:
+    state: on
+  light.aishopgascan:
+    state: on
+    brightness_pct: 50
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 5
+  light.aikitchengascannozzle:
+    state: on
+    brightness_pct: 50
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 5
+  light.chandelier:
+    state: on
+    brightness_pct: 50
+    rgb_color: [73, 48, 11]
+    transition: 5
+  switch.water_light:
+    state: off
+  light.nightstand:
+    state: on
+    transition: 3
+  switch.ikea_lamp:
+    state: off

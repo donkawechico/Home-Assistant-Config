@@ -1,0 +1,38 @@
+name: darkness
+entities:
+  light.ailivingroomorb:
+    state: off
+    transition: 2
+  switch.accent_lights:
+    state: off
+  light.aientryumbrella:
+    state: off
+    transition: 2
+  switch.water_light:
+    state: off
+  light.ailivingroomgascan:
+    state: off
+    transition: 2
+  light.the_sun:
+    state: off
+    transition: 2
+  light.nightstand:
+    state: off
+    transition: 2
+  light.aikitchengascannozzle:
+    state: off
+    transition: 2
+  light.chandelier:
+    state: off
+    transition: 2
+  light.ailivingroomsculpture:
+    state: off
+    transition: 2
+  switch.ikea_lamp:
+    state: off
+  light.aikitchengascanmain:
+    state: off
+    transition: 2
+  light.aishopgascan:
+    state: off
+    transition: 2

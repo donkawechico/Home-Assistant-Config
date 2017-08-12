@@ -1,0 +1,63 @@
+name: theater
+entities:
+  switch.water_light:
+    state: false
+  switch.accent_lights:
+    state: false
+  switch.ikea_lamp:
+    state: false
+  light.aikitchengascanmain:
+    state: on
+    brightness_pct: 2
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 8
+  light.ailivingroomorb:
+    state: on
+    brightness_pct: 2
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 8
+  light.the_sun:
+    state: on
+    brightness_pct: 2
+    rgb_color: [73, 48, 11]
+    transition: 8
+  light.ailivingroomsculpture:
+    state: on
+    brightness_pct: 2
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 8
+  light.ailivingroomgascan:
+    state: on
+    brightness_pct: 2
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 8
+  light.aientryumbrella:
+    state: on
+    brightness_pct: 2
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 8
+  light.aishopgascan:
+    state: on
+    brightness_pct: 2
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 8
+  light.aikitchengascannozzle:
+    state: on
+    brightness_pct: 2
+    white_value: 0
+    rgb_color: [255, 136, 13]
+    transition: 8
+  light.chandelier:
+    state: on
+    brightness_pct: 2
+    rgb_color: [73, 48, 11]
+    transition: 8
+  light.nightstand:
+    state: off
+    transition: 3

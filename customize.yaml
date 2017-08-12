@@ -1,0 +1,53 @@
+light.ailivingroomgascan:
+  emulated_hue_name: "Living Room Gas Can"
+  friendly_name: "Gas Can"
+  emulated_hue: true
+light.ailentryumbrella:
+  emulated_hue_name: "Entry umbrella"
+  friendly_name: "Umbrella"
+  emulated_hue: true
+light.aikitchengascanmain:
+  emulated_hue_name: "Kitchen Gas Can Main"
+  friendly_name: "Gas Can (Main)"
+  emulated_hue: true
+light.aikitchengascannozzle:
+  emulated_hue_name: "Kitchen Gas Can Nozzle"
+  friendly_name: "Gas Can (Nozzle)"
+  emulated_hue: true
+light.ailivingroomorb:
+  emulated_hue_name: "Orb"
+  friendly_name: "Orb"
+  emulated_hue: true
+light.ailivingroomsculpture:
+  emulated_hue_name: "Sculpture"
+  friendly_name: "Sculpture"
+  emulated_hue: true
+light.aishopgascan:
+  emulated_hue_name: "Shop Gas Can"
+  friendly_name: "Gas Can"
+  emulated_hue: true
+device_tracker.amazon6a82acc0d:
+  entity_picture: https://goo.gl/CKCYx1
+group.living_room:
+  emulated_hue: true
+switch.overhead:
+  emulated_hue: true
+  emulated_hue_name: "Ikea Lamp"
+  friendly_name: "Ikea Lamp"
+switch.water_light:
+  emulated_hue: true
+  emulated_hue_name: "Water Light"
+  friendly_name: "Water Light"
+switch.accent_lights:
+  emulated_hue: true
+  emulated_hue_name: "Accent Lights"
+  friendly_name: "Accent Lights"
+group.all_color_lights:
+  emulated_hue: true
+  emulated_hue_name: "All Color Lights"
+group.all_devices:
+  emulated_hue: true
+  emulated_hue_name: "All Devices"
+group.house_lights:
+  emulated_hue: true
+  emulated_hue_name: "House Lights"

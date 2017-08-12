@@ -1,0 +1,76 @@
+ActivateSceneIntent:
+  action:
+    service: scene.turn_on
+    data_template:
+      entity_id: scene.{{ Scene | replace(" ", "") }}
+  speech:
+    type: ssml
+    text: >
+      {% if Scene == "red" %}
+        <speak><emphasis level="strong"><prosody pitch="-20%" volume="medium">Yes sir.</prosody></emphasis><break time="3s"/></speak>
+      {% else %}
+        <speak>Turning on scene {{ Scene }}</speak>
+      {% endif %}
+WatchSomethingIntent:
+  action:
+    service: script.turn_on
+    entity_id: script.theater_on
+  speech:
+    type: ssml
+    text: <speak><break time="3s" />Enjoy the movie. Please silence your phones.</speak>
+IntermissionIntent:
+  action:
+    service: script.turn_on
+    entity_id: script.theater_intermission
+  speech:
+    type: plain
+    text: Okay! Let's all go to the lobby. To resume, say "tell home resume"
+ResumeWatchingIntent:
+  action:
+    service: script.turn_on
+    entity_id: script.theater_resume
+  speech:
+    type: plain
+    text: Enjoy
+DavidLynchIntent:
+  action:
+    # Turn Off all lights for 2 seconds (--Silence--)
+    - service: scene.turn_on
+      entity_id: scene.darkness_instant
+    - delay:
+        seconds: 3
+    # Turn on water light for 2 seconds ("..This... is")
+    - service: switch.turn_on
+      entity_id: switch.water_light
+    - delay:
+        seconds: 2
+    # Turn off water light for 2 seconds (".. the water..")
+    - service: switch.turn_off
+      entity_id: switch.water_light
+    - delay:
+        seconds: 2
+    # Turn on underwater scene for 5 seconds ("And this is the well")
+    - service: scene.turn_on
+      entity_id: scene.underwater_no_water_light
+    - delay:
+        seconds: 2
+    - service: scene.turn_on
+      entity_id: scene.darkness_instant
+    - delay:
+        seconds: 2
+    - service: scene.turn_on
+      entity_id: scene.underwater
+    - service: scene.turn_on
+      entity_id: scene.david_lynch
+  speech:
+    type: ssml
+    text: <speak><break time="3s" /><emphasis level="strong"><prosody pitch="-33.3%" rate="50%">This<break strength="x-strong" /> is the water.<break time="1s" /> And this <break strength="x-strong" /><break time="1s" />is the well. <break time="2s" /> Drink full, and descend. <break time="3s" /><amazon:effect name="whispered">The horse is the white of the eyes, and dark within.</amazon:effect></prosody></emphasis></speak>
+OffensiveEntryIntent:
+  action:
+    service: scene.turn_on
+    data_template:
+      entity_id: scene.red
+  speech:
+    type: ssml
+    text: >
+        <speak><emphasis level="strong"><prosody pitch="-20%" volume="medium">Yes sir.</prosody></emphasis><break time="3s"/></speak>

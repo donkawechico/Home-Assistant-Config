@@ -1,0 +1,113 @@
+default_view:
+  view: false
+  entities:
+  - group.living_room
+  - group.kitchen
+  - group.shop
+  - group.entry
+  - group.gas_cans
+  - group.bedroom
+scenes:
+  name: Scenes
+  entities:
+  - scene.Green
+  - scene.Underwater
+  - scene.Warm
+  - scene.warm2
+  - scene.bright
+  - scene.bedtime
+  - scene.red
+living_room:
+  name: Living Room
+  entities:
+  - light.ailivingroomsculpture
+  - light.ailivingroomgascan
+  - light.ailivingroomorb
+  - light.chandelier
+  - switch.accent_lights
+  - switch.water_light
+kitchen:
+  name: Kitchen
+  entities:
+  - light.aikitchengascanmain
+  - light.aikitchengascannozzle
+entry:
+  name: Entryway
+  entities:
+  - light.aientryumbrella
+shop:
+  name: Shop
+  entities:
+  - light.aishopgascan
+  - light.the_sun
+bedroom:
+  name: Bedroom
+  entities:
+  - light.nightstand
+  - switch.ikea_lamp
+gas_cans:
+  name: Gas Can Lights
+  entities:
+  - light.aikitchengascanmain
+  - light.aikitchengascannozzle
+  - light.ailivingroomgascan
+  - light.aishopgascan
+all_color_lights:
+  name: All Color Lights
+  entities:
+  - light.aikitchengascanmain
+  - light.aikitchengascannozzle
+  - light.ailivingroomorb
+  - light.ailivingroomgascan
+  - light.aientryumbrella
+  - light.the_sun
+  - light.chandelier
+  - light.nightstand
+  - light.aishopgascan
+  - light.ailivingroomsculpture
+front_wall:
+  name: Front Wall
+  entities:
+  - light.ailivingroomorb
+  - light.aientryumbrella
+  - light.chandelier
+  - switch.accent_lights
+back_wall:
+  name: Wall behind couch
+  entities:
+  - light.ailivingroomgascan
+  - light.aikitchengascannozzle
+  - light.aikitchengascanmain
+  - light.ailivingroomsculpture
+  - light.the_sun
+  - light.aishopgascan
+amazon_dots:
+  name: Amazon Echo Dots
+  entities:
+  - device_tracker.amazon6a82acc0d
+  - device_tracker.amazon802c9366a
+  - device_tracker.amazonb2316426c
+  - device_tracker.amazondbe97368b
+all_media_players:
+  name: All Media Players
+  entities:
+  - media_player.plex_plex_for_sony_playstation_4_0155
+  - media_player.livingroomcast
+  view: false
+house_lights:
+  name: House Lights
+  entities:
+  - group.all_color_lights
+  - group.all_light_switches
+all_light_switches:
+  name: All Light Switches
+  entities:
+  - switch.ikea_lamp
+  - switch.water_light
+  - switch.accent_lights
+all_sensor:
+  name: All Sensors
+  entities:
+  - sensor.wemosdoorsensor
+  - sensor.wemosmotionsensor
+

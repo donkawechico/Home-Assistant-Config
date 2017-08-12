@@ -1,0 +1,65 @@
+name: david_lynch
+entities:
+  light.aientryumbrella:
+    state: on
+    transition: 5
+    brightness: 45
+    white_value: 0
+    rgb_color: [255, 29, 22]
+  switch.accent_lights:
+    state: on
+  switch.ikea_lamp:
+    state: off
+  light.ailivingroomsculpture:
+    state: on
+    transition: 5
+    brightness: 45
+    white_value: 0
+    rgb_color: [255, 29, 22]
+  light.aishopgascan:
+    state: on
+    transition: 5
+    brightness: 45
+    white_value: 0
+    rgb_color: [255, 29, 22]
+  light.aikitchengascanmain:
+    state: on
+    transition: 5
+    brightness: 45
+    white_value: 0
+    rgb_color: [255, 29, 22]
+  light.chandelier:
+    state: on
+    transition: 5
+    brightness: 45
+    rgb_color: [194, 52, 8]
+  light.ailivingroomgascan:
+    state: on
+    transition: 5
+    brightness: 45
+    white_value: 0
+    rgb_color: [255, 29, 22]
+  light.ailivingroomorb:
+    state: on
+    transition: 5
+    brightness: 45
+    white_value: 0
+    rgb_color: [255, 29, 22]
+  switch.water_light:
+    state: on
+  light.the_sun:
+    state: on
+    transition: 5
+    brightness: 45
+    rgb_color: [194, 52, 8]
+  light.aikitchengascannozzle:
+    state: on
+    transition: 5
+    brightness: 45
+    white_value: 0
+    rgb_color: [255, 29, 22]
+  light.nightstand:
+    state: on
+    transition: 5
+    brightness: 254
+    rgb_color: [255, 67, 1]

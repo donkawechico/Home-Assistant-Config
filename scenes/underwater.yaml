@@ -1,0 +1,55 @@
+name: Underwater
+entities:
+  light.nightstand:
+    state: on
+    brightness_pct: 100
+    rgb_color: [153, 128, 255]
+  light.aientryumbrella:
+    state: on
+    brightness_pct: 100
+    rgb_color: [231, 111, 255]
+    white_value: 0
+  light.aikitchengascanmain:
+    state: on
+    brightness_pct: 100
+    rgb_color: [127, 0, 147]
+    white_value: 0
+  light.ailivingroomsculpture:
+    state: on
+    brightness_pct: 100
+    rgb_color: [228, 60, 255]
+    white_value: 0
+  switch.accent_lights:
+    state: off
+  light.ailivingroomorb:
+    state: on
+    brightness_pct: 100
+    rgb_color: [53, 248, 255]
+    white_value: 0
+  switch.water_light:
+    state: on
+  light.ailivingroomgascan:
+    state: on
+    brightness_pct: 100
+    rgb_color: [114, 255, 101]
+    white_value: 0
+  light.aishopgascan:
+    state: on
+    brightness_pct: 100
+    rgb_color: [0, 22, 195]
+    white_value: 0
+  switch.star_field:
+    state: off
+  light.aikitchengascannozzle:
+    state: on
+    brightness_pct: 100
+    rgb_color: [37, 255, 236]
+    white_value: 0
+  light.chandelier:
+    state: on
+    brightness_pct: 100
+    rgb_color: [63, 0, 255]
+  light.the_sun:
+    state: on
+    brightness_pct: 100
+    rgb_color: [64, 0, 255]

@@ -1,0 +1,48 @@
+name: warm2
+entities:
+  light.aientryumbrella:
+    state: on
+    brightness_pct: 100
+    rgb_color: [255, 136, 13]
+  light.ailivingroomsculpture:
+    state: on
+    brightness_pct: 100
+    rgb_color: [255, 157, 19]
+  switch.accent_lights:
+    state: off
+  switch.water_light:
+    state: on
+  light.nightstand:
+    state: on
+    brightness_pct: 100
+    rgb_color: [255, 147, 41]
+  light.aikitchengascannozzle:
+    state: on
+    brightness_pct: 100
+    rgb_color: [238, 59, 0]
+  light.aikitchengascanmain:
+    state: on
+    brightness_pct: 100
+    rgb_color: [203, 74, 0]
+  switch.star_field:
+    state: off
+  light.the_sun:
+    state: on
+    brightness_pct: 100
+    rgb_color: [255, 178, 67]
+  light.aishopgascan:
+    state: on
+    brightness_pct: 100
+    rgb_color: [255, 104, 1]
+  light.ailivingroomgascan:
+    state: on
+    brightness_pct: 100
+    rgb_color: [255, 170, 95]
+  light.chandelier:
+    state: on
+    brightness_pct: 100
+    rgb_color: [255, 211, 130]
+  light.ailivingroomorb:
+    state: on
+    brightness_pct: 100
+    rgb_color: [225, 114, 0]

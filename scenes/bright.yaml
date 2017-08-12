@@ -1,0 +1,58 @@
+name: bright
+entities:
+  light.aientryumbrella:
+    state: on
+    brightness_pct: 100
+    color_temp: 1
+    white_value: 255
+  light.ailivingroomsculpture:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  switch.accent_lights:
+    state: off
+  switch.water_light:
+    state: on
+  light.nightstand:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  light.aikitchengascannozzle:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  light.aikitchengascanmain:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  switch.star_field:
+    state: off
+  light.the_sun:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  light.aishopgascan:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  light.ailivingroomgascan:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  light.chandelier:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255
+  light.ailivingroomorb:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+    white_value: 255

@@ -1,0 +1,14 @@
+alias: 'Donnie left home'
+trigger:
+  platform: state
+  entity_id: device_tracker.donkawechico_heroqltevzw
+  from: 'home'
+  to: 'not_home'
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.home_state
+      option: Not home
+
+
+

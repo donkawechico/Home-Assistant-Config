@@ -1,0 +1,43 @@
+name: Green
+entities:
+  light.aientryumbrella:
+    state: on
+    brightness_pct: 100
+    rgb_color: [0,255,0]
+  light.chandelier:
+    state: on
+    brightness_pct: 100
+    color_temp: 153
+  light.nightstand:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+  light.ailivingroomorb:
+    state: on
+    brightness_pct: 100
+    color_temp: 1
+  light.aikitchengascannozzle:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+  light.the_sun:
+    state: on
+    brightness_pct: 100
+    color_temp: 100
+    rgb_color: [0,255,0]
+  light.ailivingroomsculpture:
+    state: on
+    brightness_pct: 100
+    color_temp: 156
+  light.aikitchengascanmain:
+    state: on
+    brightness_pct: 100
+    color_temp: 14
+  light.aishopgascan:
+    state: on
+    brightness_pct: 100
+    color_temp: 154
+  light.ailivingroomgascan:
+    state: on
+    brightness_pct: 100
+    color_temp: 154

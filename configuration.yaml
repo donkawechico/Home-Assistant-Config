@@ -1,0 +1,203 @@
+homeassistant:
+  name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: 0
+  unit_system: imperial
+  time_zone: America/Los_Angeles
+  customize: !include customize.yaml
+    
+frontend:
+
+config:
+
+http:
+  api_password: !secret api_password
+  base_url: !secret base_url
+  ssl_certificate: !secret ssl_cert_path
+  ssl_key: !secret ssl_key
+  use_x_forwarded_for: True
+
+updater:
+  include_used_components: true
+
+discovery:
+  ignore: harmony
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+  exclude:
+    domains:
+      - light
+      - switch
+# View all events in a logbook
+logbook:
+
+sun:
+
+sensor:
+  # Track weather prediction
+  - platform: yr
+  - platform: mqtt
+    state_topic: "stat/motionsensor/POWER"
+    name: "PIR Sensor 1"
+  - platform: mqtt
+    state_topic: "stat/sensor/door/POWER"
+    name: "Front Door"
+tts:
+  platform: google
+
+mqtt:
+  broker: !secret mqtt_host
+  port: !secret mqtt_port
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  discovery: true
+  discovery_prefix: homeassistant
+  birth_message:
+    topic: "tele/hass1/LWT"
+    payload: "Online"
+    qos: 1
+    retain: true
+  will_message:
+    topic: "tele/hass1/LWT"
+    payload: "Offline"
+    qos: 1
+    retain: true
+
+switch: !include switch.yaml
+
+emulated_hue:
+  host_ip: !secret emulated_hue_ip
+  listen_port: !secret emulated_hue_port
+  exposed_domains:
+    - light
+    - switch
+    - group
+  expose_by_default: false
+
+alexa:
+snips:
+apiai:
+
+intent_script: !include intents.yaml
+
+device_tracker:
+  - platform: ddwrt
+    host: !secret router_local_ip
+    username: !secret router_username
+    password: !secret router_password
+    interval_seconds: 10
+    consider_home: 30
+  - platform: owntracks
+
+media_player:
+  - platform: plex
+    entity_namespace: 'plex'
+    include_non_clients: true
+    scan_interval: 60
+    show_all_controls: true
+    use_custom_entity_ids: false
+    use_episode_art: true
+  - platform: spotify
+    client_id: !secret spotify_client_id
+    client_secret: !secret spotify_client_secret
+    cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
+
+group: !include groups.yaml
+automation: !include_dir_list automations/
+scene: !include_dir_list scenes/
+script:
+  theater_on:
+    sequence:
+      # This is Home Assistant Script Syntax
+      - service: scene.turn_on
+        data:
+          entity_id: scene.theater
+      - service: remote.turn_on
+        data:
+          entity_id: remote.harmony_hub
+          activity: 27544124
+  theater_intermission:
+    sequence:
+      - service: scene.turn_on
+        data:
+          entity_id: scene.theater_intermission
+      - service: media_player.media_pause
+        data:
+          entity_id: group.all_media_players
+  theater_resume:
+    sequence:
+      - service: scene.turn_on
+        data:
+          entity_id: scene.theater
+      - service: media_player.media_play
+        data:
+          entity_id: group.all_media_players
+          
+logger:
+  default: warn
+  logs:
+    homeassistant.components.mqtt: error
+  #  homeassistant.components.media_player.plex: error
+
+# Enables support for tracking state changes over time.
+recorder:
+  # Delete events and states older than 2 weeks
+  purge_days: 14
+
+remote:
+  - platform: harmony
+    name: Harmony Hub
+    host: !secret harmony_ip
+
+# Example configuration.yaml entry
+zone:
+  - name: Home
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    radius: 60
+    icon: mdi:home
+  - name: Yammer
+    latitude: !secret zone_yammer_lat
+    longitude: !secret zone_yammer_long
+    radius: 100
+    icon: mdi:yammer
+  - name: Inside
+    latitude: !secret zone_inside_lat
+    longitude: !secret zone_inside_long
+
+# Example configuration.yaml entry
+media_extractor:
+  default_query: best
+  customize:
+    media_player.livingroomcast:
+      video: bestvideo
+      music: bestaudio
+
+input_select:
+  home_state:
+    name: Home State
+    options:
+      - Outside
+      - Entering
+      - Leaving
+      - Inside
+      - Not home
+      - Unknown
+    initial: Unknown
+    icon: mdi:panda
+  christine_home_state:
+    name: Christine Home State
+    options:
+      - Outside
+      - Entering
+      - Leaving
+      - Inside
+      - Not here
+      - Unknown
+    initial: Unknown
+    icon: mdi:panda

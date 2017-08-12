@@ -1,0 +1,32 @@
+- platform: mqtt
+  name: "Accent Lights"
+  state_topic: "stat/accent/POWER"
+  command_topic: "cmnd/accent/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: mqtt
+  name: "Water Light"
+  state_topic: "stat/waterlight/POWER"
+  command_topic: "cmnd/waterlight/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: mqtt
+  name: "Star Field"
+  state_topic: "stat/starfield/POWER"
+  command_topic: "cmnd/starfield/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: mqtt
+  name: "Ikea Lamp"
+  state_topic: "stat/overhead/POWER"
+  command_topic: "cmnd/overhead/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
