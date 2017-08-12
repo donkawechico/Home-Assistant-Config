@@ -27,4 +27,5 @@ ip_bans.yaml
 clearmqtt.sh
 configuration.yaml~
 configuration.yaml.save
+gitupdate.sh
 
