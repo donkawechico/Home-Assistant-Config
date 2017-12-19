@@ -1,53 +1,82 @@
 light.ailivingroomgascan:
   emulated_hue_name: "Living Room Gas Can"
   friendly_name: "Gas Can"
-  emulated_hue: true
+  emulated_hue_hidden: false
 light.ailentryumbrella:
   emulated_hue_name: "Entry umbrella"
   friendly_name: "Umbrella"
-  emulated_hue: true
+  emulated_hue_hidden: false
 light.aikitchengascanmain:
   emulated_hue_name: "Kitchen Gas Can Main"
   friendly_name: "Gas Can (Main)"
-  emulated_hue: true
+  emulated_hue_hidden: false
 light.aikitchengascannozzle:
   emulated_hue_name: "Kitchen Gas Can Nozzle"
   friendly_name: "Gas Can (Nozzle)"
-  emulated_hue: true
+  emulated_hue_hidden: false
 light.ailivingroomorb:
   emulated_hue_name: "Orb"
   friendly_name: "Orb"
-  emulated_hue: true
+  emulated_hue_hidden: false
 light.ailivingroomsculpture:
   emulated_hue_name: "Sculpture"
   friendly_name: "Sculpture"
-  emulated_hue: true
+  emulated_hue_hidden: false
 light.aishopgascan:
   emulated_hue_name: "Shop Gas Can"
   friendly_name: "Gas Can"
-  emulated_hue: true
+  emulated_hue_hidden: false
 device_tracker.amazon6a82acc0d:
   entity_picture: https://goo.gl/CKCYx1
 group.living_room:
-  emulated_hue: true
-switch.overhead:
-  emulated_hue: true
+  emulated_hue_hidden: false
+switch.ikea_lamp:
+  emulated_hue_hidden: false
   emulated_hue_name: "Ikea Lamp"
   friendly_name: "Ikea Lamp"
 switch.water_light:
-  emulated_hue: true
+  emulated_hue_hidden: false
   emulated_hue_name: "Water Light"
   friendly_name: "Water Light"
 switch.accent_lights:
-  emulated_hue: true
+  emulated_hue_hidden: false
   emulated_hue_name: "Accent Lights"
   friendly_name: "Accent Lights"
 group.all_color_lights:
-  emulated_hue: true
+  emulated_hue_hidden: false
   emulated_hue_name: "All Color Lights"
 group.all_devices:
-  emulated_hue: true
+  emulated_hue_hidden: false
   emulated_hue_name: "All Devices"
 group.house_lights:
-  emulated_hue: true
+  emulated_hue_hidden: false
   emulated_hue_name: "House Lights"
+switch.air_conditioner:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Air Conditioning"
+light.kitchen_strip:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Kitchen Strip"
+switch.playstation:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Playstation"
+switch.chromecast:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Chromecast"
+switch.projector:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Projector"
+script.bedtime:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Bedtime"
+switch.television:
+  emulated_hue_hidden: false
+  emulated_hue_name: "TV"
+switch.sun_projector:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Sun Projector"
+switch.theater_mode:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Theater Mode"
+media_player.plex_a9w8mh48b5u5b0xxxftt9q8w:
+  friendly_name: "theater"

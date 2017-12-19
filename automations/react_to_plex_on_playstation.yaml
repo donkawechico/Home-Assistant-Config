@@ -1,0 +1,16 @@
+alias: 'React to PS4 starting a Plex or Netflix show'
+trigger:
+- platform: state
+  entity_id: media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
+  to: 'playing'
+- platform: template
+  value_template: "{% if is_state_attr('media_player.playstation_4', 'source', 'Netflix') %}true{% endif %}"
+condition:
+  condition: state
+  entity_id: binary_sensor.dark_out
+  state: 'on'
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.house_mode
+      option: 'Theater'

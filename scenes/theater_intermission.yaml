@@ -61,3 +61,5 @@ entities:
     transition: 3
   switch.ikea_lamp:
     state: off
+  light.kitchen_strip:
+      state: on

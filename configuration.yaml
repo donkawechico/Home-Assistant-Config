@@ -6,7 +6,32 @@ homeassistant:
   unit_system: imperial
   time_zone: America/Los_Angeles
   customize: !include customize.yaml
-    
+  customize_domain:
+    automation:
+      initial_state: 'on'
+
+input_boolean:
+  ac_on:
+    name: "Is Air Conditioner On"
+    initial: off
+    icon: mdi:snowflake
+  tv_on:
+    name: "Is TV Set On"
+    initial: off
+    icon: mdi:television-classic
+  kitchen_strip_on:
+    name: "Is Kitchen Strip On"
+    initial: off
+    icon: mdi:lightbulb
+  front_door_closed:
+    name: "Is Front Door Closed"
+    initial: on
+    icon: mdi:door-open
+  sun_projector_on:
+    name: "Is Sun Projector On"
+    initial: off
+    icon: mdi:weather-sunny
+
 frontend:
 
 config:
@@ -22,7 +47,7 @@ updater:
   include_used_components: true
 
 discovery:
-  ignore: harmony
+#  ignore: harmony
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -43,10 +68,19 @@ sensor:
   - platform: yr
   - platform: mqtt
     state_topic: "stat/motionsensor/POWER"
-    name: "PIR Sensor 1"
+    name: "Motion Sensor"
   - platform: mqtt
     state_topic: "stat/sensor/door/POWER"
     name: "Front Door"
+
+binary_sensor:
+  - platform: template
+    sensors:
+      dark_out:
+        friendly_name: "Dark Outside"
+        value_template: >
+          {{ states.sun.sun.attributes.elevation|float < 0 }}
+
 tts:
   platform: google
 
@@ -70,18 +104,22 @@ mqtt:
 
 switch: !include switch.yaml
 
+script: !include scripts.yaml
+
 emulated_hue:
+  type: alexa
   host_ip: !secret emulated_hue_ip
   listen_port: !secret emulated_hue_port
   exposed_domains:
     - light
     - switch
     - group
+    - script
   expose_by_default: false
 
 alexa:
 snips:
-apiai:
+dialogflow:
 
 intent_script: !include intents.yaml
 
@@ -98,46 +136,24 @@ media_player:
   - platform: plex
     entity_namespace: 'plex'
     include_non_clients: true
-    scan_interval: 60
+    scan_interval: 5
     show_all_controls: true
-    use_custom_entity_ids: false
+    use_custom_entity_ids: true
     use_episode_art: true
+    friendly_name: 'theater'
   - platform: spotify
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
     cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
+  - platform: ps4
+    host: 192.168.1.100
+  # - platform: cast
+#    cmd: 'sudo ps4-waker'
 
 group: !include groups.yaml
 automation: !include_dir_list automations/
 scene: !include_dir_list scenes/
-script:
-  theater_on:
-    sequence:
-      # This is Home Assistant Script Syntax
-      - service: scene.turn_on
-        data:
-          entity_id: scene.theater
-      - service: remote.turn_on
-        data:
-          entity_id: remote.harmony_hub
-          activity: 27544124
-  theater_intermission:
-    sequence:
-      - service: scene.turn_on
-        data:
-          entity_id: scene.theater_intermission
-      - service: media_player.media_pause
-        data:
-          entity_id: group.all_media_players
-  theater_resume:
-    sequence:
-      - service: scene.turn_on
-        data:
-          entity_id: scene.theater
-      - service: media_player.media_play
-        data:
-          entity_id: group.all_media_players
-          
+
 logger:
   default: warn
   logs:
@@ -147,12 +163,13 @@ logger:
 # Enables support for tracking state changes over time.
 recorder:
   # Delete events and states older than 2 weeks
-  purge_days: 14
+  purge_keep_days: 14
+  purge_interval: 2
 
-remote:
-  - platform: harmony
-    name: Harmony Hub
-    host: !secret harmony_ip
+#remote:
+#  - platform: harmony
+#    name: Harmony Hub
+#    host: !secret harmony_ip
 
 # Example configuration.yaml entry
 zone:
@@ -201,3 +218,34 @@ input_select:
       - Unknown
     initial: Unknown
     icon: mdi:panda
+  house_mode:
+    name: House Mode
+    options:
+      - None
+      - Theater
+      - Intermission
+    initial: None
+    icon: mdi:home-modern
+
+# Todo: Plug in levels and value templates:
+# https://home-assistant.io/components/light.template/
+#      value_template: "{{ is_state('input_boolean.kitchen_strip_on', 'on') }}"
+
+light:
+  - platform: template
+    lights:
+      kitchen_strip:
+        friendly_name: "Kitchen Strip"
+        value_template: "{{ is_state('input_boolean.kitchen_strip_on', 'on') }}"
+        turn_on:
+          service: script.turn_on
+          entity_id: script.turn_on_kitchen_strip
+        turn_off:
+          service: script.turn_on
+          entity_id: script.turn_off_kitchen_strip
+
+#panel_custom:
+#  - name: dominos
+#    sidebar_title: Dominos
+#    sidebar_icon: mdi:pizza
+#    url_path: dominos

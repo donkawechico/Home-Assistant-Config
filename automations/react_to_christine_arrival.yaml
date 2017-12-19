@@ -1,0 +1,12 @@
+alias: "React to Christine entering my house"
+trigger:
+  platform: state
+  entity_id: input_select.christine_home_state
+  to: 'Inside'
+condition:
+  - condition: state
+    entity_id: input_select.home_state
+    state: Inside
+action:
+  - service: scene.turn_on
+    entity_id: scene.red

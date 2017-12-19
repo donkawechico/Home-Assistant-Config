@@ -61,3 +61,5 @@ entities:
   light.nightstand:
     state: off
     transition: 3
+  light.kitchen_strip:
+    state: off

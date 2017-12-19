@@ -29,3 +29,5 @@ configuration.yaml~
 configuration.yaml.save
 gitupdate.sh
 scenes/README
+conf/appdaemon.yaml
+conf/secrets.yaml

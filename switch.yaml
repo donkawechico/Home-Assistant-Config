@@ -24,9 +24,71 @@
   retain: true
 - platform: mqtt
   name: "Ikea Lamp"
-  state_topic: "stat/overhead/POWER"
-  command_topic: "cmnd/overhead/POWER"
+  state_topic: "stat/ikea/POWER"
+  command_topic: "cmnd/ikea/POWER"
   qos: 1
   payload_on: "ON"
   payload_off: "OFF"
   retain: true
+- platform: template
+  switches:
+    air_conditioner:
+      value_template: "{{ is_state('input_boolean.ac_on','on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_ac
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_ac
+    television:
+      value_template: "{{ is_state('input_boolean.tv_on','on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_tv
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_tv
+    playstation:
+      value_template: "{{ is_state('input_boolean.playstation_on','on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_playstation
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_playstation
+    chromecast:
+      value_template: "{{ is_state('input_boolean.chromecast_on','on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_chromecast
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_chromecast
+    projector:
+      value_template: "{{ is_state('input_boolean.projector_on','on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_projector
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_projector
+    theater_mode:
+      value_template: "{{ is_state('input_select.house_mode','Theater') }}"
+      turn_on:
+        service: input_select.select_option
+        data:
+          entity_id: input_select.house_mode
+          option: Theater
+      turn_off:
+        service: input_select.select_option
+        data:
+          entity_id: input_select.house_mode
+          option: None
+    sun_projector:
+      value_template: "{{ is_state('input_boolean.sun_projector_on','on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_sun_projector
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_sun_projector

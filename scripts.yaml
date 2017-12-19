@@ -1,0 +1,206 @@
+turn_on_ac:
+  alias: ACOn
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerOn
+      device: 46416385
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.ac_on
+  - delay:
+      seconds: 3
+  - service: remote.send_command
+    data:
+      command: Timet
+      device: 46416385
+      entity_id: remote.harmony_hub
+  - delay:
+      hours: 1
+  - service: script.turn_on
+    entity_id: script.turn_off_ac
+turn_off_ac:
+  alias: ACOff
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerOff
+      device: 46416385
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.ac_on
+turn_on_kitchen_strip:
+  alias: "Turn on Kitchen Strip Light"
+  sequence:
+  - condition: state
+    entity_id: input_boolean.kitchen_strip_on
+    state: 'off'
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 47762492
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.kitchen_strip_on
+turn_off_kitchen_strip:
+  alias: "Turn off Kitchen Strip Light"
+  sequence:
+  - condition: state
+    entity_id: input_boolean.kitchen_strip_on
+    state: 'on'
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 47762492
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.kitchen_strip_on
+turn_on_playstation:
+  alias: "Turn on playstation and auto-select monitor"
+  sequence:
+  - service: remote.turn_on
+    data_template:
+      activity: >
+        {% if is_state("binary_sensor.dark_out", "on") %}
+          27544124
+        {% else %}
+          30170629
+        {% endif %}
+  - service: media_player.turn_on
+    entity_id: media_player.playstation_4
+turn_off_playstation:
+  alias: "Turn off playstation and auto-select monitor"
+  sequence:
+  - service: remote.turn_off
+    data_template:
+      activity: >
+        {% if is_state("binary_sensor.dark_out", "on") %}
+          27544124
+        {% else %}
+          30170629
+        {% endif %}
+  - condition: state
+    entity_id: binary_sensor.dark_out
+    state: 'on'
+  - service: scene.turn_on
+    entity_id: scene.warm
+bedtime:
+  alias: "Going to bed"
+  sequence:
+  - service: homeassistant.turn_off
+    entity_id: group.house_lights
+  - service: light.turn_on
+    entity_id: light.nightstand
+  - service: remote.turn_off
+    data_template:
+      activity: >
+        {% if is_state("binary_sensor.dark_out", "on") %}
+          27544124
+        {% else %}
+          30170629
+        {% endif %}
+  - condition: state
+    entity_id: input_boolean.kitchen_strip_on
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.kitchen_strip
+turn_on_tv:
+  alias: "Turn on Television"
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerOn
+      device: 50007713
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.tv_on
+turn_off_tv:
+  alias: "Turn off Television"
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerOff
+      device: 50007713
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.tv_on
+turn_on_projector:
+  alias: "Turn on Projector"
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerOn
+      device: 45610181
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.projector_on
+turn_off_projector:
+  alias: "Turn off Projector"
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerOff
+      device: 45610181
+      entity_id: remote.harmony_hub
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.projector_on
+turn_on_chromecast:
+    alias: "Turn on chromecast and auto-select monitor"
+    sequence:
+    - service: remote.turn_on
+      data_template:
+        activity: >
+          {% if is_state("binary_sensor.dark_out", "on") %}
+            27562206
+          {% else %}
+            27569061
+          {% endif %}
+    - service: media_player.turn_on
+      entity_id: media_player.livingroomcast
+    - condition: state
+      entity_id: binary_sensor.dark_out
+      state: 'on'
+    - service: scene.turn_on
+      entity_id: scene.theater
+turn_off_chromecast:
+  alias: "Turn off chromecast and monitor"
+  sequence:
+  - service: remote.turn_off
+    data_template:
+      activity: >
+        {% if is_state("binary_sensor.dark_out", "on") %}
+          27562206
+        {% else %}
+          27569061
+        {% endif %}
+  - condition: state
+    entity_id: binary_sensor.dark_out
+    state: 'on'
+  - service: scene.turn_on
+    entity_id: scene.warm
+turn_on_sun_projector:
+    alias: "Turn on sun projector"
+    sequence:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.sun_projector_on
+    - service: remote.send_command
+      data:
+        command: PowerOn
+        device: 44803053
+        entity_id: remote.harmony_hub
+turn_off_sun_projector:
+  alias: "Turn off sun projector"
+  sequence:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.sun_projector_off
+  - service: remote.send_command
+    data:
+      command: PowerOff
+      device: 44803053
+      entity_id: remote.harmony_hub

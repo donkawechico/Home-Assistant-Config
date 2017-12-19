@@ -1,18 +1,13 @@
-alias: "Christine entering house after being outside"
+alias: "Christine is entering house after being Outside"
 trigger:
   platform: state
-  entity_id: sensor.front_door
-  to: 'OFF'
+  entity_id: input_boolean.front_door_closed
+  to: 'off'
 condition:
-  - condition: state
-    entity_id: input_select.home_state
-    state: Inside
   - condition: state
     entity_id: input_select.christine_home_state
     state: Outside
 action:
-  - service: scene.turn_on
-    entity_id: scene.red
   - service: input_select.select_option
     data:
       entity_id: input_select.christine_home_state
