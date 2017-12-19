@@ -1,0 +1,3 @@
+hideout:
+  module: hideout
+  class: Hideout

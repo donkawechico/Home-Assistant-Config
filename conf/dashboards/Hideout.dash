@@ -1,0 +1,160 @@
+##
+## Main arguments, all optional
+##
+title: Main Panel
+widget_dimensions: [120, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 8
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+
+livingroom:
+  widget_type: group
+  title: Livingroom
+  entity: group.living_room
+  icon_on: mdi-sofa
+  icon_off: mdi-sofa
+
+kitchen:
+  widget_type: group
+  title: Kitchen
+  entity: group.kitchen
+  icon_on: mdi-fridge
+  icon_off: mdi-fridge
+
+shop:
+  widget_type: group
+  title: Shop
+  entity: group.shop
+  icon_on: mdi-wrench
+  icon_off: mdi-wrench
+
+bedroom:
+  widget_type: group
+  title: Bedroom
+  entity: group.bedroom
+  icon_on: mdi-hotel
+  icon_off: mdi-hotel
+
+house_lights:
+  widget_type: group
+  title: House
+  entity: group.house_lights
+  icon_on: mdi-home
+  icon_off: mdi-home
+
+scenes:
+  widget_type: group
+  title: Scenes
+  entity: group.scenes
+
+label_rooms:
+  widget_type: label
+  text: Room Lights
+
+donnie_presence:
+  widget_type: device_tracker
+  title: Donnie
+  device: donkawechico_heroqltevzw
+
+christine_presence:
+  widget_type: device_tracker
+  title_style: "color: red;"
+  title: Christine
+  device: android2426752091905543
+
+underwater_scene:
+  widget_type: scene
+  widget_style: "background-color: #AED6F1"
+  title_style: "color: #138D75; font-weight:bold;"
+  title: Underwater
+  entity: scene.underwater
+  icon_on: mdi-fish
+  icon_off: mdi-fish
+
+darkness_scene:
+  widget_type: scene
+  widget_style: "background-color: #8E44AD;"
+  title: Lights Off
+  entity: scene.darkness
+  icon_on: mdi-lightbulb
+  icon_off: mdi-lightbulb-on
+
+theater_scene:
+  widget_type: scene
+  widget_style: "background-color: #E59866;"
+  title_style: "color: #922B21; font-weight:bold;"
+  title: Theater Mode
+  entity: scene.theater
+  icon_on: mdi-movie
+  icon_off: mdi-movie
+
+warm_scene:
+  widget_type: scene
+  widget_style: "background-color: #F7DC6F;"
+  title_style: "color: #D35400; font-weight:bold;"
+  title: Warm
+  entity: scene.warm
+  icon_on: mdi-weather-sunset
+  icon_off: mdi-weather-sunset
+
+label_scenes:
+  widget_type: label
+  text: Scenes
+
+dark_outside_sensor:
+  widget_type: binary_sensor
+  title: Dark Outside
+  entity: binary_sensor.dark_out
+  icon_on: mdi-weather-night
+  icon_off: mdi-weather-sunny
+
+ps4:
+  widget_type: media_player
+  title: PS4
+  entity: media_player.playstation_4
+  icon_on: mdi-playstation
+  icon_off: mdi-playstation
+
+plex:
+  widget_type: media_player
+  title: Plex on PS4
+  entity: media_player.plex_plex_for_sony_playstation_4_0155
+
+label_sync:
+  widget_type: label
+  text: Sync
+
+kitchen_strip:
+  widget_type: light
+  entity: light.kitchen_strip
+  title: Kitchen Strip
+
+sync_kitchen_strip:
+  widget_type: input_boolean
+  entity: input_boolean.kitchen_strip_on
+  title: "Is Kitchen Strip On"
+
+pir_1:
+  widget_type: sensor
+  entity: sensor.motion_sensor
+  title: "House Movement"
+
+label_sensors:
+  widget_type: label
+  text: Sensors
+
+label_state:
+  widget_type: label
+  text: States
+
+layout:
+  - clock.clock(2x2), label_sensors(6x1)
+  -  sensor.front_door, dark_outside_sensor, donnie_presence, christine_presence, pir_1
+  - label_rooms(3x1),                    label_scenes(2x1),                 label_sync(2x1)
+  - house_lights, livingroom, kitchen,   underwater_scene, darkness_scene,  kitchen_strip, sync_kitchen_strip
+  - shop, bedroom, spacer,               theater_scene, warm_scene
+  - label_sensors(4x1), label_state(4x1)
