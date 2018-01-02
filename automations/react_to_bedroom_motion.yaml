@@ -1,0 +1,20 @@
+alias: 'React to motion in bedroom'
+trigger:
+- platform: state
+  entity_id: input_boolean.motion_detected
+  to: 'on'
+condition:
+  condition: and
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.dark_out
+    state: 'on'
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'bedtime'
+action:
+  - service: light.turn_on
+    data:
+      entity_id: light.nightstand
+      brightness: 50
+      color_name: 'red'

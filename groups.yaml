@@ -53,6 +53,7 @@ gas_cans:
   - light.aikitchengascannozzle
   - light.ailivingroomgascan
   - light.aishopgascan
+  view: false
 all_color_lights:
   name: All Color Lights
   entities:
@@ -93,14 +94,16 @@ amazon_dots:
 all_media_players:
   name: All Media Players
   entities:
-  - media_player.plex_plex_for_sony_playstation_4_0155
   - media_player.livingroomcast
+  - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
+  - media_player.suncast
   view: false
 house_lights:
   name: House Lights
   entities:
   - group.all_color_lights
   - group.all_light_switches
+  view: false
 all_light_switches:
   name: All Light Switches
   entities:
@@ -112,4 +115,8 @@ all_sensor:
   entities:
   - sensor.front_door
   - sensor.motion_sensor
-
+safe_to_turn_off:
+  name: All Devices that are Safe to Turn Off
+  entities:
+  - group.house_lights
+  view: false

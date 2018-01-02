@@ -80,3 +80,6 @@ switch.theater_mode:
   emulated_hue_name: "Theater Mode"
 media_player.plex_a9w8mh48b5u5b0xxxftt9q8w:
   friendly_name: "theater"
+switch.piano:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Piano"

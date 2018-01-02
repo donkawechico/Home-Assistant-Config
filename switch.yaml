@@ -30,6 +30,20 @@
   payload_on: "ON"
   payload_off: "OFF"
   retain: true
+- platform: mqtt
+  name: "Piano"
+  state_topic: "stat/piano/POWER"
+  command_topic: "cmnd/piano/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: command_line
+  switches:
+    # Relies on https://github.com/skorokithakis/catt
+    suncast_fireplace:
+      command_on: "/usr/local/bin/catt cast 'https://www.youtube.com/watch?v=6RoTpvA9MSw'"
+      command_off: "/usr/local/bin/catt stop"
 - platform: template
   switches:
     air_conditioner:

@@ -147,6 +147,13 @@ turn_off_projector:
       command: PowerOff
       device: 45610181
       entity_id: remote.harmony_hub
+  - delay:
+      seconds: 2
+  - service: remote.send_command
+    data:
+      command: PowerOff
+      device: 45610181
+      entity_id: remote.harmony_hub
   - service: input_boolean.turn_off
     data:
       entity_id: input_boolean.projector_on
@@ -189,18 +196,22 @@ turn_on_sun_projector:
     sequence:
     - service: input_boolean.turn_on
       entity_id: input_boolean.sun_projector_on
+    - service: switch.turn_on
+      entity_id: switch.suncast_fireplace
     - service: remote.send_command
       data:
-        command: PowerOn
+        command: PowerToggle
         device: 44803053
         entity_id: remote.harmony_hub
 turn_off_sun_projector:
   alias: "Turn off sun projector"
   sequence:
   - service: input_boolean.turn_off
-    entity_id: input_boolean.sun_projector_off
+    entity_id: input_boolean.sun_projector_on
+  - service: switch.turn_off
+    entity_id: switch.suncast_fireplace
   - service: remote.send_command
     data:
-      command: PowerOff
+      command: PowerToggle
       device: 44803053
       entity_id: remote.harmony_hub

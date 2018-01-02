@@ -1,0 +1,8 @@
+alias: 'Home mode changed to off'
+trigger:
+  platform: state
+  entity_id: input_select.house_mode
+  to: 'All Off'
+action:
+  - service: homeassistant.turn_off
+    entity_id: group.safe_to_turn_off
