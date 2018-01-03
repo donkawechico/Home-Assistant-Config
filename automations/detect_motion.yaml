@@ -1,8 +1,0 @@
-alias: 'Detect motion and set boolean'
-trigger:
-- platform: state
-  entity_id: sensor.motion_sensor
-  to: 'OFF'
-action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.motion_detected

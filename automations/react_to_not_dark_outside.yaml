@@ -1,8 +1,0 @@
-alias: "React to it getting light outside"
-trigger:
-  platform: state
-  entity_id: binary_sensor.dark_out
-  to: 'off'
-action:
-  - service: homeassistant.turn_off
-    entity_id: group.house_lights

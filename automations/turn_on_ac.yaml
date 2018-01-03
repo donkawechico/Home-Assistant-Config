@@ -1,8 +1,0 @@
-alias: turn on ac
-trigger:
-  platform: state
-  entity_id: input_boolean.ac_on
-  from: 'off'
-  to: 'on'
-action:
-- service: script.turn_on_ac

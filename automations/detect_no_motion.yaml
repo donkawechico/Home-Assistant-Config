@@ -1,8 +1,0 @@
-alias: 'Detect no more motion and set boolean'
-trigger:
-- platform: state
-  entity_id: sensor.motion_sensor
-  to: 'ON'
-action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_detected

@@ -158,7 +158,8 @@ media_player:
 #    cmd: 'sudo ps4-waker'
 
 group: !include groups.yaml
-automation: !include_dir_list automations/
+automation: !include automations.yaml
+automation old: !include_dir_list automations/
 scene: !include_dir_list scenes/
 
 logger:
@@ -260,3 +261,5 @@ light:
 
 #shell_command:
 #  cast_fireplace: catt cast 'https://www.youtube.com/watch?v=ZY3J3Y_OU0w'
+
+map:
