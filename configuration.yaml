@@ -23,10 +23,6 @@ input_boolean:
     name: "Is Kitchen Strip On"
     initial: off
     icon: mdi:lightbulb
-  front_door_closed:
-    name: "Is Front Door Closed"
-    initial: on
-    icon: mdi:door-open
   sun_projector_on:
     name: "Is Sun Projector On"
     initial: off
@@ -34,8 +30,17 @@ input_boolean:
   motion_detected:
     name: "Was Motion Detected"
     initial: off
+  beacon_lighting:
+    name: "Phone Location Controls Lighting"
+    initial: off
 
 frontend:
+
+cloud:
+  alexa:
+    filter:
+      include_entities:
+        - input_boolean.beacon_lighting
 
 config:
 
@@ -75,6 +80,13 @@ sensor:
   - platform: mqtt
     state_topic: "stat/sensor/door/POWER"
     name: "Front Door"
+    value_template: >
+      {% if value=='OFF' %}
+        CLOSED
+      {% else %}
+        OPEN
+      {% endif %}
+        
 
 binary_sensor:
   - platform: template
@@ -137,7 +149,10 @@ device_tracker:
   # - platform: mqtt_json
   #   devices:
   #     donnie_s7: zanzito/DonniePhone/location
-  - platform: owntracks
+  #- platform: owntracks
+  #  max_gps_accuracy: 200
+  - platform: owntracks_http
+    max_gps_accuracy: 200
 
 media_player:
   - platform: plex
@@ -159,7 +174,7 @@ media_player:
 
 group: !include groups.yaml
 automation: !include automations.yaml
-automation old: !include_dir_list automations/
+automation old: !include_dir_merge_list automations/
 scene: !include_dir_list scenes/
 
 logger:
@@ -186,14 +201,46 @@ zone:
     longitude: !secret zone_home_long
     radius: 60
     icon: mdi:home
+    passive: false
   - name: Yammer
     latitude: !secret zone_yammer_lat
     longitude: !secret zone_yammer_long
     radius: 100
     icon: mdi:yammer
-  - name: Inside
-    latitude: !secret zone_inside_lat
-    longitude: !secret zone_inside_long
+    passive: false
+#  - name: Inside
+#    latitude: !secret zone_inside_lat
+#    longitude: !secret zone_inside_long
+  - name: Bedroom
+    latitude: !secret zone_bedroom_lat
+    longitude: !secret zone_bedroom_long
+    radius: 10
+    passive: true
+#  - name: Bathroom
+#    latitude: !secret zone_bathroom_lat
+#    longitude: !secret zone_bathroom_long
+#    radius: 3
+#    passive: true
+  - name: Livingroom
+    latitude: !secret zone_livingroom_lat
+    longitude: !secret zone_livingroom_long
+    radius: 5
+    passive: true
+  - name: Entry
+    latitude: !secret zone_entryway_lat
+    longitude: !secret zone_entryway_long
+    radius: 5
+    passive: true
+  - name: workdesk
+    latitude: !secret zone_workdesk_lat
+    longitude: !secret zone_workdesk_long
+    radius: 5
+    passive: true
+  - name: Aguirowitz
+    latitude: !secret zone_aguirowitz_lat
+    longitude: !secret zone_aguirowitz_long
+    radius: 20
+    passive: false
 
 # Example configuration.yaml entry
 media_extractor:
@@ -263,3 +310,11 @@ light:
 #  cast_fireplace: catt cast 'https://www.youtube.com/watch?v=ZY3J3Y_OU0w'
 
 map:
+
+hue:
+  bridges:
+    - host: 192.168.1.130
+      allow_unreachable: true
+      allow_in_emulated_hue: true
+      allow_hue_groups: false
+
