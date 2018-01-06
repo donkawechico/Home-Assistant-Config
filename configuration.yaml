@@ -343,13 +343,13 @@ hue:
 camera:
   - platform: local_file
     name: living_room
-    file_path: /home/homeassistant/.homeassistant/camera/main.jpg
+    file_path: !secret camera_image_path_livingroom
   - platform: local_file
     name: bedroom
-    file_path: /home/homeassistant/.homeassistant/camera/bedroom.jpg
+    file_path: !secret camera_image_path_bedroom
   - platform: local_file
     name: fridge
-    file_path: /home/homeassistant/.homeassistant/camera/fridge.jpg
+    file_path: !secret camera_image_path_fridge
   - platform: opencv
     camera: camera.living_room
     processor: image_processing.opencv_living_room
@@ -367,6 +367,6 @@ image_processing:
     source:
       - entity_id: camera.living_room
     classifier:
-      body: /home/homeassistant/.homeassistant/opencv/classifiers/haarcascade_fullbody.xml
-      upperbody: /home/homeassistant/.homeassistant/opencv/classifiers/haarcascade_upperbody.xml
-      frontalface: /home/homeassistant/.homeassistant/opencv/classifiers/haarcascade_frontalface_default.xml
+      body: !secret classifier_path_fullbody
+      upperbody: !secret classifier_path_upperbody
+      frontalface: !secret classifier_path_face
