@@ -27,7 +27,7 @@ light.aikitchengascannozzle:
 light.ailivingroomorb:
   emulated_hue_name: "Orb"
   friendly_name: "Orb"
-  emulated_hue_hidden: false
+  emulated_hue_hidden: true
 light.ailivingroomsculpture:
   emulated_hue_name: "Sculpture"
   friendly_name: "Sculpture"

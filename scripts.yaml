@@ -215,3 +215,15 @@ turn_off_sun_projector:
       command: PowerToggle
       device: 44803053
       entity_id: remote.harmony_hub
+take_photo_livingroom:
+  alias: "Take a photo of the main area"
+  sequence:
+  - service: shell_command.take_raspistill
+take_photo_bedroom:
+  alias: "Take a photo of the bedroom"
+  sequence:
+  - service: shell_command.take_photo_bedroom
+take_photo_fridge:
+  alias: "Take a photo toward fridge area"
+  sequence:
+  - service: shell_command.take_photo_fridge

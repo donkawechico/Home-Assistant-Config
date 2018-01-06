@@ -13,6 +13,9 @@
     event: enter
     platform: zone
     zone: zone.bedroom
+  - entity_id: sensor.beacon_beet
+    platform: state
+    to: hb_bedroom
 - action:
   - data:
       entity_id: group.bedroom
@@ -28,6 +31,9 @@
     event: leave
     platform: zone
     zone: zone.bedroom
+  - entity_id: sensor.beacon_beet
+    from: hb_bedroom
+    platform: state
 - action:
   - data:
       entity_id: group.living_room
@@ -43,6 +49,9 @@
     event: enter
     platform: zone
     zone: zone.livingroom
+  - entity_id: sensor.beacon_beet
+    platform: state
+    to: hb_livingroom
 - action:
   - data:
       entity_id: group.living_room
@@ -58,6 +67,9 @@
     event: leave
     platform: zone
     zone: zone.livingroom
+  - entity_id: sensor.beacon_beet
+    from: hb_livingroom
+    platform: state
 - action:
   - data:
       entity_id: group.entry
@@ -76,6 +88,9 @@
     event: enter
     platform: zone
     zone: zone.entry
+  - entity_id: sensor.beacon_beet
+    platform: state
+    to: hb_entryway
 - action:
   - data:
       entity_id: group.entry
@@ -94,3 +109,6 @@
     event: leave
     platform: zone
     zone: zone.entry
+  - entity_id: sensor.beacon_beet
+    from: hb_entryway
+    platform: state

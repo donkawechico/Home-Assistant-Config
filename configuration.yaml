@@ -41,6 +41,9 @@ cloud:
     filter:
       include_entities:
         - input_boolean.beacon_lighting
+        - light.ailivingroomorb
+        - group.all_color_lights
+        - group.gas_cans
 
 config:
 
@@ -86,7 +89,26 @@ sensor:
       {% else %}
         OPEN
       {% endif %}
-        
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_841f
+    name: 'Beacon (Beet)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_eaa8
+    name: 'Beacon (Yellow)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_4986_e440
+    name: 'Beacon (Ice)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_430e_0a03
+    name: 'Beacon (Pink)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_09ec_11f0
+    name: 'Beacon (Mint)'
+    state_topic: 'happy-bubbles/presence/ha'
 
 binary_sensor:
   - platform: template
@@ -318,3 +340,33 @@ hue:
       allow_in_emulated_hue: true
       allow_hue_groups: false
 
+camera:
+  - platform: local_file
+    name: living_room
+    file_path: /home/homeassistant/.homeassistant/camera/main.jpg
+  - platform: local_file
+    name: bedroom
+    file_path: /home/homeassistant/.homeassistant/camera/bedroom.jpg
+  - platform: local_file
+    name: fridge
+    file_path: /home/homeassistant/.homeassistant/camera/fridge.jpg
+  - platform: opencv
+    camera: camera.living_room
+    processor: image_processing.opencv_living_room
+    # Optional Parameters
+    name: opencv_living_room
+
+shell_command:
+  take_raspistill: raspistill -o /home/homeassistant/.homeassistant/camera/main.jpg -w 600 -h 800 -q 100 -rot 270 --annotate "$(date)" -t 1500
+  take_photo_fridge: /usr/bin/fswebcam -d /dev/video0 -r 640x480 /home/homeassistant/.homeassistant/camera/fridge.jpg
+  take_photo_bedroom: /usr/bin/fswebcam -d /dev/video1 -r 640x480 /home/homeassistant/.homeassistant/camera/bedroom.jpg
+  
+image_processing:
+  - platform: opencv
+    name: Living Room Bodies
+    source:
+      - entity_id: camera.living_room
+    classifier:
+      body: /home/homeassistant/.homeassistant/opencv/classifiers/haarcascade_fullbody.xml
+      upperbody: /home/homeassistant/.homeassistant/opencv/classifiers/haarcascade_upperbody.xml
+      frontalface: /home/homeassistant/.homeassistant/opencv/classifiers/haarcascade_frontalface_default.xml
