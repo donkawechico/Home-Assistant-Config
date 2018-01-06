@@ -1,5 +1,6 @@
 *.pid
 *.xml
+!/travis/opencv/classifiers/*.xml
 *.csr
 *.crt
 *.key
@@ -12,7 +13,7 @@ lib
 deps
 tts
 secrets.yaml*
-known_devices.yaml
+known_devices.yaml*
 *.conf
 plex.conf
 phue.conf
@@ -31,3 +32,8 @@ gitupdate.sh
 scenes/README
 conf/appdaemon.yaml
 conf/secrets.yaml
+*-ignore
+bin
+custom_components/media_player/__pycache__/*
+share
+camera/*.jpg

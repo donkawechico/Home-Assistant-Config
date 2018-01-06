@@ -1,3 +1,13 @@
+group.all_automations:
+  hidden: false
+group.all_scripts:
+  hidden: false
+group.all_media_players:
+  hidden: false
+group.all_switches:
+  hidden: false
+group.synchronize:
+  hidden: false
 light.ailivingroomgascan:
   emulated_hue_name: "Living Room Gas Can"
   friendly_name: "Gas Can"
@@ -17,7 +27,7 @@ light.aikitchengascannozzle:
 light.ailivingroomorb:
   emulated_hue_name: "Orb"
   friendly_name: "Orb"
-  emulated_hue_hidden: false
+  emulated_hue_hidden: true
 light.ailivingroomsculpture:
   emulated_hue_name: "Sculpture"
   friendly_name: "Sculpture"
@@ -42,15 +52,14 @@ switch.accent_lights:
   emulated_hue_hidden: false
   emulated_hue_name: "Accent Lights"
   friendly_name: "Accent Lights"
-group.all_color_lights:
-  emulated_hue_hidden: false
-  emulated_hue_name: "All Color Lights"
-group.all_devices:
-  emulated_hue_hidden: false
-  emulated_hue_name: "All Devices"
 group.house_lights:
   emulated_hue_hidden: false
   emulated_hue_name: "House Lights"
+  hidden: false
+group.all_devices:
+  emulated_hue_hidden: false
+  emulated_hue_name: "All Devices"
+  hidden: false
 switch.air_conditioner:
   emulated_hue_hidden: false
   emulated_hue_name: "Air Conditioning"
@@ -83,3 +92,4 @@ media_player.plex_a9w8mh48b5u5b0xxxftt9q8w:
 switch.piano:
   emulated_hue_hidden: false
   emulated_hue_name: "Piano"
+

@@ -1,0 +1,114 @@
+- action:
+  - data:
+      entity_id: group.bedroom
+    service: homeassistant.turn_on
+  alias: Enter Bedroom
+  condition:
+  - condition: state
+    entity_id: input_boolean.beacon_lighting
+    state: 'on'
+  id: '1514958902643'
+  trigger:
+  - entity_id: device_tracker.donkawechico_heroqltevzw
+    event: enter
+    platform: zone
+    zone: zone.bedroom
+  - entity_id: sensor.beacon_beet
+    platform: state
+    to: hb_bedroom
+- action:
+  - data:
+      entity_id: group.bedroom
+    service: homeassistant.turn_off
+  alias: Exit Bedroom
+  condition:
+  - condition: state
+    entity_id: input_boolean.beacon_lighting
+    state: 'on'
+  id: '1514959091997'
+  trigger:
+  - entity_id: device_tracker.donkawechico_heroqltevzw
+    event: leave
+    platform: zone
+    zone: zone.bedroom
+  - entity_id: sensor.beacon_beet
+    from: hb_bedroom
+    platform: state
+- action:
+  - data:
+      entity_id: group.living_room
+    service: homeassistant.turn_on
+  alias: Enter Livingroom
+  condition:
+  - condition: state
+    entity_id: input_boolean.beacon_lighting
+    state: 'on'
+  id: '1514959163860'
+  trigger:
+  - entity_id: device_tracker.donkawechico_heroqltevzw
+    event: enter
+    platform: zone
+    zone: zone.livingroom
+  - entity_id: sensor.beacon_beet
+    platform: state
+    to: hb_livingroom
+- action:
+  - data:
+      entity_id: group.living_room
+    service: homeassistant.turn_off
+  alias: Exit Livingroom
+  condition:
+  - condition: state
+    entity_id: input_boolean.beacon_lighting
+    state: 'on'
+  id: '1514959219659'
+  trigger:
+  - entity_id: device_tracker.donkawechico_heroqltevzw
+    event: leave
+    platform: zone
+    zone: zone.livingroom
+  - entity_id: sensor.beacon_beet
+    from: hb_livingroom
+    platform: state
+- action:
+  - data:
+      entity_id: group.entry
+    service: homeassistant.turn_on
+  - data:
+      entity_id: group.shop
+    service: homeassistant.turn_on
+  alias: Enter Entryway
+  condition:
+  - condition: state
+    entity_id: input_boolean.beacon_lighting
+    state: 'on'
+  id: '1514959301958'
+  trigger:
+  - entity_id: device_tracker.donkawechico_heroqltevzw
+    event: enter
+    platform: zone
+    zone: zone.entry
+  - entity_id: sensor.beacon_beet
+    platform: state
+    to: hb_entryway
+- action:
+  - data:
+      entity_id: group.entry
+    service: homeassistant.turn_off
+  - data:
+      entity_id: group.shop
+    service: homeassistant.turn_off
+  alias: Exit Entryway
+  condition:
+  - condition: state
+    entity_id: input_boolean.beacon_lighting
+    state: 'on'
+  id: '1514959381983'
+  trigger:
+  - entity_id: device_tracker.donkawechico_heroqltevzw
+    event: leave
+    platform: zone
+    zone: zone.entry
+  - entity_id: sensor.beacon_beet
+    from: hb_entryway
+    platform: state

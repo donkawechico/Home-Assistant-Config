@@ -1,0 +1,58 @@
+##
+## Main arguments, all optional
+##
+title: Main Panel
+widget_dimensions: [120, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 8
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+
+livingroom_camera:
+  widget_type: camera
+  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.opencv_living_room?token=a3f3229af91ed6cd36ada364517caefb82a8a79c196a034ffd2c74d22f9d267d&api_password=yummybacon
+  refresh: 5
+
+bedroom_camera:
+  widget_type: camera
+  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.bedroom?token=d872dcbb64c8db5812866a97f99bc8bc4ceba34de7a28b36b76836ef400ddcf0&api_password=yummybacon
+  refresh: 5
+
+fridge_camera:
+  widget_type: camera
+  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.fridge?token=aa25dba8db03e60e3af2857e307a56d43cab298fb918abb2a1e9a33fee379630&api_password=yummybacon
+  refresh: 5
+
+take_livingroom_picture:
+  widget_type: script
+  title: Take Livingroom Photo
+  entity: script.take_photo_livingroom
+
+take_bedroom_picture:
+  widget_type: script
+  title: Take Bedroom Photo
+  entity: script.take_photo_bedroom
+
+take_fridge_picture:
+  widget_type: script
+  title: Take Fridge Photo
+  entity: script.take_photo_fridge
+
+orb:
+    widget_type: light
+    entity: light.ailivingroomorb
+    title: Orb
+    on_attributes:
+        brightness: 100
+        rgb_color: 128, 34, 56
+
+layout:
+  - clock.clock(3x1),               light.ailivingroomorb
+  - take_livingroom_picture(3x1),   take_bedroom_picture(1x1), spacer, take_fridge_picture(1x1)
+  - livingroom_camera(3x4),         bedroom_camera(3x2)
+  -
+  -                                 fridge_camera(3x2)
+
