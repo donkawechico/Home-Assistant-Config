@@ -1,5 +1,6 @@
 *.pid
 *.xml
+!/travis/opencv/classifiers/*.xml
 *.csr
 *.crt
 *.key
