@@ -13,17 +13,17 @@ global_parameters:
 
 livingroom_camera:
   widget_type: camera
-  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.opencv_living_room?token=a3f3229af91ed6cd36ada364517caefb82a8a79c196a034ffd2c74d22f9d267d&api_password=***REMOVED***
+  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.opencv_living_room?token=a3f3229af91ed6cd36ada364517caefb82a8a79c196a034ffd2c74d22f9d267d&api_password=yummybacon
   refresh: 5
 
 bedroom_camera:
   widget_type: camera
-  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.bedroom?token=d872dcbb64c8db5812866a97f99bc8bc4ceba34de7a28b36b76836ef400ddcf0&api_password=***REMOVED***
+  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.bedroom?token=d872dcbb64c8db5812866a97f99bc8bc4ceba34de7a28b36b76836ef400ddcf0&api_password=yummybacon
   refresh: 5
 
 fridge_camera:
   widget_type: camera
-  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.fridge?token=aa25dba8db03e60e3af2857e307a56d43cab298fb918abb2a1e9a33fee379630&api_password=***REMOVED***
+  entity_picture: https://dk.servebeer.com/api/camera_proxy/camera.fridge?token=aa25dba8db03e60e3af2857e307a56d43cab298fb918abb2a1e9a33fee379630&api_password=yummybacon
   refresh: 5
 
 take_livingroom_picture:
