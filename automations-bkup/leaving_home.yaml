@@ -1,0 +1,10 @@
+alias: "Donnie leaving home zone"
+trigger:
+  platform: state
+  entity_id: device_tracker.donkawechico_heroqltevzw
+  to: "not_home"
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.home_state
+      option: Not home

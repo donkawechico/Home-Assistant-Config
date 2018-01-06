@@ -1,0 +1,12 @@
+alias: "React to it getting dark outside"
+trigger:
+  platform: state
+  entity_id: binary_sensor.dark_out
+  to: 'on'
+condition:
+  - condition: state
+    entity_id: input_select.home_state
+    state: Inside
+action:
+  - service: scene.turn_on
+    entity_id: scene.warm

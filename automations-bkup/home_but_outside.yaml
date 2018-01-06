@@ -1,0 +1,11 @@
+alias: 'Home after work'
+trigger:
+  platform: state
+  entity_id: device_tracker.donkawechico_heroqltevzw
+  from: 'not_home'
+  to: 'home'
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.home_state
+      option: Outside
