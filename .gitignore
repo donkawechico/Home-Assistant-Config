@@ -35,3 +35,4 @@ conf/secrets.yaml
 bin
 custom_components/media_player/__pycache__/*
 share
+camera/*.jpg
