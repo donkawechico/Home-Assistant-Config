@@ -1,0 +1,14 @@
+alias: "Christine is entering house after being Outside"
+trigger:
+  platform: state
+  entity_id: input_boolean.front_door_closed
+  to: 'off'
+condition:
+  - condition: state
+    entity_id: input_select.christine_home_state
+    state: Outside
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.christine_home_state
+      option: Entering
