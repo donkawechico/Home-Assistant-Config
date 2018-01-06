@@ -7,5 +7,3 @@ action:
   - service: scene.turn_on
     data:
       entity_id: scene.warm
-
-

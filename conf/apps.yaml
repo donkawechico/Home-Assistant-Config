@@ -1,3 +1,6 @@
-hideout:
-  module: hideout
-  class: Hideout
+#hideout:
+#  module: hideout
+#  class: Hideout
+hello_world:
+  module: hello
+  class: HelloWorld

@@ -1,0 +1,16 @@
+- alias: "Enable light-related automations"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.dark_out
+    to: 'on'
+  action:
+    - service: automation.turn_on
+      entity_id: group.dark_automations
+- alias: "Turn on scene warm when dark out"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.dark_out
+    to: 'on'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.warm

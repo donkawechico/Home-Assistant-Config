@@ -1,0 +1,8 @@
+- alias: "Disable light-related automations"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.dark_out
+    to: 'off'
+  action:
+    - service: automation.turn_off
+      entity_id: group.dark_automations

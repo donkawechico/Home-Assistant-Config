@@ -321,7 +321,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-baseswitch-default-donnie-presence {
@@ -358,7 +358,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-baseswitch-default-christine-presence {
@@ -395,7 +395,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-basedisplay-default-pir-1 .unit {
@@ -588,7 +588,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 75%;
 }
 
 .widget-baselight-default-house-lights .level {
@@ -668,7 +668,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 75%;
 }
 
 .widget-baselight-default-livingroom .level {
@@ -748,7 +748,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 75%;
 }
 
 .widget-baselight-default-kitchen .level {
@@ -824,7 +824,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-baseswitch-default-darkness-scene {
@@ -861,7 +861,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-baselight-default-kitchen-strip {
@@ -902,7 +902,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 75%;
 }
 
 .widget-baselight-default-kitchen-strip .level {
@@ -978,7 +978,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-baselight-default-shop {
@@ -1019,7 +1019,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 75%;
 }
 
 .widget-baselight-default-shop .level {
@@ -1099,7 +1099,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 75%;
 }
 
 .widget-baselight-default-bedroom .level {
@@ -1175,7 +1175,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-baseswitch-default-warm-scene {
@@ -1212,7 +1212,7 @@ input {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 100%;
 }
 
 .widget-basedisplay-default-label-state .unit {

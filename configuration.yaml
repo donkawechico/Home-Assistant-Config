@@ -23,10 +23,6 @@ input_boolean:
     name: "Is Kitchen Strip On"
     initial: off
     icon: mdi:lightbulb
-  front_door_closed:
-    name: "Is Front Door Closed"
-    initial: on
-    icon: mdi:door-open
   sun_projector_on:
     name: "Is Sun Projector On"
     initial: off
@@ -34,8 +30,20 @@ input_boolean:
   motion_detected:
     name: "Was Motion Detected"
     initial: off
+  beacon_lighting:
+    name: "Phone Location Controls Lighting"
+    initial: off
 
 frontend:
+
+cloud:
+  alexa:
+    filter:
+      include_entities:
+        - input_boolean.beacon_lighting
+        - light.ailivingroomorb
+        - group.all_color_lights
+        - group.gas_cans
 
 config:
 
@@ -75,6 +83,32 @@ sensor:
   - platform: mqtt
     state_topic: "stat/sensor/door/POWER"
     name: "Front Door"
+    value_template: >
+      {% if value=='OFF' %}
+        CLOSED
+      {% else %}
+        OPEN
+      {% endif %}
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_841f
+    name: 'Beacon (Beet)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_eaa8
+    name: 'Beacon (Yellow)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_4986_e440
+    name: 'Beacon (Ice)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_430e_0a03
+    name: 'Beacon (Pink)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_09ec_11f0
+    name: 'Beacon (Mint)'
+    state_topic: 'happy-bubbles/presence/ha'
 
 binary_sensor:
   - platform: template
@@ -137,7 +171,10 @@ device_tracker:
   # - platform: mqtt_json
   #   devices:
   #     donnie_s7: zanzito/DonniePhone/location
-  - platform: owntracks
+  #- platform: owntracks
+  #  max_gps_accuracy: 200
+  - platform: owntracks_http
+    max_gps_accuracy: 200
 
 media_player:
   - platform: plex
@@ -158,7 +195,8 @@ media_player:
 #    cmd: 'sudo ps4-waker'
 
 group: !include groups.yaml
-automation: !include_dir_list automations/
+automation: !include automations.yaml
+automation old: !include_dir_merge_list automations/
 scene: !include_dir_list scenes/
 
 logger:
@@ -185,14 +223,46 @@ zone:
     longitude: !secret zone_home_long
     radius: 60
     icon: mdi:home
+    passive: false
   - name: Yammer
     latitude: !secret zone_yammer_lat
     longitude: !secret zone_yammer_long
     radius: 100
     icon: mdi:yammer
-  - name: Inside
-    latitude: !secret zone_inside_lat
-    longitude: !secret zone_inside_long
+    passive: false
+#  - name: Inside
+#    latitude: !secret zone_inside_lat
+#    longitude: !secret zone_inside_long
+  - name: Bedroom
+    latitude: !secret zone_bedroom_lat
+    longitude: !secret zone_bedroom_long
+    radius: 10
+    passive: true
+#  - name: Bathroom
+#    latitude: !secret zone_bathroom_lat
+#    longitude: !secret zone_bathroom_long
+#    radius: 3
+#    passive: true
+  - name: Livingroom
+    latitude: !secret zone_livingroom_lat
+    longitude: !secret zone_livingroom_long
+    radius: 5
+    passive: true
+  - name: Entry
+    latitude: !secret zone_entryway_lat
+    longitude: !secret zone_entryway_long
+    radius: 5
+    passive: true
+  - name: workdesk
+    latitude: !secret zone_workdesk_lat
+    longitude: !secret zone_workdesk_long
+    radius: 5
+    passive: true
+  - name: Aguirowitz
+    latitude: !secret zone_aguirowitz_lat
+    longitude: !secret zone_aguirowitz_long
+    radius: 20
+    passive: false
 
 # Example configuration.yaml entry
 media_extractor:
@@ -260,3 +330,43 @@ light:
 
 #shell_command:
 #  cast_fireplace: catt cast 'https://www.youtube.com/watch?v=ZY3J3Y_OU0w'
+
+map:
+
+hue:
+  bridges:
+    - host: 192.168.1.130
+      allow_unreachable: true
+      allow_in_emulated_hue: true
+      allow_hue_groups: false
+
+camera:
+  - platform: local_file
+    name: living_room
+    file_path: !secret camera_image_path_livingroom
+  - platform: local_file
+    name: bedroom
+    file_path: !secret camera_image_path_bedroom
+  - platform: local_file
+    name: fridge
+    file_path: !secret camera_image_path_fridge
+  - platform: opencv
+    camera: camera.living_room
+    processor: image_processing.opencv_living_room
+    # Optional Parameters
+    name: opencv_living_room
+
+shell_command:
+  take_raspistill: raspistill -o /home/homeassistant/.homeassistant/camera/main.jpg -w 600 -h 800 -q 100 -rot 270 --annotate "$(date)" -t 1500
+  take_photo_fridge: /usr/bin/fswebcam -d /dev/video0 -r 640x480 /home/homeassistant/.homeassistant/camera/fridge.jpg
+  take_photo_bedroom: /usr/bin/fswebcam -d /dev/video1 -r 640x480 /home/homeassistant/.homeassistant/camera/bedroom.jpg
+  
+image_processing:
+  - platform: opencv
+    name: Living Room Bodies
+    source:
+      - entity_id: camera.living_room
+    classifier:
+      body: !secret classifier_path_fullbody
+      upperbody: !secret classifier_path_upperbody
+      frontalface: !secret classifier_path_face

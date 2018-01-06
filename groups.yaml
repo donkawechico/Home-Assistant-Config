@@ -1,5 +1,5 @@
 default_view:
-  view: false
+  view: yes
   entities:
   - group.living_room
   - group.kitchen
@@ -7,9 +7,29 @@ default_view:
   - group.entry
   - group.gas_cans
   - group.bedroom
+  - group.synchronize
+  - input_boolean.beacon_lighting
+cameras:
+  view: yes
+  entities:
+  - script.take_photo_bedroom
+  - script.take_photo_fridge
+  - script.take_photo_livingroom
+  - camera.local_file
+  - camera.opencv_living_room
+  - camera.bedroom
+  - camera.fridge
+house_lights:
+  view: no
+  name: House Lights
+  entities:
+  - group.all_color_lights
+  - group.all_light_switches
 scenes:
+  view: yes
   name: Scenes
   entities:
+  - scene.theater
   - scene.Green
   - scene.Underwater
   - scene.Warm
@@ -55,7 +75,7 @@ gas_cans:
   - light.aishopgascan
   view: false
 all_color_lights:
-  name: All Color Lights
+  name: Color Lights
   entities:
   - light.aikitchengascanmain
   - light.aikitchengascannozzle
@@ -67,7 +87,7 @@ all_color_lights:
   - light.nightstand
   - light.aishopgascan
   - light.ailivingroomsculpture
-  - light.kitchen_strip
+  #- light.kitchen_strip
 front_wall:
   name: Front Wall
   entities:
@@ -85,6 +105,7 @@ back_wall:
   - light.the_sun
   - light.aishopgascan
 amazon_dots:
+  view: false
   name: Amazon Echo Dots
   entities:
   - device_tracker.amazon6a82acc0d
@@ -92,31 +113,72 @@ amazon_dots:
   - device_tracker.amazonb2316426c
   - device_tracker.amazondbe97368b
 all_media_players:
-  name: All Media Players
+  view: yes
+  name: Media Players
   entities:
   - media_player.livingroomcast
   - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
   - media_player.suncast
-  view: false
-house_lights:
-  name: House Lights
-  entities:
-  - group.all_color_lights
-  - group.all_light_switches
-  view: false
 all_light_switches:
-  name: All Light Switches
+  name: Light Switches
   entities:
   - switch.ikea_lamp
   - switch.water_light
   - switch.accent_lights
 all_sensor:
-  name: All Sensors
+  view: yes
+  name: Sensors
   entities:
   - sensor.front_door
   - sensor.motion_sensor
+physical_sensors:
+  name: Physical Sensors
+  entities:
+  - sensor.front_door
+  - sensor.motion_sensor
+virtual_sensors:
+  name: Virtual Sensors
+  entities:
+  - binary_sensor.dark_out
 safe_to_turn_off:
-  name: All Devices that are Safe to Turn Off
+  view: false
+  name: Safe to Turn Off Devices
   entities:
   - group.house_lights
+dark_automations:
   view: false
+  name: Dark Out Automations
+  entities:
+  - automation.turn_on_scene_warm_when_dark_out
+synchronize:
+  view: yes
+  name: Synchronize
+  entities:
+  - input_boolean.kitchen_strip_on
+  - input_boolean.tv_on
+scripts:
+  view: yes
+  name: Scripts
+  entities:
+  - group.all_scripts
+automations:
+  view: yes
+  name: Automations
+  entities:
+  - group.all_automations
+  - group.dark_automations
+locations:
+  view: yes
+  name: Locations
+  entities:
+  - group.all_devices
+  - group.beacons
+beacons:
+  view: no
+  name: Beacons
+  entities:
+  - sensor.beacon_beet
+  - sensor.beacon_yellow
+  - sensor.beacon_ice
+  - sensor.beacon_mint
+  - sensor.beacon_pink
