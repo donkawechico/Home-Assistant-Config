@@ -220,7 +220,11 @@ turn_off_sun_projector:
 take_photo_livingroom:
   alias: "Take a photo of the main area"
   sequence:
+<<<<<<< HEAD
   - service: shell_command.take_photo_raspistill
+=======
+  - service: shell_command.take_raspistill
+>>>>>>> 48dd2b1c5a085d2689ad45d21e3dfc5eb2ee7efa
 take_photo_bedroom:
   alias: "Take a photo of the bedroom"
   sequence:

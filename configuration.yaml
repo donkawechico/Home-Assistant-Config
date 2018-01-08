@@ -49,7 +49,7 @@ cloud:
         - light.aishopgascan
         - group.gas_cans
         - light.aientryumbrella
-
+        - group.gas_cans
 
 config:
 
