@@ -44,6 +44,12 @@
     suncast_fireplace:
       command_on: "/usr/local/bin/catt cast 'https://www.youtube.com/watch?v=6RoTpvA9MSw'"
       command_off: "/usr/local/bin/catt stop"
+#    wake_ps4:
+#      command_on: 'ps4-waker'
+#      command_off: 'ps4-waker standby'
+#      command_state: 'telnet PS4 9295 | grep "Connected" > nul && (echo "true") || (echo "false")' 
+#      value_template: '{{ value }}'
+#      friendly_name: "Playstation 4"
 - platform: template
   switches:
     air_conditioner:

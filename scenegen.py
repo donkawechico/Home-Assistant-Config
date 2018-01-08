@@ -1,1 +1,1 @@
-../code/scenegen/scenegen.py
+../scenegen/scenegen.py

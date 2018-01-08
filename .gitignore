@@ -37,3 +37,6 @@ bin
 custom_components/media_player/__pycache__/*
 share
 camera/*.jpg
+*.dash
+passwords.txt
+conf/compiled

@@ -9,21 +9,21 @@ group.all_switches:
 group.synchronize:
   hidden: false
 light.ailivingroomgascan:
-  emulated_hue_name: "Living Room Gas Can"
-  friendly_name: "Gas Can"
-  emulated_hue_hidden: false
-light.ailentryumbrella:
+  emulated_hue_name: "Livingroom Gas Can"
+  friendly_name: "Livingroom Gas Can"
+  emulated_hue_hidden: true
+light.aientryumbrella:
   emulated_hue_name: "Entry umbrella"
   friendly_name: "Umbrella"
-  emulated_hue_hidden: false
+  emulated_hue_hidden: true
 light.aikitchengascanmain:
   emulated_hue_name: "Kitchen Gas Can Main"
-  friendly_name: "Gas Can (Main)"
-  emulated_hue_hidden: false
+  friendly_name: "Kitchen Gas Can Main"
+  emulated_hue_hidden: true
 light.aikitchengascannozzle:
   emulated_hue_name: "Kitchen Gas Can Nozzle"
-  friendly_name: "Gas Can (Nozzle)"
-  emulated_hue_hidden: false
+  friendly_name: "Kitchen Gas Can Nozzle"
+  emulated_hue_hidden: true
 light.ailivingroomorb:
   emulated_hue_name: "Orb"
   friendly_name: "Orb"
@@ -34,12 +34,10 @@ light.ailivingroomsculpture:
   emulated_hue_hidden: false
 light.aishopgascan:
   emulated_hue_name: "Shop Gas Can"
-  friendly_name: "Gas Can"
-  emulated_hue_hidden: false
+  friendly_name: "Shop Gas Can"
+  emulated_hue_hidden: true
 device_tracker.amazon6a82acc0d:
   entity_picture: https://goo.gl/CKCYx1
-group.living_room:
-  emulated_hue_hidden: false
 switch.ikea_lamp:
   emulated_hue_hidden: false
   emulated_hue_name: "Ikea Lamp"
@@ -92,4 +90,7 @@ media_player.plex_a9w8mh48b5u5b0xxxftt9q8w:
 switch.piano:
   emulated_hue_hidden: false
   emulated_hue_name: "Piano"
-
+group.gas_cans:
+  emulated_hue_hidden: true
+  emulated_hue_name: "All Gas Cans"
+  friendly_name: "All Gas Cans"

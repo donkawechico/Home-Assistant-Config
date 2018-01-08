@@ -43,7 +43,13 @@ cloud:
         - input_boolean.beacon_lighting
         - light.ailivingroomorb
         - group.all_color_lights
+        - light.ailivingroomgascan
+        - light.aikitchengascanmain
+        - light.aikitchengascannozzle
+        - light.aishopgascan
         - group.gas_cans
+        - light.aientryumbrella
+
 
 config:
 
@@ -77,9 +83,9 @@ sun:
 sensor:
   # Track weather prediction
   - platform: yr
-  - platform: mqtt
-    state_topic: "stat/motionsensor/POWER"
-    name: "Motion Sensor"
+#  - platform: mqtt
+#    state_topic: "stat/motionsensor/POWER"
+#    name: "Motion Sensor"
   - platform: mqtt
     state_topic: "stat/sensor/door/POWER"
     name: "Front Door"
@@ -190,7 +196,9 @@ media_player:
     client_secret: !secret spotify_client_secret
     cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
   - platform: ps4
+    name: "PS4 Waker"
     host: 192.168.1.100
+    cmnd: "sudo ps4-waker"
   # - platform: cast
 #    cmd: 'sudo ps4-waker'
 
@@ -355,18 +363,44 @@ camera:
     processor: image_processing.opencv_living_room
     # Optional Parameters
     name: opencv_living_room
+  - platform: opencv
+    camera: camera.bedroom
+    processor: image_processing.opencv_bedroom
+    # Optional Parameters
+    name: opencv_bedroom
+  - platform: opencv
+    camera: camera.fridge
+    processor: image_processing.opencv_fridge
+    # Optional Parameters
+    name: opencv_fridge
 
 shell_command:
-  take_raspistill: raspistill -o /home/homeassistant/.homeassistant/camera/main.jpg -w 600 -h 800 -q 100 -rot 270 --annotate "$(date)" -t 1500
-  take_photo_fridge: /usr/bin/fswebcam -d /dev/video0 -r 640x480 /home/homeassistant/.homeassistant/camera/fridge.jpg
-  take_photo_bedroom: /usr/bin/fswebcam -d /dev/video1 -r 640x480 /home/homeassistant/.homeassistant/camera/bedroom.jpg
+  take_photo_raspistill: !secret raspistill_script
+  take_photo_fridge: !secret usb_camera_script_fridge
+  take_photo_bedroom: !secret usb_camera_script_bedroom
   
 image_processing:
   - platform: opencv
-    name: Living Room Bodies
+    name: Livingroom Recognition
     source:
       - entity_id: camera.living_room
     classifier:
       body: !secret classifier_path_fullbody
       upperbody: !secret classifier_path_upperbody
+      frontalface: !secret classifier_path_face
+  - platform: opencv
+    name: Bedroom Recognition
+    source:
+      - entity_id: camera.bedroom
+    classifier:
+      body: !secret classifier_path_fullbody
+      upperbody: !secret classifier_path_upperbody
+      frontalface: !secret classifier_path_face
+  - platform: opencv
+    name: Fridge Recognition
+    source:
+      - entity_id: camera.fridge
+    classifier:
+#      body: !secret classifier_path_fullbody
+#      upperbody: !secret classifier_path_upperbody
       frontalface: !secret classifier_path_face

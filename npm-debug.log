@@ -1,0 +1,198 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'ps4-waker' ]
+2 info using npm@3.10.10
+3 info using node@v6.12.3
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData ps4-waker
+8 silly fetchNamedPackageData ps4-waker
+9 silly mapToRegistry name ps4-waker
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'ps4-waker',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   escapedName: 'ps4-waker',
+12 silly mapToRegistry   name: 'ps4-waker',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri https://registry.npmjs.org/ps4-waker
+14 verbose request uri https://registry.npmjs.org/ps4-waker
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 11:01:20 AM
+17 verbose request id dc2e6cd83a0e0b29
+18 http request GET https://registry.npmjs.org/ps4-waker
+19 http 200 https://registry.npmjs.org/ps4-waker
+20 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+20 verbose headers   server: 'UploadServer',
+20 verbose headers   'cache-control': 'max-age=300',
+20 verbose headers   'last-modified': 'Mon, 4 Dec 2017 13:27:32 GMT',
+20 verbose headers   etag: '"5a254d44-ecd4"',
+20 verbose headers   'content-encoding': 'gzip',
+20 verbose headers   'content-length': '8900',
+20 verbose headers   'accept-ranges': 'bytes',
+20 verbose headers   date: 'Mon, 08 Jan 2018 19:01:20 GMT',
+20 verbose headers   via: '1.1 varnish',
+20 verbose headers   age: '1959',
+20 verbose headers   connection: 'keep-alive',
+20 verbose headers   'x-served-by': 'cache-pao17447-PAO',
+20 verbose headers   'x-cache': 'HIT',
+20 verbose headers   'x-cache-hits': '2',
+20 verbose headers   'x-timer': 'S1515438081.784054,VS0,VE0',
+20 verbose headers   vary: 'Accept-Encoding, Accept' }
+21 silly get cb [ 200,
+21 silly get   { 'content-type': 'application/json; charset=UTF-8',
+21 silly get     server: 'UploadServer',
+21 silly get     'cache-control': 'max-age=300',
+21 silly get     'last-modified': 'Mon, 4 Dec 2017 13:27:32 GMT',
+21 silly get     etag: '"5a254d44-ecd4"',
+21 silly get     'content-encoding': 'gzip',
+21 silly get     'content-length': '8900',
+21 silly get     'accept-ranges': 'bytes',
+21 silly get     date: 'Mon, 08 Jan 2018 19:01:20 GMT',
+21 silly get     via: '1.1 varnish',
+21 silly get     age: '1959',
+21 silly get     connection: 'keep-alive',
+21 silly get     'x-served-by': 'cache-pao17447-PAO',
+21 silly get     'x-cache': 'HIT',
+21 silly get     'x-cache-hits': '2',
+21 silly get     'x-timer': 'S1515438081.784054,VS0,VE0',
+21 silly get     vary: 'Accept-Encoding, Accept' } ]
+22 verbose get saving ps4-waker to /home/homeassistant/.npm/registry.npmjs.org/ps4-waker/.cache.json
+23 verbose correctMkdir /home/homeassistant/.npm correctMkdir not in flight; initializing
+24 verbose makeDirectory /home/homeassistant/.npm creation not in flight; initializing
+25 silly makeDirectory /home/homeassistant/.npm uid: 999 gid: 996
+26 silly install normalizeTree
+27 silly loadCurrentTree Finishing
+28 silly loadIdealTree Starting
+29 silly install loadIdealTree
+30 silly cloneCurrentTree Starting
+31 silly install cloneCurrentTreeToIdealTree
+32 silly cloneCurrentTree Finishing
+33 silly loadShrinkwrap Starting
+34 silly install loadShrinkwrap
+35 silly loadShrinkwrap Finishing
+36 silly loadAllDepsIntoIdealTree Starting
+37 silly install loadAllDepsIntoIdealTree
+38 silly resolveWithNewModule ps4-waker@1.4.3 checking installable status
+39 silly cache add args [ 'ps4-waker', null ]
+40 verbose cache add spec ps4-waker
+41 silly cache add parsed spec Result {
+41 silly cache add   raw: 'ps4-waker',
+41 silly cache add   scope: null,
+41 silly cache add   escapedName: 'ps4-waker',
+41 silly cache add   name: 'ps4-waker',
+41 silly cache add   rawSpec: '',
+41 silly cache add   spec: 'latest',
+41 silly cache add   type: 'tag' }
+42 silly addNamed ps4-waker@latest
+43 verbose addNamed "latest" is being treated as a dist-tag for ps4-waker
+44 info addNameTag [ 'ps4-waker', 'latest' ]
+45 silly mapToRegistry name ps4-waker
+46 silly mapToRegistry using default registry
+47 silly mapToRegistry registry https://registry.npmjs.org/
+48 silly mapToRegistry data Result {
+48 silly mapToRegistry   raw: 'ps4-waker',
+48 silly mapToRegistry   scope: null,
+48 silly mapToRegistry   escapedName: 'ps4-waker',
+48 silly mapToRegistry   name: 'ps4-waker',
+48 silly mapToRegistry   rawSpec: '',
+48 silly mapToRegistry   spec: 'latest',
+48 silly mapToRegistry   type: 'tag' }
+49 silly mapToRegistry uri https://registry.npmjs.org/ps4-waker
+50 verbose addNameTag registry:https://registry.npmjs.org/ps4-waker not in flight; fetching
+51 verbose request uri https://registry.npmjs.org/ps4-waker
+52 verbose request no auth needed
+53 info attempt registry request try #1 at 11:01:21 AM
+54 http request GET https://registry.npmjs.org/ps4-waker
+55 http 200 https://registry.npmjs.org/ps4-waker
+56 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+56 verbose headers   server: 'UploadServer',
+56 verbose headers   'cache-control': 'max-age=300',
+56 verbose headers   'last-modified': 'Mon, 4 Dec 2017 13:27:32 GMT',
+56 verbose headers   etag: '"5a254d44-ecd4"',
+56 verbose headers   'content-encoding': 'gzip',
+56 verbose headers   'content-length': '8900',
+56 verbose headers   'accept-ranges': 'bytes',
+56 verbose headers   date: 'Mon, 08 Jan 2018 19:01:21 GMT',
+56 verbose headers   via: '1.1 varnish',
+56 verbose headers   age: '1959',
+56 verbose headers   connection: 'keep-alive',
+56 verbose headers   'x-served-by': 'cache-pao17447-PAO',
+56 verbose headers   'x-cache': 'HIT',
+56 verbose headers   'x-cache-hits': '3',
+56 verbose headers   'x-timer': 'S1515438081.197658,VS0,VE0',
+56 verbose headers   vary: 'Accept-Encoding, Accept' }
+57 silly get cb [ 200,
+57 silly get   { 'content-type': 'application/json; charset=UTF-8',
+57 silly get     server: 'UploadServer',
+57 silly get     'cache-control': 'max-age=300',
+57 silly get     'last-modified': 'Mon, 4 Dec 2017 13:27:32 GMT',
+57 silly get     etag: '"5a254d44-ecd4"',
+57 silly get     'content-encoding': 'gzip',
+57 silly get     'content-length': '8900',
+57 silly get     'accept-ranges': 'bytes',
+57 silly get     date: 'Mon, 08 Jan 2018 19:01:21 GMT',
+57 silly get     via: '1.1 varnish',
+57 silly get     age: '1959',
+57 silly get     connection: 'keep-alive',
+57 silly get     'x-served-by': 'cache-pao17447-PAO',
+57 silly get     'x-cache': 'HIT',
+57 silly get     'x-cache-hits': '3',
+57 silly get     'x-timer': 'S1515438081.197658,VS0,VE0',
+57 silly get     vary: 'Accept-Encoding, Accept' } ]
+58 verbose get saving ps4-waker to /home/homeassistant/.npm/registry.npmjs.org/ps4-waker/.cache.json
+59 verbose correctMkdir /home/homeassistant/.npm correctMkdir not in flight; initializing
+60 silly addNameTag next cb for ps4-waker with tag latest
+61 silly addNamed ps4-waker@1.4.3
+62 verbose addNamed "1.4.3" is a plain semver version for ps4-waker
+63 silly mapToRegistry name ps4-waker
+64 silly mapToRegistry using default registry
+65 silly mapToRegistry registry https://registry.npmjs.org/
+66 silly mapToRegistry data Result {
+66 silly mapToRegistry   raw: 'ps4-waker',
+66 silly mapToRegistry   scope: null,
+66 silly mapToRegistry   escapedName: 'ps4-waker',
+66 silly mapToRegistry   name: 'ps4-waker',
+66 silly mapToRegistry   rawSpec: '',
+66 silly mapToRegistry   spec: 'latest',
+66 silly mapToRegistry   type: 'tag' }
+67 silly mapToRegistry uri https://registry.npmjs.org/ps4-waker
+68 verbose addRemoteTarball https://registry.npmjs.org/ps4-waker/-/ps4-waker-1.4.3.tgz not in flight; adding
+69 verbose addRemoteTarball [ 'https://registry.npmjs.org/ps4-waker/-/ps4-waker-1.4.3.tgz',
+69 verbose addRemoteTarball   'e9f5ab072b57e65b408f79f6e7b8151be9b0cb3c' ]
+70 info retry fetch attempt 1 at 11:01:21 AM
+71 info attempt registry request try #1 at 11:01:21 AM
+72 http fetch GET https://registry.npmjs.org/ps4-waker/-/ps4-waker-1.4.3.tgz
+73 http fetch 200 https://registry.npmjs.org/ps4-waker/-/ps4-waker-1.4.3.tgz
+74 silly fetchAndShaCheck shasum e9f5ab072b57e65b408f79f6e7b8151be9b0cb3c
+75 verbose addTmpTarball /tmp/npm-3123-9aa70984/registry.npmjs.org/ps4-waker/-/ps4-waker-1.4.3.tgz not in flight; adding
+76 verbose addTmpTarball already have metadata; skipping unpack for ps4-waker@1.4.3
+77 verbose correctMkdir /home/homeassistant/.npm correctMkdir not in flight; initializing
+78 silly rollbackFailedOptional Starting
+79 silly rollbackFailedOptional Finishing
+80 silly runTopLevelLifecycles Finishing
+81 silly install printInstalled
+82 verbose stack Error: EACCES: permission denied, mkdir '/home/homeassistant/.npm'
+82 verbose stack     at Error (native)
+83 verbose cwd /home/homeassistant/.homeassistant
+84 error Linux 4.9.59-v7+
+85 error argv "/usr/bin/node" "/usr/bin/npm" "install" "ps4-waker"
+86 error node v6.12.3
+87 error npm  v3.10.10
+88 error path /home/homeassistant/.npm
+89 error code EACCES
+90 error errno -13
+91 error syscall mkdir
+92 error Error: EACCES: permission denied, mkdir '/home/homeassistant/.npm'
+92 error     at Error (native)
+92 error  { Error: EACCES: permission denied, mkdir '/home/homeassistant/.npm'
+92 error     at Error (native)
+92 error   errno: -13,
+92 error   code: 'EACCES',
+92 error   syscall: 'mkdir',
+92 error   path: '/home/homeassistant/.npm' }
+93 error Please try running this command again as root/Administrator.
+94 verbose exit [ -13, true ]

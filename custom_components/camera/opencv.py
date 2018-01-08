@@ -13,6 +13,7 @@ from homeassistant.components.camera import Camera, PLATFORM_SCHEMA
 from homeassistant.helpers import config_validation as cv
 from homeassistant.components.image_processing.opencv import ATTR_MATCHES
 from homeassistant.loader import get_component
+from homeassistant.exceptions import HomeAssistantError
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -79,7 +80,7 @@ class OpenCVCamera(Camera):
 
         try:
             image = yield from camera.async_get_image(
-                self._hass, self._camera, timeout=2)
+                self._hass, self._camera, timeout=5)
 
         except HomeAssistantError as err:
             _LOGGER.error("Error on receive image from entity: %s", err)

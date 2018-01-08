@@ -69,7 +69,7 @@ turn_on_playstation:
           30170629
         {% endif %}
   - service: media_player.turn_on
-    entity_id: media_player.playstation_4
+    entity_id: media_player.ps4_waker
 turn_off_playstation:
   alias: "Turn off playstation and auto-select monitor"
   sequence:
@@ -81,6 +81,8 @@ turn_off_playstation:
         {% else %}
           30170629
         {% endif %}
+  - service: media_player.turn_off
+    entity_id: media_player.ps4_waker
   - condition: state
     entity_id: binary_sensor.dark_out
     state: 'on'
@@ -218,7 +220,7 @@ turn_off_sun_projector:
 take_photo_livingroom:
   alias: "Take a photo of the main area"
   sequence:
-  - service: shell_command.take_raspistill
+  - service: shell_command.take_photo_raspistill
 take_photo_bedroom:
   alias: "Take a photo of the bedroom"
   sequence:

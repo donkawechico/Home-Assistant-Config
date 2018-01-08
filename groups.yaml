@@ -17,8 +17,8 @@ cameras:
   - script.take_photo_livingroom
   - camera.local_file
   - camera.opencv_living_room
-  - camera.bedroom
-  - camera.fridge
+  - camera.opencv_bedroom
+  - camera.opencv_fridge
 house_lights:
   view: no
   name: House Lights
@@ -66,14 +66,6 @@ bedroom:
   name: Bedroom
   entities:
   - light.nightstand
-gas_cans:
-  name: Gas Can Lights
-  entities:
-  - light.aikitchengascanmain
-  - light.aikitchengascannozzle
-  - light.ailivingroomgascan
-  - light.aishopgascan
-  view: false
 all_color_lights:
   name: Color Lights
   entities:
@@ -119,6 +111,7 @@ all_media_players:
   - media_player.livingroomcast
   - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
   - media_player.suncast
+  - media_player.ps4_waker
 all_light_switches:
   name: Light Switches
   entities:
@@ -182,3 +175,11 @@ beacons:
   - sensor.beacon_ice
   - sensor.beacon_mint
   - sensor.beacon_pink
+gas_cans:
+  view: no
+  name: All Gas Cans
+  entities:
+  - light.aikitchengascanmain
+  - light.aikitchengascannozzle
+  - light.ailivingroomgascan
+  - light.aishopgascan
