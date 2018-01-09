@@ -112,6 +112,7 @@ all_media_players:
   - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
   - media_player.suncast
   - media_player.ps4_waker
+  - switch.plex
 all_light_switches:
   name: Light Switches
   entities:
@@ -124,6 +125,7 @@ all_sensor:
   entities:
   - sensor.front_door
   - sensor.motion_sensor
+  - sensor.weather
 physical_sensors:
   name: Physical Sensors
   entities:
@@ -166,6 +168,7 @@ locations:
   entities:
   - group.all_devices
   - group.beacons
+  - camera.iss
 beacons:
   view: no
   name: Beacons

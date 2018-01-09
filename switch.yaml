@@ -76,6 +76,14 @@
       turn_off:
         service: script.turn_on
         entity_id: script.turn_off_playstation
+    plex:
+      value_template: "{{ is_state_attr('media_player.ps4_waker','source','Plex') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_ps4_waker_plex
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_ps4_waker_plex    
     chromecast:
       value_template: "{{ is_state('input_boolean.chromecast_on','on') }}"
       turn_on:

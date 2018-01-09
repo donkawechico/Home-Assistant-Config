@@ -50,6 +50,7 @@ cloud:
         - group.gas_cans
         - light.aientryumbrella
         - group.gas_cans
+        - switch.plex
 
 config:
 
@@ -115,6 +116,16 @@ sensor:
     device_id: b9407f30f5f8466eaff925556b57fe6d_09ec_11f0
     name: 'Beacon (Mint)'
     state_topic: 'happy-bubbles/presence/ha'
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    name: weather
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+
 
 binary_sensor:
   - platform: template
@@ -123,6 +134,8 @@ binary_sensor:
         friendly_name: "Dark Outside"
         value_template: >
           {{ states.sun.sun.attributes.elevation|float < 0 }}
+  - platform: iss
+    show_on_map: true
 
 tts:
   platform: google
@@ -373,11 +386,16 @@ camera:
     processor: image_processing.opencv_fridge
     # Optional Parameters
     name: opencv_fridge
+  - platform: generic
+    name: ISS
+    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&zoom=5&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}
+    limit_refetch_to_url_change: true
 
 shell_command:
   take_photo_raspistill: !secret raspistill_script
   take_photo_fridge: !secret usb_camera_script_fridge
   take_photo_bedroom: !secret usb_camera_script_bedroom
+  ps4_waker_plex: /usr/bin/ps4-waker start CUSA01850
   
 image_processing:
   - platform: opencv

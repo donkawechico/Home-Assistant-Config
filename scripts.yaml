@@ -69,7 +69,8 @@ turn_on_playstation:
           30170629
         {% endif %}
   - service: media_player.turn_on
-    entity_id: media_player.ps4_waker
+    data:
+      entity_id: media_player.ps4_waker
 turn_off_playstation:
   alias: "Turn off playstation and auto-select monitor"
   sequence:
@@ -82,7 +83,8 @@ turn_off_playstation:
           30170629
         {% endif %}
   - service: media_player.turn_off
-    entity_id: media_player.ps4_waker
+    data:
+      entity_id: media_player.ps4_waker
   - condition: state
     entity_id: binary_sensor.dark_out
     state: 'on'
@@ -229,3 +231,15 @@ take_photo_fridge:
   alias: "Take a photo toward fridge area"
   sequence:
   - service: shell_command.take_photo_fridge
+turn_on_ps4_waker_plex:
+  alias: "Turn on playstation w/ auto monitor and launch into Plex"
+  sequence:
+  - service: script.turn_on_playstation
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.ps4_waker
+      source: "Plex"
+turn_off_ps4_waker_plex:
+  alias: "Turn off playstation w/ auto monitor and launch into Plex"
+  sequence:
+  - service: script.turn_off_playstation
