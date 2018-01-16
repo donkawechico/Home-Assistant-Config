@@ -243,3 +243,28 @@ turn_off_ps4_waker_plex:
   alias: "Turn off playstation w/ auto monitor and launch into Plex"
   sequence:
   - service: script.turn_off_playstation
+turn_on_all_projectors:
+  alias: "Turn on all projectors in house"
+  sequence:
+  - service: remote.turn_on
+    data:
+      activity: 27562206
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 44803053
+      entity_id: remote.harmony_hub
+turn_off_all_projectors:
+  alias: "Turn off all projectors in house"
+  sequence:
+  - service: remote.turn_off
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 44803053
+      entity_id: remote.harmony_hub

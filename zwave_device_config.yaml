@@ -1,0 +1,6 @@
+sensor.aeotech_multisensor_6_luminance:
+  ignored: false
+  polling_intensity: 0
+sensor.aeotech_multisensor_6_burglar:
+  ignored: false
+  polling_intensity: 10000

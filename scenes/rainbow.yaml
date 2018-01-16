@@ -1,0 +1,52 @@
+name: Rainbow
+entities:
+  light.kitchen_strip:
+    state: on
+  switch.star_field:
+    state: off
+  switch.water_light:
+    state: off
+  light.ailivingroomorb:
+    state: on
+    brightness: 255
+    rgb_color: [0, 0, 255]
+  light.aientryumbrella:
+    state: on
+    brightness: 255
+    rgb_color: [255, 136, 13]
+  switch.accent_lights:
+    state: on
+  light.ailivingroomgascan:
+    state: on
+    brightness: 255
+    rgb_color: [255, 255, 0]
+  light.the_sun:
+    state: on
+    brightness: 254
+    rgb_color: [255, 66, 0]
+  light.aikitchengascanmain:
+    state: on
+    brightness: 255
+    rgb_color: [255, 0, 191]
+  light.aikitchengascannozzle:
+    state: on
+    brightness: 255
+    rgb_color: [255, 0, 128]
+  switch.ikea_lamp:
+    state: off
+  light.ailivingroomsculpture:
+    state: on
+    brightness: 255
+    rgb_color: [255, 0, 255]
+  light.nightstand:
+    state: on
+    brightness: 254
+    rgb_color: [191, 49, 255]
+  light.chandelier:
+    state: on
+    brightness: 175
+    rgb_color: [30, 255, 65]
+  light.aishopgascan:
+    state: on
+    brightness: 255
+    rgb_color: [255, 128, 0]

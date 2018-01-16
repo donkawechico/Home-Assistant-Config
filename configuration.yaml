@@ -9,6 +9,13 @@ homeassistant:
   customize_domain:
     automation:
       initial_state: 'on'
+  packages: 
+    pack_1: !include custom_components/spotify_playlist_player.yaml
+    #opencv: !include custom_components/opencv_cameras.yaml
+    david_lynch: !include custom_components/david_lynch_ambience.yaml
+
+  whitelist_external_dirs:
+    - '/home/homeassistant/.homeassistant/camera'
 
 input_boolean:
   ac_on:
@@ -33,6 +40,10 @@ input_boolean:
   beacon_lighting:
     name: "Phone Location Controls Lighting"
     initial: off
+  donnie_home:
+    name: "Is Donnie Home"
+    initial: off
+    icon: mdi:house
 
 frontend:
 
@@ -109,7 +120,7 @@ sensor:
     name: 'Beacon (Ice)'
     state_topic: 'happy-bubbles/presence/ha'
   - platform: mqtt_room
-    device_id: b9407f30f5f8466eaff925556b57fe6d_430e_0a03
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_0a03
     name: 'Beacon (Pink)'
     state_topic: 'happy-bubbles/presence/ha'
   - platform: mqtt_room
@@ -186,19 +197,28 @@ device_tracker:
     password: !secret router_password
     interval_seconds: 10
     consider_home: 30
-  # Zanzito doesn't support iBeacons yet :(
-  # - platform: mqtt_json
-  #   devices:
-  #     donnie_s7: zanzito/DonniePhone/location
-  #- platform: owntracks
-  #  max_gps_accuracy: 200
   - platform: owntracks_http
     max_gps_accuracy: 200
+    waypoints: True #setting to true means owntracks zones exportable to HA from app
+    waypoint_whitelist: 
+      - donkawechico
 
 media_player:
+  - platform: cast
+    host: 192.168.1.110
+    friendly_name: "Livingroom Cast"
+  - platform: cast
+    host: 192.168.1.111
+    friendly_name: "Suncast"
+  - platform: cast
+    friendly_name: "Livingroom Audiocast"
+    host: 192.168.1.128
   - platform: plex
     entity_namespace: 'plex'
-    include_non_clients: true
+# Currently, setting this to true throws an error:
+# https://github.com/home-assistant/home-assistant/issues/10074
+#    include_non_clients: true
+    include_non_clients: false
     scan_interval: 5
     show_all_controls: true
     use_custom_entity_ids: true
@@ -212,8 +232,6 @@ media_player:
     name: "PS4 Waker"
     host: 192.168.1.100
     cmnd: "sudo ps4-waker"
-  # - platform: cast
-#    cmd: 'sudo ps4-waker'
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -224,6 +242,8 @@ logger:
   default: warn
   logs:
     homeassistant.components.mqtt: error
+    homeassistant.components.media_player.spotify: info
+    homeassistant.components.image_processing: error
   #  homeassistant.components.media_player.plex: error
 
 # Enables support for tracking state changes over time.
@@ -231,6 +251,7 @@ recorder:
   # Delete events and states older than 2 weeks
   purge_keep_days: 14
   purge_interval: 2
+  db_url: !secret mysql_connection_string
 
 #remote:
 #  - platform: harmony
@@ -239,51 +260,51 @@ recorder:
 
 # Example configuration.yaml entry
 zone:
-  - name: Home
-    latitude: !secret zone_home_lat
-    longitude: !secret zone_home_long
-    radius: 60
-    icon: mdi:home
-    passive: false
-  - name: Yammer
-    latitude: !secret zone_yammer_lat
-    longitude: !secret zone_yammer_long
-    radius: 100
-    icon: mdi:yammer
-    passive: false
-#  - name: Inside
-#    latitude: !secret zone_inside_lat
-#    longitude: !secret zone_inside_long
-  - name: Bedroom
-    latitude: !secret zone_bedroom_lat
-    longitude: !secret zone_bedroom_long
-    radius: 10
-    passive: true
-#  - name: Bathroom
-#    latitude: !secret zone_bathroom_lat
-#    longitude: !secret zone_bathroom_long
-#    radius: 3
-#    passive: true
-  - name: Livingroom
-    latitude: !secret zone_livingroom_lat
-    longitude: !secret zone_livingroom_long
-    radius: 5
-    passive: true
-  - name: Entry
-    latitude: !secret zone_entryway_lat
-    longitude: !secret zone_entryway_long
-    radius: 5
-    passive: true
-  - name: workdesk
-    latitude: !secret zone_workdesk_lat
-    longitude: !secret zone_workdesk_long
-    radius: 5
-    passive: true
-  - name: Aguirowitz
-    latitude: !secret zone_aguirowitz_lat
-    longitude: !secret zone_aguirowitz_long
-    radius: 20
-    passive: false
+#   - name: Home
+#     latitude: !secret zone_home_lat
+#     longitude: !secret zone_home_long
+#     radius: 60
+#     icon: mdi:home
+#     passive: false
+#   - name: Yammer
+#     latitude: !secret zone_yammer_lat
+#     longitude: !secret zone_yammer_long
+#     radius: 100
+#     icon: mdi:yammer
+#     passive: false
+# #  - name: Inside
+# #    latitude: !secret zone_inside_lat
+# #    longitude: !secret zone_inside_long
+#   - name: Bedroom
+#     latitude: !secret zone_bedroom_lat
+#     longitude: !secret zone_bedroom_long
+#     radius: 10
+#     passive: true
+# #  - name: Bathroom
+# #    latitude: !secret zone_bathroom_lat
+# #    longitude: !secret zone_bathroom_long
+# #    radius: 3
+# #    passive: true
+#   - name: Livingroom
+#     latitude: !secret zone_livingroom_lat
+#     longitude: !secret zone_livingroom_long
+#     radius: 5
+#     passive: true
+#   - name: Entry
+#     latitude: !secret zone_entryway_lat
+#     longitude: !secret zone_entryway_long
+#     radius: 5
+#     passive: true
+#   - name: Work_Desk
+#     latitude: !secret zone_workdesk_lat
+#     longitude: !secret zone_workdesk_long
+#     radius: 5
+#     passive: true
+#   - name: Aguirowitz
+#     latitude: !secret zone_aguirowitz_lat
+#     longitude: !secret zone_aguirowitz_long
+#     radius: 20
+#     passive: false
 
 # Example configuration.yaml entry
 media_extractor:
@@ -371,24 +392,9 @@ camera:
   - platform: local_file
     name: fridge
     file_path: !secret camera_image_path_fridge
-  - platform: opencv
-    camera: camera.living_room
-    processor: image_processing.opencv_living_room
-    # Optional Parameters
-    name: opencv_living_room
-  - platform: opencv
-    camera: camera.bedroom
-    processor: image_processing.opencv_bedroom
-    # Optional Parameters
-    name: opencv_bedroom
-  - platform: opencv
-    camera: camera.fridge
-    processor: image_processing.opencv_fridge
-    # Optional Parameters
-    name: opencv_fridge
   - platform: generic
     name: ISS
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&zoom=5&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}
+    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&zoom=5&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&key=!secret static_map_key
     limit_refetch_to_url_change: true
 
 shell_command:
@@ -396,29 +402,7 @@ shell_command:
   take_photo_fridge: !secret usb_camera_script_fridge
   take_photo_bedroom: !secret usb_camera_script_bedroom
   ps4_waker_plex: /usr/bin/ps4-waker start CUSA01850
-  
-image_processing:
-  - platform: opencv
-    name: Livingroom Recognition
-    source:
-      - entity_id: camera.living_room
-    classifier:
-      body: !secret classifier_path_fullbody
-      upperbody: !secret classifier_path_upperbody
-      frontalface: !secret classifier_path_face
-  - platform: opencv
-    name: Bedroom Recognition
-    source:
-      - entity_id: camera.bedroom
-    classifier:
-      body: !secret classifier_path_fullbody
-      upperbody: !secret classifier_path_upperbody
-      frontalface: !secret classifier_path_face
-  - platform: opencv
-    name: Fridge Recognition
-    source:
-      - entity_id: camera.fridge
-    classifier:
-#      body: !secret classifier_path_fullbody
-#      upperbody: !secret classifier_path_upperbody
-      frontalface: !secret classifier_path_face
+
+zwave:
+  usb_path: /dev/zwave
+  polling_interval: 10000

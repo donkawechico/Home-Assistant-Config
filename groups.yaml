@@ -15,10 +15,9 @@ cameras:
   - script.take_photo_bedroom
   - script.take_photo_fridge
   - script.take_photo_livingroom
-  - camera.local_file
-  - camera.opencv_living_room
-  - camera.opencv_bedroom
-  - camera.opencv_fridge
+  - camera.living_room
+  - camera.bedroom
+  - camera.fridge
 house_lights:
   view: no
   name: House Lights
@@ -29,6 +28,7 @@ scenes:
   view: yes
   name: Scenes
   entities:
+  - scene.david_lynch
   - scene.theater
   - scene.Green
   - scene.Underwater
@@ -37,6 +37,7 @@ scenes:
   - scene.bright
   - scene.bedtime
   - scene.red
+  - scene.rainbow
 living_room:
   name: Living Room
   entities:
@@ -113,6 +114,7 @@ all_media_players:
   - media_player.suncast
   - media_player.ps4_waker
   - switch.plex
+  - group.music_spotify
 all_light_switches:
   name: Light Switches
   entities:
@@ -126,6 +128,21 @@ all_sensor:
   - sensor.front_door
   - sensor.motion_sensor
   - sensor.weather
+  - group.aeotech_multisensor
+aeotech_multisensor:
+  view: no
+  name: Aeotech Multisensor 6
+  entities:
+  - zwave.aeotech_multisensor_6
+  - binary_sensor.aeotech_multisensor_6_sensor
+  - sensor.aeotech_multisensor_6_alarm_type
+  - sensor.aeotech_multisensor_6_alarm_level
+  - sensor.aeotech_multisensor_6_burglar
+  - sensor.aeotech_multisensor_6_luminance
+  - sensor.aeotech_multisensor_6_relative_humidity
+  - sensor.aeotech_multisensor_6_sourcenodeid
+  - sensor.aeotech_multisensor_6_ultraviolet
+  - sensor.aeotech_multisensor_6_temperature
 physical_sensors:
   name: Physical Sensors
   entities:
@@ -168,6 +185,7 @@ locations:
   entities:
   - group.all_devices
   - group.beacons
+  - group.nearables
   - camera.iss
 beacons:
   view: no
@@ -178,6 +196,8 @@ beacons:
   - sensor.beacon_ice
   - sensor.beacon_mint
   - sensor.beacon_pink
+  - sensor.beacon_blueberry
+  - device_tracker.beacon_workdesk
 gas_cans:
   view: no
   name: All Gas Cans
@@ -186,3 +206,15 @@ gas_cans:
   - light.aikitchengascannozzle
   - light.ailivingroomgascan
   - light.aishopgascan
+tracked_devices:
+  view: yes
+  name: Tracked Devices
+  entities:
+  - group.all_devices
+nearables:
+  view: no
+  name: Estimote Nearable Stickers
+  entities:
+  - device_tracker.beacon_bike_nearable
+  - device_tracker.beacon_nearable_chair
+

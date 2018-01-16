@@ -1,0 +1,50 @@
+#script:
+#  cast_to_projector:
+#  alias: Cast a URL to a Projector
+#  sequence:
+#  - service: switch.turn_on
+#    entity_id: switch.suncast_fireplace
+#  - service: remote.send_command
+#    data_template:
+#      command: PowerToggle
+#      device: "{{ harmony_device_id }}"
+#      entity_id: remote.harmony_hub
+
+script:
+  cast_to_each_chromecast:
+    alias: "Cast URLs to each chromecast without turning on devices"
+    sequence:
+    - service: shell_command.start_casting_to_chromecast
+      data_template:
+        chromecast_name: 'livingroom'
+        url: '{{ url_livingroom }}'
+    - service: shell_command.start_casting_to_chromecast
+      data_template:
+        chromecast_name: 'sun'
+        url: '{{ url_sun }}'
+    - service: shell_command.start_casting_to_chromecast
+      data_template:
+        chromecast_name: 'entry'
+        url: '{{ url_entry }}'
+  david_lynch_projections:
+    alias: "Turn on all projectors and cast lynchy shit"
+    sequence:
+    - service: script.turn_on_all_projectors
+    - delay: 00:00:05
+    - service: script.cast_to_each_chromecast
+      data:
+        url_entry: 'https://www.youtube.com/watch?v=S7O1SQm1j5s'
+        url_sun: 'https://www.youtube.com/watch?v=tSiplbYDHCU'
+        url_livingroom: 'https://www.youtube.com/watch?v=Ut-YGrhY36s'
+  playlist_black_lodge:
+    alias: "Play Rachael's Black Lodge Playlist"
+    sequence:
+    - service: script.play_spotify_music
+      data:
+        volume: 0.40
+        source: 'Livingroom Audio'
+        playlist_url: spotify:user:monstersavvy:playlist:1K7nRt95w7spejjZ3pxNGy
+
+shell_command:
+  start_casting_to_chromecast: "/usr/local/bin/catt -d {{ chromecast_name }} cast {{ url }}"
+  stop_casting_to_chromecast: "/usr/local/bin/catt stop"
