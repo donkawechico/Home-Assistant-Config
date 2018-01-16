@@ -40,3 +40,4 @@ camera/*.jpg
 *.dash
 passwords.txt
 conf/compiled
+*__pycache__*

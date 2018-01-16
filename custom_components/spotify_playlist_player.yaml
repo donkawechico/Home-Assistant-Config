@@ -1,0 +1,106 @@
+group:
+    music_spotify:
+      name: Music 
+      entities:
+      - input_select.spotify_playlist
+      - input_select.spotify_source
+      - script.spotify_music_from_widget
+      - input_number.spotify_volume
+
+#Use this to find aliases for your spotify media_player component (in your configuration.yaml file).  Look at home-assistant.log to find the aliases of your components.  Enter these aliases into that component in configuration.yaml.
+# https://home-assistant.io/components/media_player.spotify/
+#logger:
+#    default: warning
+#    logs:
+#        homeassistant.components.media_player.spotify: info
+      
+homeassistant:
+  customize:
+    script.spotify_music_from_widget:
+      friendly_name: 'Play'
+      icon: mdi:play
+
+input_number:
+  spotify_volume:
+    name: Volume
+    icon: mdi:volume-high
+    min: 0
+    max: 1
+    step: 0.05
+
+input_select:
+  spotify_playlist:
+    name: 'Playlist:'
+    options:
+      - All Neo80s
+      - Dark Country
+      - Indie/Pop/Chillin'
+      - $5 Grab Bag
+      - Black Lodge
+      - Sea Shanties
+      - Road Trip
+    initial: Dark Country
+    icon: mdi:spotify
+  spotify_source:
+    name: 'Source:'
+    options:
+      - All Home Speakers
+      - Livingroom Speakers
+    initial: All Home Speakers
+    icon: mdi:speaker-wireless
+
+script:
+  spotify_music_from_widget:
+  #alias: Play selected spotify playlist
+    sequence:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.spotify
+          volume_level: '0.40'
+      - service: media_player.select_source
+        data_template: 
+          entity_id: media_player.spotify
+          source: >
+            {% if is_state("input_select.spotify_source", "All Home Speakers") %} All Home Speakers
+            {% elif is_state("input_select.spotify_source", "Livingroom Speakers") %} Livingroom Audio
+            {% endif %}
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.spotify
+          media_content_type: playlist
+          media_content_id: >
+            {% if is_state("input_select.spotify_playlist", "All Neo80s") %} spotify:user:monstersavvy:playlist:5bnxYNwrjaRjuCocEstOZS
+            {% elif is_state("input_select.spotify_playlist", "Dark Country") %} spotify:user:monstersavvy:playlist:4sux9Gs6FpJRm6hzrlYBDR
+            {% elif is_state("input_select.spotify_playlist", "Indie/Pop/Chillin'") %} spotify:user:monstersavvy:playlist:3UFtqYW4wuzjHI3rURD1Pk
+            {% elif is_state("input_select.spotify_playlist", "$5 Grab Bag") %} spotify:user:monstersavvy:playlist:1TwwOZ8FfZ9aT0ALrNUQcB
+            {% elif is_state("input_select.spotify_playlist", "Black Lodge") %} spotify:user:monstersavvy:playlist:1K7nRt95w7spejjZ3pxNGy
+            {% elif is_state("input_select.spotify_playlist", "Sea Shanties") %} spotify:user:12130564653:playlist:3iIvcwTpTCAhQ1I7RKrwaH
+            {% elif is_state("input_select.spotify_playlist", "Road Trip") %} spotify:user:124456441:playlist:1euCrlek9Yfum4u6Afn7l
+            {% endif %}
+  play_spotify_music:
+    #alias: Play playlist URL in given speaker
+    sequence:
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.spotify
+        volume_level: '{{ volume }}'
+    - service: media_player.select_source
+      data_template:
+        entity_id: media_player.spotify
+        source: '{{ source }}'
+    - service: media_player.play_media
+      data_template:
+        entity_id: media_player.spotify
+        media_content_type: playlist
+        media_content_id: '{{ playlist_url }}'
+
+automation:
+  - alias: 'Set Spotify Volume'
+    trigger:
+        platform: state
+        entity_id: input_number.spotify_volume
+    action:
+        service: media_player.volume_set
+        data_template:
+          entity_id: media_player.spotify
+          volume_level: '{{  states.input_number.spotify_volume.state  }}'

@@ -112,3 +112,26 @@
   - entity_id: sensor.beacon_beet
     from: hb_entryway
     platform: state
+- action:
+  - delay: 00:00:02
+  - service: shell_command.take_photo_raspistill
+  alias: Take Photo When Door Opens
+  condition: []
+  id: '1515794368913'
+  trigger:
+  - entity_id: sensor.front_door
+    from: CLOSED
+    platform: state
+    to: OPEN
+- action:
+  - data:
+      entity_id: group.house_lights
+    service: homeassistant.turn_on
+  alias: Enter House
+  condition: []
+  id: '1515812343861'
+  trigger:
+  - entity_id: device_tracker.donkawechico_heroqltevzw
+    event: enter
+    platform: zone
+    zone: zone.home

@@ -1,0 +1,48 @@
+image_processing:
+  - platform: opencv
+    name: Livingroom Recognition
+    source:
+      - entity_id: camera.living_room
+    classifier:
+      body: !secret classifier_path_fullbody
+      upperbody: !secret classifier_path_upperbody
+      frontalface: !secret classifier_path_face
+  - platform: opencv
+    name: Bedroom Recognition
+    source:
+      - entity_id: camera.bedroom
+    classifier:
+      body: !secret classifier_path_fullbody
+      upperbody: !secret classifier_path_upperbody
+      frontalface: !secret classifier_path_face
+  - platform: opencv
+    name: Fridge Recognition
+    source:
+      - entity_id: camera.fridge
+    classifier:
+      frontalface: !secret classifier_path_face
+
+camera:
+  - platform: opencv
+    camera: camera.living_room
+    processor: image_processing.opencv_living_room
+    # Optional Parameters
+    name: opencv_living_room
+  - platform: opencv
+    camera: camera.bedroom
+    processor: image_processing.opencv_bedroom
+    # Optional Parameters
+    name: opencv_bedroom
+  - platform: opencv
+    camera: camera.fridge
+    processor: image_processing.opencv_fridge
+    # Optional Parameters
+    name: opencv_fridge
+
+group:
+  opencv_cameras:
+    view: no
+    entities:
+    - camera.opencv_living_room
+    - camera.opencv_bedroom
+    - camera.opencv_fridge

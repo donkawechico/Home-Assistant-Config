@@ -1,0 +1,27 @@
+livingroom_humidity:
+  widget_type: sensor
+  title: Humidity
+  units: '%'
+  precision: 0
+  entity: sensor.aeotech_multisensor_6_relative_humidity
+
+livingroom_light_level:
+  widget_type: sensor
+  title: Light Level
+  unit: 'Lux'
+  entity: sensor.aeotech_multisensor_6_luminance
+
+livingroom_temperature:
+  widget_type: sensor
+  title: Temperature
+  unit: '°'
+  precision: 1
+  entity: sensor.aeotech_multisensor_6_temperature
+
+livingroom_motion:
+  widget_type: sensor
+  title: Motion
+  entity: sensor.aeotech_multisensor_6_burglar
+
+layout:
+  - livingroom_humidity, livingroom_temperature, livingroom_light_level, livingroom_motion

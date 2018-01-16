@@ -94,3 +94,7 @@ group.gas_cans:
   emulated_hue_hidden: true
   emulated_hue_name: "All Gas Cans"
   friendly_name: "All Gas Cans"
+sensor.aeotech_multisensor_6_burglar:
+  polling_intensity: 1
+sensor.aeotech_multisensor_6_luminance:
+  polling_intensity: 1
