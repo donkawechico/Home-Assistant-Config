@@ -9,92 +9,94 @@ group.all_switches:
 group.synchronize:
   hidden: false
 light.ailivingroomgascan:
-  emulated_hue_name: "Livingroom Gas Can"
-  friendly_name: "Livingroom Gas Can"
+  emulated_hue_name: Livingroom Gas Can
+  friendly_name: Livingroom Gas Can
   emulated_hue_hidden: true
 light.aientryumbrella:
-  emulated_hue_name: "Entry umbrella"
-  friendly_name: "Umbrella"
+  emulated_hue_name: Entry umbrella
+  friendly_name: Umbrella
   emulated_hue_hidden: true
 light.aikitchengascanmain:
-  emulated_hue_name: "Kitchen Gas Can Main"
-  friendly_name: "Kitchen Gas Can Main"
+  emulated_hue_name: Kitchen Gas Can Main
+  friendly_name: Kitchen Gas Can Main
   emulated_hue_hidden: true
 light.aikitchengascannozzle:
-  emulated_hue_name: "Kitchen Gas Can Nozzle"
-  friendly_name: "Kitchen Gas Can Nozzle"
+  emulated_hue_name: Kitchen Gas Can Nozzle
+  friendly_name: Kitchen Gas Can Nozzle
   emulated_hue_hidden: true
 light.ailivingroomorb:
-  emulated_hue_name: "Orb"
-  friendly_name: "Orb"
   emulated_hue_hidden: true
+  emulated_hue_name: Orb
+  friendly_name: Orb
 light.ailivingroomsculpture:
-  emulated_hue_name: "Sculpture"
-  friendly_name: "Sculpture"
+  emulated_hue_name: Sculpture
+  friendly_name: Sculpture
   emulated_hue_hidden: false
 light.aishopgascan:
-  emulated_hue_name: "Shop Gas Can"
-  friendly_name: "Shop Gas Can"
+  emulated_hue_name: Shop Gas Can
+  friendly_name: Shop Gas Can
   emulated_hue_hidden: true
 device_tracker.amazon6a82acc0d:
   entity_picture: https://goo.gl/CKCYx1
 switch.ikea_lamp:
   emulated_hue_hidden: false
-  emulated_hue_name: "Ikea Lamp"
-  friendly_name: "Ikea Lamp"
+  emulated_hue_name: Ikea Lamp
+  friendly_name: Ikea Lamp
 switch.water_light:
   emulated_hue_hidden: false
-  emulated_hue_name: "Water Light"
-  friendly_name: "Water Light"
+  emulated_hue_name: Water Light
+  friendly_name: Water Light
 switch.accent_lights:
   emulated_hue_hidden: false
-  emulated_hue_name: "Accent Lights"
-  friendly_name: "Accent Lights"
+  emulated_hue_name: Accent Lights
+  friendly_name: Accent Lights
 group.house_lights:
   emulated_hue_hidden: false
-  emulated_hue_name: "House Lights"
+  emulated_hue_name: House Lights
   hidden: false
 group.all_devices:
   emulated_hue_hidden: false
-  emulated_hue_name: "All Devices"
+  emulated_hue_name: All Devices
   hidden: false
 switch.air_conditioner:
   emulated_hue_hidden: false
-  emulated_hue_name: "Air Conditioning"
+  emulated_hue_name: Air Conditioning
 light.kitchen_strip:
   emulated_hue_hidden: false
-  emulated_hue_name: "Kitchen Strip"
+  emulated_hue_name: Kitchen Strip
 switch.playstation:
   emulated_hue_hidden: false
-  emulated_hue_name: "Playstation"
+  emulated_hue_name: Playstation
 switch.chromecast:
   emulated_hue_hidden: false
-  emulated_hue_name: "Chromecast"
+  emulated_hue_name: Chromecast
 switch.projector:
   emulated_hue_hidden: false
-  emulated_hue_name: "Projector"
+  emulated_hue_name: Projector
 script.bedtime:
   emulated_hue_hidden: false
-  emulated_hue_name: "Bedtime"
+  emulated_hue_name: Bedtime
 switch.television:
   emulated_hue_hidden: false
-  emulated_hue_name: "TV"
+  emulated_hue_name: TV
 switch.sun_projector:
   emulated_hue_hidden: false
-  emulated_hue_name: "Sun Projector"
+  emulated_hue_name: Sun Projector
 switch.theater_mode:
   emulated_hue_hidden: false
-  emulated_hue_name: "Theater Mode"
+  emulated_hue_name: Theater Mode
 media_player.plex_a9w8mh48b5u5b0xxxftt9q8w:
-  friendly_name: "theater"
+  friendly_name: theater
 switch.piano:
   emulated_hue_hidden: false
-  emulated_hue_name: "Piano"
+  emulated_hue_name: Piano
 group.gas_cans:
   emulated_hue_hidden: true
-  emulated_hue_name: "All Gas Cans"
-  friendly_name: "All Gas Cans"
+  emulated_hue_name: All Gas Cans
+  friendly_name: All Gas Cans
 sensor.aeotech_multisensor_6_burglar:
   polling_intensity: 1
 sensor.aeotech_multisensor_6_luminance:
   polling_intensity: 1
+sensor.transit_time_my_location_to_aguirowitz:
+  friendly_name: transit_time_aguirowitz
