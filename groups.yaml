@@ -1,14 +1,19 @@
 default_view:
   view: yes
   entities:
+#  - group.house_lights
   - group.living_room
   - group.kitchen
   - group.shop
   - group.entry
-  - group.gas_cans
+#  - group.gas_cans
   - group.bedroom
   - group.synchronize
-  - input_boolean.beacon_lighting
+  - device_tracker.donkawechico_s7
+  - device_tracker.nearable_bike
+#  - input_boolean.beacon_lighting
+  - group.travel_times
+  - sensor.bart_departures_civic_center
 cameras:
   view: yes
   entities:
@@ -24,6 +29,7 @@ house_lights:
   entities:
   - group.all_color_lights
   - group.all_light_switches
+  - light.kitchen_strip
 scenes:
   view: yes
   name: Scenes
@@ -110,11 +116,14 @@ all_media_players:
   name: Media Players
   entities:
   - media_player.livingroomcast
+  - media_player.livingroom_speaker
   - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
   - media_player.suncast
+  - media_player.entrycast
   - media_player.ps4_waker
   - switch.plex
   - group.music_spotify
+  - media_player.spotify
 all_light_switches:
   name: Light Switches
   entities:
@@ -157,7 +166,7 @@ safe_to_turn_off:
   name: Safe to Turn Off Devices
   entities:
   - group.house_lights
-dark_automations:
+automations_to_turn_off_when_dark:
   view: false
   name: Dark Out Automations
   entities:
@@ -197,6 +206,7 @@ beacons:
   - sensor.beacon_mint
   - sensor.beacon_pink
   - sensor.beacon_blueberry
+  - sensor.nearable_office_chair
   - device_tracker.beacon_workdesk
 gas_cans:
   view: no
@@ -215,6 +225,22 @@ nearables:
   view: no
   name: Estimote Nearable Stickers
   entities:
-  - device_tracker.beacon_bike_nearable
+  - device_tracker.beacon_nearable_bike
+  - device_tracker.beacon_nearable_car
   - device_tracker.beacon_nearable_chair
+travel_times:
+  view: no
+  name: Travel
+  entities:
+  - sensor.transit_time_work
+  - sensor.transit_time_home
+  - sensor.transit_time_aguirowitz
+  - sensor.driving_time_aguirowitz
+  - sensor.bart_departures_civic_center
+  - sensor.bart_departures_ashby
+automations_to_turn_off_when_no_one_home:
+  view: no
+  name: Turn these off when no one's home
+  entities:
+  - automation.turn_on_lights_when_dark_outside
 

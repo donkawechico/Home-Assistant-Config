@@ -13,7 +13,6 @@ homeassistant:
     pack_1: !include custom_components/spotify_playlist_player.yaml
     #opencv: !include custom_components/opencv_cameras.yaml
     david_lynch: !include custom_components/david_lynch_ambience.yaml
-
   whitelist_external_dirs:
     - '/home/homeassistant/.homeassistant/camera'
 
@@ -62,6 +61,12 @@ cloud:
         - light.aientryumbrella
         - group.gas_cans
         - switch.plex
+    entity_config:
+      light.ailivingroomorb:
+        name: Orb
+        description: Orb light in livingroom
+        display_categories: LIGHT
+
 
 config:
 
@@ -83,10 +88,7 @@ conversation:
 
 # Enables support for tracking state changes over time.
 history:
-  exclude:
-    domains:
-      - light
-      - switch
+
 # View all events in a logbook
 logbook:
 
@@ -127,6 +129,10 @@ sensor:
     device_id: b9407f30f5f8466eaff925556b57fe6d_09ec_11f0
     name: 'Beacon (Mint)'
     state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: d0d3fa86ca7645ec9bd96af45ba3e514_6ec7_c28f
+    name: 'Nearable (Office Chair)'
+    state_topic: 'happy-bubbles/presence/ha'
   - platform: darksky
     api_key: !secret darksky_api_key
     name: weather
@@ -136,6 +142,50 @@ sensor:
       - summary
       - icon
       - nearest_storm_distance
+  - platform: google_travel_time
+    name: Transit Time Work
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret work_address
+    options:
+      mode: transit
+  - platform: google_travel_time
+    name: Transit Time Home
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret home_address
+    options:
+      mode: transit
+  - platform: google_travel_time
+    name: Transit Time Aguirowitz
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret aguirowitz_address
+    options:
+      mode: transit
+  - platform: google_travel_time
+    name: Driving Time Aguirowitz
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret aguirowitz_address
+  - platform: rest
+    resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=civc&key=MW9S-E7SL-26DU-VV8V&json=y
+    name: Bart Departures Civic Center
+#    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
+    value_template: "{{ 
+((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'RICH') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
++ 
+(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
++ 
+(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PHIL') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
++ 
+(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'NCON') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+  - platform: rest
+    resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ashb&key=MW9S-E7SL-26DU-VV8V&json=y
+    name: Bart Departures Ashby
+#    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
+    value_template: "{{ ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR') | map(attribute='estimate') | first | map(attribute='minutes') | list) + (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'FRMT') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+
 
 
 binary_sensor:
@@ -197,7 +247,7 @@ device_tracker:
     password: !secret router_password
     interval_seconds: 10
     consider_home: 30
-  - platform: owntracks_http
+  - platform: owntracks
     max_gps_accuracy: 200
     waypoints: True #setting to true means owntracks zones exportable to HA from app
     waypoint_whitelist: 
@@ -211,8 +261,11 @@ media_player:
     host: 192.168.1.111
     friendly_name: "Suncast"
   - platform: cast
-    friendly_name: "Livingroom Audiocast"
+    friendly_name: "Livingroom Speaker"
     host: 192.168.1.128
+  - platform: cast
+    friendly_name: "EntryCast"
+    host: 192.168.1.142
   - platform: plex
     entity_namespace: 'plex'
 # Currently, setting this to true throws an error:
@@ -249,9 +302,32 @@ logger:
 # Enables support for tracking state changes over time.
 recorder:
   # Delete events and states older than 2 weeks
-  purge_keep_days: 14
+  purge_keep_days: 7
   purge_interval: 2
   db_url: !secret mysql_connection_string
+  include:
+    domains:
+      - sensor
+      - switch
+      - light
+      - input_boolean
+    entities:
+      - device_tracker.nearable_bike
+      - device_tracker.nearable_car
+      - device_tracker.nearable_chair
+      - device_tracker.beacon_workdesk
+      - device_tracker.christine_phone
+      - device_tracker.christines_macbook
+      - device_tracker.donkawechico_sailfish
+      - device_tracker.work_laptop
+  exclude:
+    entities:
+      - sensor.beacon_beet
+      - sensor.beacon_pink
+      - sensor.beacon_yellow
+      - sensor.bart_departures_civic_center
+      - sensor.bart_departures_ashby
+
 
 #remote:
 #  - platform: harmony
@@ -259,6 +335,7 @@ recorder:
 #    host: !secret harmony_ip
 
 # Example configuration.yaml entry
+#zone: !include_dir_merge_named zones.yaml
 zone:
 #   - name: Home
 #     latitude: !secret zone_home_lat
@@ -266,40 +343,32 @@ zone:
 #     radius: 60
 #     icon: mdi:home
 #     passive: false
-#   - name: Yammer
-#     latitude: !secret zone_yammer_lat
-#     longitude: !secret zone_yammer_long
-#     radius: 100
-#     icon: mdi:yammer
-#     passive: false
-# #  - name: Inside
-# #    latitude: !secret zone_inside_lat
-# #    longitude: !secret zone_inside_long
-#   - name: Bedroom
-#     latitude: !secret zone_bedroom_lat
-#     longitude: !secret zone_bedroom_long
-#     radius: 10
-#     passive: true
-# #  - name: Bathroom
-# #    latitude: !secret zone_bathroom_lat
-# #    longitude: !secret zone_bathroom_long
-# #    radius: 3
-# #    passive: true
-#   - name: Livingroom
-#     latitude: !secret zone_livingroom_lat
-#     longitude: !secret zone_livingroom_long
-#     radius: 5
-#     passive: true
-#   - name: Entry
-#     latitude: !secret zone_entryway_lat
-#     longitude: !secret zone_entryway_long
-#     radius: 5
-#     passive: true
-#   - name: Work_Desk
-#     latitude: !secret zone_workdesk_lat
-#     longitude: !secret zone_workdesk_long
-#     radius: 5
-#     passive: true
+   - name: Yammer
+     latitude: !secret zone_work_lat
+     longitude: !secret zone_work_long
+     radius: 25
+     icon: mdi:briefcase
+     passive: false
+   - name: bedroom
+     latitude: !secret zone_home_lat
+     longitude: !secret zone_home_long
+     radius: 50
+     passive: true
+   - name: livingroom
+     latitude: !secret zone_home_lat
+     longitude: !secret zone_home_long
+     passive: true
+     radius: 50
+   - name: entryway
+     latitude: !secret zone_home_lat
+     longitude: !secret zone_home_long
+     passive: true
+     radius: 50
+   - name: workdesk
+     latitude: !secret zone_work_lat
+     longitude: !secret zone_work_long
+     passive: true
+     radius: 50
 #   - name: Aguirowitz
 #     latitude: !secret zone_aguirowitz_lat
 #     longitude: !secret zone_aguirowitz_long
@@ -406,3 +475,4 @@ shell_command:
 zwave:
   usb_path: /dev/zwave
   polling_interval: 10000
+
