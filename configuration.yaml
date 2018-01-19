@@ -88,10 +88,7 @@ conversation:
 
 # Enables support for tracking state changes over time.
 history:
-  exclude:
-    domains:
-      - light
-      - switch
+
 # View all events in a logbook
 logbook:
 
@@ -174,11 +171,20 @@ sensor:
   - platform: rest
     resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=civc&key=MW9S-E7SL-26DU-VV8V&json=y
     name: Bart Departures Civic Center
-    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
+#    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
+    value_template: "{{ 
+((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'RICH') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
++ 
+(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
++ 
+(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PHIL') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
++ 
+(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'NCON') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
   - platform: rest
     resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ashb&key=MW9S-E7SL-26DU-VV8V&json=y
     name: Bart Departures Ashby
-    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
+#    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
+    value_template: "{{ ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR') | map(attribute='estimate') | first | map(attribute='minutes') | list) + (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'FRMT') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
 
 
 
@@ -299,6 +305,29 @@ recorder:
   purge_keep_days: 7
   purge_interval: 2
   db_url: !secret mysql_connection_string
+  include:
+    domains:
+      - sensor
+      - switch
+      - light
+      - input_boolean
+    entities:
+      - device_tracker.nearable_bike
+      - device_tracker.nearable_car
+      - device_tracker.nearable_chair
+      - device_tracker.beacon_workdesk
+      - device_tracker.christine_phone
+      - device_tracker.christines_macbook
+      - device_tracker.donkawechico_sailfish
+      - device_tracker.work_laptop
+  exclude:
+    entities:
+      - sensor.beacon_beet
+      - sensor.beacon_pink
+      - sensor.beacon_yellow
+      - sensor.bart_departures_civic_center
+      - sensor.bart_departures_ashby
+
 
 #remote:
 #  - platform: harmony

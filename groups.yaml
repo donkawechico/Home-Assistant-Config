@@ -166,7 +166,7 @@ safe_to_turn_off:
   name: Safe to Turn Off Devices
   entities:
   - group.house_lights
-dark_automations:
+automations_to_turn_off_when_dark:
   view: false
   name: Dark Out Automations
   entities:
@@ -238,3 +238,9 @@ travel_times:
   - sensor.driving_time_aguirowitz
   - sensor.bart_departures_civic_center
   - sensor.bart_departures_ashby
+automations_to_turn_off_when_no_one_home:
+  view: no
+  name: Turn these off when no one's home
+  entities:
+  - automation.turn_on_lights_when_dark_outside
+
