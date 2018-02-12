@@ -1,4 +1,4 @@
-- alias: "Turn on scene warm when dark out"
+- alias: "Turn on lights when dark outside"
   trigger:
     platform: state
     entity_id: binary_sensor.dark_out

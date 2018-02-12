@@ -2,6 +2,13 @@ default_view:
   view: yes
   entities:
 #  - group.house_lights
+  - device_tracker.donkawechico_s7
+  - device_tracker.nearable_bike
+  - binary_sensor.donnie_home
+  - binary_sensor.someone_home
+  - sensor.bart_departures_civic_center
+  - sensor.ssl_cert_expiry
+  - group.modes
   - group.living_room
   - group.kitchen
   - group.shop
@@ -9,11 +16,8 @@ default_view:
 #  - group.gas_cans
   - group.bedroom
   - group.synchronize
-  - device_tracker.donkawechico_s7
-  - device_tracker.nearable_bike
 #  - input_boolean.beacon_lighting
   - group.travel_times
-  - sensor.bart_departures_civic_center
 cameras:
   view: yes
   entities:
@@ -24,7 +28,7 @@ cameras:
   - camera.bedroom
   - camera.fridge
 house_lights:
-  view: no
+  view: yes
   name: House Lights
   entities:
   - group.all_color_lights
@@ -44,6 +48,7 @@ scenes:
   - scene.bedtime
   - scene.red
   - scene.rainbow
+  - scene.theater_intermission
 living_room:
   name: Living Room
   entities:
@@ -135,9 +140,10 @@ all_sensor:
   name: Sensors
   entities:
   - sensor.front_door
-  - sensor.motion_sensor
+  - sensor.aeotech_multisensor_6_burglar
   - sensor.weather
   - group.aeotech_multisensor
+  - group.virtual_sensors
 aeotech_multisensor:
   view: no
   name: Aeotech Multisensor 6
@@ -161,6 +167,8 @@ virtual_sensors:
   name: Virtual Sensors
   entities:
   - binary_sensor.dark_out
+  - input_boolean.motion_detected
+  - sensor.mqtt_kitchen_strip
 safe_to_turn_off:
   view: false
   name: Safe to Turn Off Devices
@@ -170,24 +178,20 @@ automations_to_turn_off_when_dark:
   view: false
   name: Dark Out Automations
   entities:
-  - automation.turn_on_scene_warm_when_dark_out
+  - automation.turn_on_lights_when_dark_outside
 synchronize:
   view: yes
   name: Synchronize
   entities:
-  - input_boolean.kitchen_strip_on
+  - switch.is_kitchen_strip_on
   - input_boolean.tv_on
-scripts:
-  view: yes
-  name: Scripts
-  entities:
-  - group.all_scripts
 automations:
   view: yes
   name: Automations
   entities:
+  - group.automations_to_turn_off_when_no_one_home
+  - group.automations_to_turn_off_when_dark
   - group.all_automations
-  - group.dark_automations
 locations:
   view: yes
   name: Locations
@@ -243,4 +247,26 @@ automations_to_turn_off_when_no_one_home:
   name: Turn these off when no one's home
   entities:
   - automation.turn_on_lights_when_dark_outside
-
+automations_to_turn_on_when_bedtime:
+  view: no
+  name: Turn these on when it's bedtime
+  entities:
+  - automation.turn_on_nightlight_during_bedtime
+modes:
+  view: no
+  name: House Modes
+  entities:
+  - input_select.house_mode
+someone_home:
+  view: no
+  name: Someone is home
+  entities:
+  - device_tracker.donkawechico_s7
+  - device_tracker.donkawechico_sailfish
+  - device_tracker.christine_phone
+  - device_tracker.smg930v
+scripts:
+  view: yes
+  name: Scripts
+  entities:
+  - group.all_scripts

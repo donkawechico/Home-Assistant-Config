@@ -1,0 +1,92 @@
+  - platform: yr
+  - platform: mqtt
+    state_topic: "stat/sensor/door/POWER"
+    name: "Front Door"
+    value_template: >
+      {% if value=='OFF' %}
+        CLOSED
+      {% else %}
+        OPEN
+      {% endif %}
+  - platform: mqtt
+    state_topic: "hass/light/kitchen/strip"
+    name: "MQTT Kitchen Strip"
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_841f
+    name: 'Beacon (Beet)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_eaa8
+    name: 'Beacon (Yellow)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_4986_e440
+    name: 'Beacon (Ice)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_0a03
+    name: 'Beacon (Pink)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_09ec_11f0
+    name: 'Beacon (Mint)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: d0d3fa86ca7645ec9bd96af45ba3e514_6ec7_c28f
+    name: 'Nearable (Office Chair)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    name: weather
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+  - platform: google_travel_time
+    name: Transit Time Work
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret work_address
+    options:
+      mode: transit
+  - platform: google_travel_time
+    name: Transit Time Home
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret home_address
+    options:
+      mode: transit
+  - platform: google_travel_time
+    name: Transit Time Aguirowitz
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret aguirowitz_address
+    options:
+      mode: transit
+  - platform: google_travel_time
+    name: Driving Time Aguirowitz
+    api_key: !secret google_travel_time_key
+    origin: device_tracker.donkawechico_s7
+    destination: !secret aguirowitz_address
+  - platform: rest
+    resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ashb&key=MW9S-E7SL-26DU-VV8V&json=y
+    name: Bart Departures Ashby
+    value_template: "{{ ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR') | map(attribute='estimate') | first | map(attribute='minutes') | list) + (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'FRMT') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+  - platform: command_line
+    name: SSL cert expiry
+    unit_of_measurement: days
+    scan_interval: 10800
+    command: "ssl-cert-check -b -c /etc/letsencrypt/live/dk.servebeer.com/cert.pem | awk '{ print $NF }'"
+  - platform: rest
+    resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=civc&key=MW9S-E7SL-26DU-VV8V&json=y
+    name: Bart Departures Civic Center
+    value_template: "{{
+      ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'RICH') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PHIL') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'NCON') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"

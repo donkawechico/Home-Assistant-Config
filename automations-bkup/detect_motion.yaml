@@ -3,6 +3,9 @@ trigger:
 - platform: state
   entity_id: sensor.motion_sensor
   to: 'OFF'
+- platform: state
+  entity_id: sensor.aeotech_multisensor_6_burglar
+  from: '0'
 action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.motion_detected

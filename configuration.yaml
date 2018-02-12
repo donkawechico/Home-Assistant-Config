@@ -25,10 +25,6 @@ input_boolean:
     name: "Is TV Set On"
     initial: off
     icon: mdi:television-classic
-  kitchen_strip_on:
-    name: "Is Kitchen Strip On"
-    initial: off
-    icon: mdi:lightbulb
   sun_projector_on:
     name: "Is Sun Projector On"
     initial: off
@@ -41,6 +37,10 @@ input_boolean:
     initial: off
   donnie_home:
     name: "Is Donnie Home"
+    initial: off
+    icon: mdi:house
+  someone_home:
+    name: "Is anyone home"
     initial: off
     icon: mdi:house
 
@@ -59,14 +59,16 @@ cloud:
         - light.aishopgascan
         - group.gas_cans
         - light.aientryumbrella
-        - group.gas_cans
         - switch.plex
+        - group.house_lights
     entity_config:
       light.ailivingroomorb:
         name: Orb
         description: Orb light in livingroom
         display_categories: LIGHT
-
+      group.gas_cans:
+        name: All Gas Cans
+        description: All gas can lights
 
 config:
 
@@ -94,109 +96,10 @@ logbook:
 
 sun:
 
-sensor:
-  # Track weather prediction
-  - platform: yr
-#  - platform: mqtt
-#    state_topic: "stat/motionsensor/POWER"
-#    name: "Motion Sensor"
-  - platform: mqtt
-    state_topic: "stat/sensor/door/POWER"
-    name: "Front Door"
-    value_template: >
-      {% if value=='OFF' %}
-        CLOSED
-      {% else %}
-        OPEN
-      {% endif %}
-  - platform: mqtt_room
-    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_841f
-    name: 'Beacon (Beet)'
-    state_topic: 'happy-bubbles/presence/ha'
-  - platform: mqtt_room
-    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_eaa8
-    name: 'Beacon (Yellow)'
-    state_topic: 'happy-bubbles/presence/ha'
-  - platform: mqtt_room
-    device_id: b9407f30f5f8466eaff925556b57fe6d_4986_e440
-    name: 'Beacon (Ice)'
-    state_topic: 'happy-bubbles/presence/ha'
-  - platform: mqtt_room
-    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_0a03
-    name: 'Beacon (Pink)'
-    state_topic: 'happy-bubbles/presence/ha'
-  - platform: mqtt_room
-    device_id: b9407f30f5f8466eaff925556b57fe6d_09ec_11f0
-    name: 'Beacon (Mint)'
-    state_topic: 'happy-bubbles/presence/ha'
-  - platform: mqtt_room
-    device_id: d0d3fa86ca7645ec9bd96af45ba3e514_6ec7_c28f
-    name: 'Nearable (Office Chair)'
-    state_topic: 'happy-bubbles/presence/ha'
-  - platform: darksky
-    api_key: !secret darksky_api_key
-    name: weather
-    latitude: !secret zone_home_lat
-    longitude: !secret zone_home_long
-    monitored_conditions:
-      - summary
-      - icon
-      - nearest_storm_distance
-  - platform: google_travel_time
-    name: Transit Time Work
-    api_key: !secret google_travel_time_key
-    origin: device_tracker.donkawechico_s7
-    destination: !secret work_address
-    options:
-      mode: transit
-  - platform: google_travel_time
-    name: Transit Time Home
-    api_key: !secret google_travel_time_key
-    origin: device_tracker.donkawechico_s7
-    destination: !secret home_address
-    options:
-      mode: transit
-  - platform: google_travel_time
-    name: Transit Time Aguirowitz
-    api_key: !secret google_travel_time_key
-    origin: device_tracker.donkawechico_s7
-    destination: !secret aguirowitz_address
-    options:
-      mode: transit
-  - platform: google_travel_time
-    name: Driving Time Aguirowitz
-    api_key: !secret google_travel_time_key
-    origin: device_tracker.donkawechico_s7
-    destination: !secret aguirowitz_address
-  - platform: rest
-    resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=civc&key=MW9S-E7SL-26DU-VV8V&json=y
-    name: Bart Departures Civic Center
-#    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
-    value_template: "{{ 
-((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'RICH') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
-+ 
-(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
-+ 
-(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PHIL') | map(attribute='estimate') | first | map(attribute='minutes') | list) 
-+ 
-(value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'NCON') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
-  - platform: rest
-    resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ashb&key=MW9S-E7SL-26DU-VV8V&json=y
-    name: Bart Departures Ashby
-#    value_template: "{{ value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR')|map(attribute='estimate') | first|map(attribute='minutes') | join(',') }}"
-    value_template: "{{ ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR') | map(attribute='estimate') | first | map(attribute='minutes') | list) + (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'FRMT') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+sensor: !include sensor.yaml
 
 
-
-binary_sensor:
-  - platform: template
-    sensors:
-      dark_out:
-        friendly_name: "Dark Outside"
-        value_template: >
-          {{ states.sun.sun.attributes.elevation|float < 0 }}
-  - platform: iss
-    show_on_map: true
+binary_sensor: !include binary_sensor.yaml
 
 tts:
   platform: google
@@ -224,7 +127,6 @@ switch: !include switch.yaml
 script: !include scripts.yaml
 
 emulated_hue:
-  type: alexa
   host_ip: !secret emulated_hue_ip
   listen_port: !secret emulated_hue_port
   exposed_domains:
@@ -252,6 +154,10 @@ device_tracker:
     waypoints: True #setting to true means owntracks zones exportable to HA from app
     waypoint_whitelist: 
       - donkawechico
+    mqtt_topic: "owntracks/#"
+    events_only: false
+    region_mapping:
+      Sir: home
 
 media_player:
   - platform: cast
@@ -288,7 +194,7 @@ media_player:
 
 group: !include groups.yaml
 automation: !include automations.yaml
-automation old: !include_dir_merge_list automations/
+#automation old: !include_dir_merge_list automations/
 scene: !include_dir_list scenes/
 
 logger:
@@ -311,6 +217,7 @@ recorder:
       - switch
       - light
       - input_boolean
+      - automation
     entities:
       - device_tracker.nearable_bike
       - device_tracker.nearable_car
@@ -320,6 +227,7 @@ recorder:
       - device_tracker.christines_macbook
       - device_tracker.donkawechico_sailfish
       - device_tracker.work_laptop
+      - device_tracker.donkawechico_s7
   exclude:
     entities:
       - sensor.beacon_beet
@@ -412,6 +320,7 @@ input_select:
       - None
       - Theater
       - Intermission
+      - Bedtime
       - All Off
     initial: None
     icon: mdi:home-modern
@@ -425,22 +334,13 @@ light:
     lights:
       kitchen_strip:
         friendly_name: "Kitchen Strip"
-        value_template: "{{ is_state('input_boolean.kitchen_strip_on', 'on') }}"
+        value_template: "{{ is_state('sensor.mqtt_kitchen_strip', 'ON') }}"
         turn_on:
           service: script.turn_on
           entity_id: script.turn_on_kitchen_strip
         turn_off:
           service: script.turn_on
           entity_id: script.turn_off_kitchen_strip
-
-#panel_custom:
-#  - name: dominos
-#    sidebar_title: Dominos
-#    sidebar_icon: mdi:pizza
-#    url_path: dominos
-
-#shell_command:
-#  cast_fireplace: catt cast 'https://www.youtube.com/watch?v=ZY3J3Y_OU0w'
 
 map:
 

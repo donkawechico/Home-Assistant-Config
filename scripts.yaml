@@ -30,58 +30,82 @@ turn_off_ac:
       entity_id: remote.harmony_hub
   - service: input_boolean.turn_off
     data:
-      entity_id: input_boolean.ac_on
+      entity_id: input_boolean.heater_on
+turn_on_heater:
+  alias: HeaterOn
+  sequence:
+  - service: remote.send_command
+    data:
+      command: Heater 79
+      device: 46416385
+      entity_id: remote.harmony_hub
+  - delay:
+      hours: 1
+  - service: script.turn_on
+    entity_id: script.turn_off_heater
+turn_off_heater:
+  alias: HeaterOff
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerOff
+      device: 46416385
+      entity_id: remote.harmony_hub
 turn_on_kitchen_strip:
-  alias: "Turn on Kitchen Strip Light"
+  alias: Turn on Kitchen Strip Light
   sequence:
   - condition: state
-    entity_id: input_boolean.kitchen_strip_on
-    state: 'off'
-  - service: remote.send_command
-    data:
+    entity_id: sensor.mqtt_kitchen_strip
+    state: 'OFF'
+  - data:
       command: PowerToggle
       device: 47762492
       entity_id: remote.harmony_hub
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.kitchen_strip_on
+    service: remote.send_command
+  - data:
+      payload: 'ON'
+      qos: 1
+      retain: 1
+      topic: hass/light/kitchen/strip
+    service: mqtt.publish
+  - entity_id: input_boolean.kitchen_strip_on
+    service: input_boolean.turn_on
 turn_off_kitchen_strip:
-  alias: "Turn off Kitchen Strip Light"
+  alias: Turn off Kitchen Strip Light
   sequence:
   - condition: state
-    entity_id: input_boolean.kitchen_strip_on
-    state: 'on'
-  - service: remote.send_command
-    data:
+    entity_id: sensor.mqtt_kitchen_strip
+    state: 'ON'
+  - data:
       command: PowerToggle
       device: 47762492
       entity_id: remote.harmony_hub
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.kitchen_strip_on
+    service: remote.send_command
+  - data:
+      payload: 'OFF'
+      qos: 1
+      retain: 1
+      topic: hass/light/kitchen/strip
+    service: mqtt.publish
+  - entity_id: input_boolean.kitchen_strip_on
+    service: input_boolean.turn_off
 turn_on_playstation:
-  alias: "Turn on playstation and auto-select monitor"
+  alias: Turn on playstation and auto-select monitor
   sequence:
   - service: remote.turn_on
     data_template:
-      activity: >
-        {% if is_state("binary_sensor.dark_out", "on") %}
-          27544124
-        {% else %}
-          30170629
-        {% endif %}
+      activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27544124\n\
+        {% else %}\n  30170629\n{% endif %}\n"
   - service: media_player.turn_on
     data:
       entity_id: media_player.ps4_waker
 turn_off_playstation:
-  alias: "Turn off playstation and auto-select monitor"
+  alias: Turn off playstation and auto-select monitor
   sequence:
   - service: remote.turn_off
     data_template:
-      activity: >
-        {% if is_state("binary_sensor.dark_out", "on") %}
-          27544124
-        {% else %}
-          30170629
-        {% endif %}
+      activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27544124\n\
+        {% else %}\n  30170629\n{% endif %}\n"
   - service: media_player.turn_off
     data:
       entity_id: media_player.ps4_waker
@@ -91,7 +115,7 @@ turn_off_playstation:
   - service: scene.turn_on
     entity_id: scene.warm
 bedtime:
-  alias: "Going to bed"
+  alias: Going to bed
   sequence:
   - service: homeassistant.turn_off
     entity_id: group.house_lights
@@ -99,19 +123,15 @@ bedtime:
     entity_id: light.nightstand
   - service: remote.turn_off
     data_template:
-      activity: >
-        {% if is_state("binary_sensor.dark_out", "on") %}
-          27544124
-        {% else %}
-          30170629
-        {% endif %}
+      activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27544124\n\
+        {% else %}\n  30170629\n{% endif %}\n"
   - condition: state
     entity_id: input_boolean.kitchen_strip_on
     state: 'on'
   - service: light.turn_off
     entity_id: light.kitchen_strip
 turn_on_tv:
-  alias: "Turn on Television"
+  alias: Turn on Television
   sequence:
   - service: remote.send_command
     data:
@@ -122,7 +142,7 @@ turn_on_tv:
     data:
       entity_id: input_boolean.tv_on
 turn_off_tv:
-  alias: "Turn off Television"
+  alias: Turn off Television
   sequence:
   - service: remote.send_command
     data:
@@ -133,7 +153,7 @@ turn_off_tv:
     data:
       entity_id: input_boolean.tv_on
 turn_on_projector:
-  alias: "Turn on Projector"
+  alias: Turn on Projector
   sequence:
   - service: remote.send_command
     data:
@@ -144,7 +164,7 @@ turn_on_projector:
     data:
       entity_id: input_boolean.projector_on
 turn_off_projector:
-  alias: "Turn off Projector"
+  alias: Turn off Projector
   sequence:
   - service: remote.send_command
     data:
@@ -162,53 +182,45 @@ turn_off_projector:
     data:
       entity_id: input_boolean.projector_on
 turn_on_chromecast:
-    alias: "Turn on chromecast and auto-select monitor"
-    sequence:
-    - service: remote.turn_on
-      data_template:
-        activity: >
-          {% if is_state("binary_sensor.dark_out", "on") %}
-            27562206
-          {% else %}
-            27569061
-          {% endif %}
-    - service: media_player.turn_on
-      entity_id: media_player.livingroomcast
-    - condition: state
-      entity_id: binary_sensor.dark_out
-      state: 'on'
-    - service: scene.turn_on
-      entity_id: scene.theater
+  alias: Turn on chromecast and auto-select monitor
+  sequence:
+  - service: remote.turn_on
+    data_template:
+      activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27562206\n\
+        {% else %}\n  27569061\n{% endif %}\n"
+  - service: media_player.turn_on
+    entity_id: media_player.livingroomcast
+  - condition: state
+    entity_id: binary_sensor.dark_out
+    state: 'on'
+  - service: scene.turn_on
+    entity_id: scene.theater
 turn_off_chromecast:
-  alias: "Turn off chromecast and monitor"
+  alias: Turn off chromecast and monitor
   sequence:
   - service: remote.turn_off
     data_template:
-      activity: >
-        {% if is_state("binary_sensor.dark_out", "on") %}
-          27562206
-        {% else %}
-          27569061
-        {% endif %}
+      activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27562206\n\
+        {% else %}\n  27569061\n{% endif %}\n"
   - condition: state
     entity_id: binary_sensor.dark_out
     state: 'on'
   - service: scene.turn_on
     entity_id: scene.warm
 turn_on_sun_projector:
-    alias: "Turn on sun projector"
-    sequence:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.sun_projector_on
-    - service: switch.turn_on
-      entity_id: switch.suncast_fireplace
-    - service: remote.send_command
-      data:
-        command: PowerToggle
-        device: 44803053
-        entity_id: remote.harmony_hub
+  alias: Turn on sun projector
+  sequence:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.sun_projector_on
+  - service: switch.turn_on
+    entity_id: switch.suncast_fireplace
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 44803053
+      entity_id: remote.harmony_hub
 turn_off_sun_projector:
-  alias: "Turn off sun projector"
+  alias: Turn off sun projector
   sequence:
   - service: input_boolean.turn_off
     entity_id: input_boolean.sun_projector_on
@@ -220,31 +232,31 @@ turn_off_sun_projector:
       device: 44803053
       entity_id: remote.harmony_hub
 take_photo_livingroom:
-  alias: "Take a photo of the main area"
+  alias: Take a photo of the main area
   sequence:
   - service: shell_command.take_photo_raspistill
 take_photo_bedroom:
-  alias: "Take a photo of the bedroom"
+  alias: Take a photo of the bedroom
   sequence:
   - service: shell_command.take_photo_bedroom
 take_photo_fridge:
-  alias: "Take a photo toward fridge area"
+  alias: Take a photo toward fridge area
   sequence:
   - service: shell_command.take_photo_fridge
 turn_on_ps4_waker_plex:
-  alias: "Turn on playstation w/ auto monitor and launch into Plex"
+  alias: Turn on playstation w/ auto monitor and launch into Plex
   sequence:
   - service: script.turn_on_playstation
   - service: media_player.select_source
     data:
       entity_id: media_player.ps4_waker
-      source: "Plex"
+      source: Plex
 turn_off_ps4_waker_plex:
-  alias: "Turn off playstation w/ auto monitor and launch into Plex"
+  alias: Turn off playstation w/ auto monitor and launch into Plex
   sequence:
   - service: script.turn_off_playstation
 turn_on_all_projectors:
-  alias: "Turn on all projectors in house"
+  alias: Turn on all projectors in house
   sequence:
   - service: remote.turn_on
     data:
@@ -255,7 +267,7 @@ turn_on_all_projectors:
       device: 44803053
       entity_id: remote.harmony_hub
 turn_off_all_projectors:
-  alias: "Turn off all projectors in house"
+  alias: Turn off all projectors in house
   sequence:
   - service: remote.turn_off
   - service: remote.send_command
