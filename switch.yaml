@@ -15,6 +15,14 @@
   payload_off: "OFF"
   retain: true
 - platform: mqtt
+  name: "Is Kitchen Strip On"
+  state_topic: "hass/light/kitchen/strip"
+  command_topic: "hass/light/kitchen/strip"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: mqtt
   name: "Star Field"
   state_topic: "stat/starfield/POWER"
   command_topic: "cmnd/starfield/POWER"

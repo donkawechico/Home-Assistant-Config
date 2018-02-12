@@ -100,3 +100,5 @@ sensor.aeotech_multisensor_6_luminance:
   polling_intensity: 1
 sensor.transit_time_my_location_to_aguirowitz:
   friendly_name: transit_time_aguirowitz
+input_select.house_mode:
+  order: '1'

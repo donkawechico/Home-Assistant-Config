@@ -13,11 +13,84 @@
   - data:
       entity_id: group.house_lights
     service: homeassistant.turn_on
-  alias: Enter House
+  alias: Turn on Lights When Home
   condition: []
   id: '1515812343861'
   trigger:
-  - entity_id: device_tracker.donkawechico_heroqltevzw
-    event: enter
-    platform: zone
-    zone: zone.home
+  - entity_id: binary_sensor.donnie_home
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: group.automations_to_turn_off_when_dark
+    service: automation.turn_on
+  alias: Turn on Light Automations When Dark Out
+  condition: []
+  id: '1516846403500'
+  trigger:
+  - entity_id: binary_sensor.dark_out
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: group.automations_to_turn_on_when_bedtime
+    service: homeassistant.turn_on
+  alias: Turn on Bedtime Automations
+  condition: []
+  id: '1516846527349'
+  trigger:
+  - entity_id: input_select.house_mode
+    platform: state
+    to: Bedtime
+- action:
+  - data:
+      entity_id: group.automations_to_turn_on_when_bedtime
+    service: homeassistant.turn_off
+  alias: Turn off Bedtime Automations
+  condition: []
+  id: '1516846565370'
+  trigger:
+  - entity_id: input_select.house_mode
+    from: Bedtime
+    platform: state
+- action:
+  - data:
+      brightness: 50
+      color_name: red
+      entity_id: light.nightstand
+    service: light.turn_on
+  - wait_template: '{{ is_state("input_boolean.motion_detected", "off") }}'
+  - data:
+      entity_id: light.nightstand
+    service: light.turn_off
+  alias: Turn on nightlight during bedtime
+  condition: []
+  id: '1516846884974'
+  trigger:
+  - entity_id: input_boolean.motion_detected
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: input_boolean.motion_detected
+    service: input_boolean.turn_on
+  alias: Motion Detected
+  condition: []
+  id: '1516847180330'
+  trigger:
+  - entity_id: sensor.aeotech_multisensor_6_burglar
+    from: '0'
+    platform: state
+    to: '8'
+- action:
+  - data:
+      entity_id: input_boolean.motion_detected
+    service: input_boolean.turn_off
+  alias: Motion no longer detected
+  condition: []
+  id: '1516847230725'
+  trigger:
+  - entity_id: sensor.aeotech_multisensor_6_burglar
+    from: '8'
+    platform: state
+    to: '0'
