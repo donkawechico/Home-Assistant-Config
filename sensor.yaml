@@ -1,3 +1,5 @@
+  - platform: miflora
+    mac: C4:7C:8D:66:57:BB
   - platform: yr
   - platform: mqtt
     state_topic: "stat/sensor/door/POWER"
@@ -45,6 +47,20 @@
       - icon
       - nearest_storm_distance
   - platform: google_travel_time
+    name: Driving Time Ashby
+    api_key: !secret google_travel_time_key
+    origin: zone.home
+    destination: 3100 Adeline St, Berkeley, CA 94703
+    options:
+      mode: driving
+  - platform: google_travel_time
+    name: Walking Time Ashby
+    api_key: !secret google_travel_time_key
+    origin: zone.home
+    destination: 3100 Adeline St, Berkeley, CA 94703
+    options:
+      mode: walking
+  - platform: google_travel_time
     name: Transit Time Work
     api_key: !secret google_travel_time_key
     origin: device_tracker.donkawechico_s7
@@ -73,7 +89,12 @@
   - platform: rest
     resource: http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ashb&key=MW9S-E7SL-26DU-VV8V&json=y
     name: Bart Departures Ashby
-    value_template: "{{ ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR') | map(attribute='estimate') | first | map(attribute='minutes') | list) + (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'FRMT') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+    value_template: "{{ 
+      ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      + 
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'DALY') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'FRMT') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
   - platform: command_line
     name: SSL cert expiry
     unit_of_measurement: days
@@ -90,3 +111,18 @@
       (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PHIL') | map(attribute='estimate') | first | map(attribute='minutes') | list)
       +
       (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'NCON') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+  - platform: template
+    sensors:
+      donnie_home:
+        friendly_name: "Donnie is at home"
+        value_template: >-
+          {% 
+            if (is_state('device_tracker.donkawechico_s7', 'home') or
+                is_state('device_tracker.donkawechico_s7', 'livingroom') or
+                is_state('device_tracker.donkawechico_s7', 'bedroom') or
+                is_state('device_tracker.donkawechico_s7', 'entryway'))
+          %} 
+          home
+          {% else %}
+          not_home
+          {% endif %}

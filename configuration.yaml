@@ -35,14 +35,6 @@ input_boolean:
   beacon_lighting:
     name: "Phone Location Controls Lighting"
     initial: off
-  donnie_home:
-    name: "Is Donnie Home"
-    initial: off
-    icon: mdi:house
-  someone_home:
-    name: "Is anyone home"
-    initial: off
-    icon: mdi:house
 
 frontend:
 
@@ -57,18 +49,21 @@ cloud:
         - light.aikitchengascanmain
         - light.aikitchengascannozzle
         - light.aishopgascan
-        - group.gas_cans
+        - light.gas_cans
         - light.aientryumbrella
         - switch.plex
         - group.house_lights
+        - scene.warm
+        - switch.bedtime
     entity_config:
       light.ailivingroomorb:
         name: Orb
         description: Orb light in livingroom
         display_categories: LIGHT
-      group.gas_cans:
-        name: All Gas Cans
-        description: All gas can lights
+      switch.bedtime:
+        name: Bedtime
+        description: Bedtime mode
+        display_categories: SWITCH
 
 config:
 
@@ -93,16 +88,27 @@ history:
 
 # View all events in a logbook
 logbook:
+  exclude:
+    entities:
+      - sensor.aeotech_multisensor_6_ultraviolet
+      - automation.motion_no_longer_detected
+      - automation.motion_detected
+      - sensor.aeotech_multisensor_6_sourcenodeid
+      - sensor.aeotech_multisensor_6_alarm_type
+      - sensor.weather_icon
 
 sun:
 
 sensor: !include sensor.yaml
 
-
 binary_sensor: !include binary_sensor.yaml
 
 tts:
   platform: google
+  cache: True
+  cache_dir: /home/homeassistant/.homeassistant/tts_cache
+  time_memory: 57600
+
 
 mqtt:
   broker: !secret mqtt_host
@@ -166,12 +172,12 @@ media_player:
   - platform: cast
     host: 192.168.1.111
     friendly_name: "Suncast"
-  - platform: cast
-    friendly_name: "Livingroom Speaker"
-    host: 192.168.1.128
-  - platform: cast
-    friendly_name: "EntryCast"
-    host: 192.168.1.142
+#  - platform: cast
+#    friendly_name: "Livingroom Speaker"
+#    host: 192.168.1.128
+#  - platform: cast
+#    friendly_name: "EntryCast"
+#    host: 192.168.1.142
   - platform: plex
     entity_namespace: 'plex'
 # Currently, setting this to true throws an error:
@@ -187,14 +193,13 @@ media_player:
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
     cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
-  - platform: ps4
-    name: "PS4 Waker"
-    host: 192.168.1.100
-    cmnd: "sudo ps4-waker"
+  # - platform: ps4
+  #   name: "PS4 Waker"
+  #   host: 192.168.1.100
+  #   cmnd: "sudo ps4-waker"
 
 group: !include groups.yaml
 automation: !include automations.yaml
-#automation old: !include_dir_merge_list automations/
 scene: !include_dir_list scenes/
 
 logger:
@@ -324,6 +329,14 @@ input_select:
       - All Off
     initial: None
     icon: mdi:home-modern
+  privacy_mode:
+    name: Privacy Mode
+    options:
+      - Open
+      - No Cameras
+      - Total Privacy
+    initial: Open
+    icon: mdi:home-modern
 
 # Todo: Plug in levels and value templates:
 # https://home-assistant.io/components/light.template/
@@ -341,6 +354,20 @@ light:
         turn_off:
           service: script.turn_on
           entity_id: script.turn_off_kitchen_strip
+  - platform: group
+    name: Kitchen Lights
+    entities:
+      - light.aikitchengascanmain
+      - light.aikitchengascannozzle
+      - light.kitchen_strip
+  - platform: group
+    name: Gas Cans
+    entities:
+      - light.aikitchengascanmain
+      - light.aikitchengascannozzle
+      - light.ailivingroomgascan
+      - light.aishopgascan
+
 
 map:
 
@@ -348,7 +375,6 @@ hue:
   bridges:
     - host: 192.168.1.130
       allow_unreachable: true
-      allow_in_emulated_hue: true
       allow_hue_groups: false
 
 camera:
@@ -376,3 +402,24 @@ zwave:
   usb_path: /dev/zwave
   polling_interval: 10000
 
+input_text:
+  chromecast_url:
+    name: Chromecast Url
+    
+notify:
+  - name: pushbullet
+    platform: pushbullet
+    api_key: !secret pushbullet_api_key
+
+no_ip:
+  domain: !secret base_url
+  username: !secret noip_username
+  password: !secret noip_password
+
+#panel_iframe:
+#  alexa:
+#    title: 'Alexa'
+#    url: 'https://alexa.amazon.com'
+#  emulated_hue:
+#    title: 'Emulated Hue Devices'
+#    url: 'https://192.168.1.180/api/pi/lights'

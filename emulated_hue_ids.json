@@ -40,6 +40,8 @@
     "44": "switch.sun_projector",
     "45": "switch.ikea_lamp",
     "46": "switch.piano",
+    "47": "light.kitchen_lights",
+    "48": "light.gas_cans",
     "5": "media_player.bedroom",
     "6": "group.gas_cans",
     "7": "group.all_remotes",

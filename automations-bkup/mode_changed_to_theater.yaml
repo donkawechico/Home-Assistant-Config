@@ -1,8 +1,0 @@
-alias: 'Home mode changed to theater'
-trigger:
-  platform: state
-  entity_id: input_select.house_mode
-  to: 'Theater'
-action:
-  - service: scene.turn_on
-    entity_id: scene.theater

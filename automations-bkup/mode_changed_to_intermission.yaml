@@ -1,8 +1,0 @@
-alias: 'Home mode changed to intermission'
-trigger:
-  platform: state
-  entity_id: input_select.house_mode
-  to: 'Intermission'
-action:
-  - service: scene.turn_on
-    entity_id: scene.theater_intermission

@@ -1,3 +1,13 @@
+ashby_bart_departures:
+  widget_type: sensor
+  title: BART Departures
+  entity: sensor.bart_departures_ashby
+  
+driving_time_ashby:
+  widget_type: sensor
+  title: Time to Ashby
+  entity: sensor.driving_time_ashby
+
 livingroom_humidity:
   widget_type: sensor
   title: Humidity
@@ -24,4 +34,4 @@ livingroom_motion:
   entity: sensor.aeotech_multisensor_6_burglar
 
 layout:
-  - livingroom_humidity, livingroom_temperature, livingroom_light_level, livingroom_motion
+  - ashby_bart_departures, driving_time_ashby, livingroom_humidity, livingroom_temperature, livingroom_light_level
