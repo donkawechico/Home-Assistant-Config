@@ -41,3 +41,4 @@ camera/*.jpg
 passwords.txt
 conf/compiled
 *__pycache__*
+*tts_cache*
