@@ -102,3 +102,9 @@ sensor.transit_time_my_location_to_aguirowitz:
   friendly_name: transit_time_aguirowitz
 input_select.house_mode:
   order: '1'
+light.kitchen_lights:
+  emulated_hue_hidden: false
+  emulated_hue_name: kitchen lights
+light.gas_cans:
+  emulated_hue_hidden: false
+  emulated_hue_name: gas cans

@@ -34,15 +34,11 @@ turn_off_ac:
 turn_on_heater:
   alias: HeaterOn
   sequence:
-  - service: remote.send_command
-    data:
+  - data:
       command: Heater 79
       device: 46416385
       entity_id: remote.harmony_hub
-  - delay:
-      hours: 1
-  - service: script.turn_on
-    entity_id: script.turn_off_heater
+    service: remote.send_command
 turn_off_heater:
   alias: HeaterOff
   sequence:
@@ -114,8 +110,8 @@ turn_off_playstation:
     state: 'on'
   - service: scene.turn_on
     entity_id: scene.warm
-bedtime:
-  alias: Going to bed
+bedtime_old:
+  alias: Going to bed Old
   sequence:
   - service: homeassistant.turn_off
     entity_id: group.house_lights
@@ -130,6 +126,12 @@ bedtime:
     state: 'on'
   - service: light.turn_off
     entity_id: light.kitchen_strip
+bedtime:
+  alias: Going to bed
+  sequence:
+  - service: input_select.select_option
+    data:
+      option: Bedtime
 turn_on_tv:
   alias: Turn on Television
   sequence:
@@ -190,11 +192,6 @@ turn_on_chromecast:
         {% else %}\n  27569061\n{% endif %}\n"
   - service: media_player.turn_on
     entity_id: media_player.livingroomcast
-  - condition: state
-    entity_id: binary_sensor.dark_out
-    state: 'on'
-  - service: scene.turn_on
-    entity_id: scene.theater
 turn_off_chromecast:
   alias: Turn off chromecast and monitor
   sequence:
@@ -202,11 +199,6 @@ turn_off_chromecast:
     data_template:
       activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27562206\n\
         {% else %}\n  27569061\n{% endif %}\n"
-  - condition: state
-    entity_id: binary_sensor.dark_out
-    state: 'on'
-  - service: scene.turn_on
-    entity_id: scene.warm
 turn_on_sun_projector:
   alias: Turn on sun projector
   sequence:
@@ -234,14 +226,23 @@ turn_off_sun_projector:
 take_photo_livingroom:
   alias: Take a photo of the main area
   sequence:
+  - condition: state
+    entity_id: input_select.privacy_mode
+    state: 'Open'
   - service: shell_command.take_photo_raspistill
 take_photo_bedroom:
   alias: Take a photo of the bedroom
   sequence:
+  - condition: state
+    entity_id: input_select.privacy_mode
+    state: 'Open'
   - service: shell_command.take_photo_bedroom
 take_photo_fridge:
   alias: Take a photo toward fridge area
   sequence:
+  - condition: state
+    entity_id: input_select.privacy_mode
+    state: 'Open'
   - service: shell_command.take_photo_fridge
 turn_on_ps4_waker_plex:
   alias: Turn on playstation w/ auto monitor and launch into Plex
@@ -280,3 +281,16 @@ turn_off_all_projectors:
       command: PowerToggle
       device: 44803053
       entity_id: remote.harmony_hub
+test_tts:
+  alias: Test TTS
+  sequence:
+  - service: tts.google_say
+    data:
+      entity_id: media_player.home_assistant_speaker
+      message: "Testing 123. Testing. Unique New York."
+turn_on_all_chromecasts:
+  alias: Turn on all chromecasts
+  sequence:
+  - service: homeassistant.turn_on
+    data:
+      entity_id: group.all_chromecasts

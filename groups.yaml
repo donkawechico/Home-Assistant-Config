@@ -1,5 +1,6 @@
 default_view:
   view: yes
+  icon: mdi:home
   entities:
 #  - group.house_lights
   - device_tracker.donkawechico_s7
@@ -18,8 +19,13 @@ default_view:
   - group.synchronize
 #  - input_boolean.beacon_lighting
   - group.travel_times
+  - input_text.chromecast_url
+  - group.miflora_sensors
+  - light.gas_cans
+  - light.kitchen_lights
 cameras:
   view: yes
+  icon: mdi:camera
   entities:
   - script.take_photo_bedroom
   - script.take_photo_fridge
@@ -30,6 +36,7 @@ cameras:
 house_lights:
   view: yes
   name: House Lights
+  icon: mdi:ceiling-light
   entities:
   - group.all_color_lights
   - group.all_light_switches
@@ -37,6 +44,7 @@ house_lights:
 scenes:
   view: yes
   name: Scenes
+  icon: mdi:palette
   entities:
   - scene.david_lynch
   - scene.theater
@@ -119,9 +127,10 @@ amazon_dots:
 all_media_players:
   view: yes
   name: Media Players
+  icon: mdi:theater
   entities:
   - media_player.livingroomcast
-  - media_player.livingroom_speaker
+  - media_player.home_assistant_speaker
   - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
   - media_player.suncast
   - media_player.entrycast
@@ -129,6 +138,8 @@ all_media_players:
   - switch.plex
   - group.music_spotify
   - media_player.spotify
+  - switch.chromecast
+  - switch.playstation
 all_light_switches:
   name: Light Switches
   entities:
@@ -138,6 +149,7 @@ all_light_switches:
 all_sensor:
   view: yes
   name: Sensors
+  icon: mdi:radio-tower
   entities:
   - sensor.front_door
   - sensor.aeotech_multisensor_6_burglar
@@ -174,7 +186,7 @@ safe_to_turn_off:
   name: Safe to Turn Off Devices
   entities:
   - group.house_lights
-automations_to_turn_off_when_dark:
+automations_to_turn_on_when_almost_dark:
   view: false
   name: Dark Out Automations
   entities:
@@ -182,12 +194,14 @@ automations_to_turn_off_when_dark:
 synchronize:
   view: yes
   name: Synchronize
+  icon: mdi:sync
   entities:
   - switch.is_kitchen_strip_on
   - input_boolean.tv_on
 automations:
   view: yes
   name: Automations
+  icon: mdi:robot
   entities:
   - group.automations_to_turn_off_when_no_one_home
   - group.automations_to_turn_off_when_dark
@@ -195,6 +209,7 @@ automations:
 locations:
   view: yes
   name: Locations
+  icon: mdi:map-marker
   entities:
   - group.all_devices
   - group.beacons
@@ -223,6 +238,7 @@ gas_cans:
 tracked_devices:
   view: yes
   name: Tracked Devices
+  icon: mdi:cellphone-link
   entities:
   - group.all_devices
 nearables:
@@ -237,6 +253,8 @@ travel_times:
   name: Travel
   entities:
   - sensor.transit_time_work
+  - sensor.driving_time_ashby
+  - sensor.walking_time_ashby
   - sensor.transit_time_home
   - sensor.transit_time_aguirowitz
   - sensor.driving_time_aguirowitz
@@ -247,16 +265,24 @@ automations_to_turn_off_when_no_one_home:
   name: Turn these off when no one's home
   entities:
   - automation.turn_on_lights_when_dark_outside
-automations_to_turn_on_when_bedtime:
+turn_on_when_bedtime:
   view: no
   name: Turn these on when it's bedtime
   entities:
   - automation.turn_on_nightlight_during_bedtime
+  - light.nightstand
+turn_off_when_bedtime:
+    view: no
+    name: Turn these off when it's bedtime
+    entities:
+    - group.house_lights
+    - group.all_media_players
 modes:
   view: no
   name: House Modes
   entities:
   - input_select.house_mode
+  - input_select.privacy_mode
 someone_home:
   view: no
   name: Someone is home
@@ -265,8 +291,37 @@ someone_home:
   - device_tracker.donkawechico_sailfish
   - device_tracker.christine_phone
   - device_tracker.smg930v
+  - sensor.donnie_home
 scripts:
   view: yes
   name: Scripts
+  icon: mdi:script
   entities:
   - group.all_scripts
+delay_activation_after_restart:
+  view: no
+  name: These entities are activated some time after restart
+  entities:
+  - automation.turn_on_lights_when_home
+all_chromecasts:
+  view: no
+  name: All Chromecast media players
+  entities:
+  - media_player.livingroomcast
+  - media_player.suncast
+  - media_player.entrycast
+  - media_player.home_assistant_speaker
+automations_that_should_match_dark_state:
+  view: no
+  name: Automations that should be on when dark and off when light
+  entities:
+  - automation.turn_on_lights_when_home
+miflora_sensors:
+  view: no
+  name: Mi Flora Sensors
+  entities:
+  - sensor.mi_flora_battery
+  - sensor.mi_flora_moisture
+  - sensor.mi_flora_light_intensity
+  - sensor.mi_flora_temperature
+  - sensor.mi_flora_conductivity

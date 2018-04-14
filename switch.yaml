@@ -128,3 +128,15 @@
       turn_off:
         service: script.turn_on
         entity_id: script.turn_off_sun_projector
+    bedtime:
+      value_template: "{{ is_state('input_select.house_mode','Bedtime') }}"
+      turn_on:
+        service: input_select.select_option
+        data:
+          entity_id: input_select.house_mode
+          option: Bedtime
+      turn_off:
+        service: input_select.select_option
+        data:
+          entity_id: input_select.house_mode
+          option: None

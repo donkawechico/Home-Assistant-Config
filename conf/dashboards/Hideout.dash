@@ -58,7 +58,7 @@ label_rooms:
 donnie_presence:
   widget_type: device_tracker
   title: Donnie
-  device: donkawechico_heroqltevzw
+  device: donkawechico_s7
 
 christine_presence:
   widget_type: device_tracker
@@ -135,8 +135,28 @@ kitchen_strip:
 
 sync_kitchen_strip:
   widget_type: input_boolean
-  entity: input_boolean.kitchen_strip_on
-  title: "Is Kitchen Strip On"
+  entity: switch.is_kitchen_strip_on
+  title: "Sync Kitchen Strip"
+
+turn_on_ac:
+  widget_type: switch
+  entity: script.turn_on_ac
+  title: "AC On"
+
+turn_off_ac:
+  widget_type: switch
+  entity: script.turn_off_ac
+  title: "AC Off"
+
+turn_on_heater:
+  widget_type: switch
+  entity: script.turn_on_heater
+  title: "Heater On"
+
+turn_off_heater:
+  widget_type: switch
+  entity: script.turn_off_heater
+  title: "Heater Off"
 
 pir_1:
   widget_type: sensor
@@ -151,10 +171,21 @@ label_state:
   widget_type: label
   text: States
 
+label_temp_control:
+  widget_type: label
+  text: Climate
+
+haunt:
+    widget_type: navigate
+    title: Cameras
+    dashboard: Haunt
+    args:
+      timeout: 10
+      return: Hideout
+
 layout:
-  - clock.clock(2x1), donnie_presence, sensor.front_door, dark_outside_sensor
+  - clock.clock(2x1), donnie_presence, sensor.front_door, dark_outside_sensor, sync_kitchen_strip, haunt
   - include: multisensor
-  - label_rooms(3x1),                    label_scenes(2x1)
-  - label_sync(2x1)
-  - house_lights, livingroom, kitchen,   underwater_scene, darkness_scene,  kitchen_strip, sync_kitchen_strip
-  - shop, bedroom, spacer,               theater_scene, warm_scene
+  - label_rooms(3x1),                    label_scenes(2x1),                 label_temp_control(2x1)
+  - house_lights, livingroom, kitchen,   underwater_scene, darkness_scene,  turn_on_ac, turn_off_ac
+  - shop, bedroom, spacer,               theater_scene, warm_scene,         turn_on_heater, turn_off_heater

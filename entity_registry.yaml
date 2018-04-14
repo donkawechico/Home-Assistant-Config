@@ -1,0 +1,84 @@
+light.nightstand:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:4e:ae:ce-0b
+light.chandelier:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:4c:b5:d7-0b
+light.the_sun:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:4e:a1:b3-0b
+media_player.suncast:
+  name:
+  platform: cast
+  unique_id: 9c21ff57-99cb-485b-250a-f3bdfd994001
+media_player.plex_plex_0xd0v9t8lkagx47wqm2ys9lj:
+  name:
+  platform: plex
+  unique_id: 0xd0v9t8lkagx47wqm2ys9lj
+media_player.livingroom_speaker:
+  name:
+  platform: cast
+  unique_id: 97f6f4a8-36d8-21fa-afe4-8a19d9f87e50
+media_player.livingroomcast:
+  name:
+  platform: cast
+  unique_id: 3301f964-b781-70d1-f01d-a6061e02ec65
+binary_sensor.aeotech_multisensor_6_sensor:
+  name:
+  platform: zwave
+  unique_id: 3-72057594093240320
+sensor.aeotech_multisensor_6_temperature:
+  name:
+  platform: zwave
+  unique_id: 3-72057594093256722
+sensor.aeotech_multisensor_6_luminance:
+  name:
+  platform: zwave
+  unique_id: 3-72057594093256754
+sensor.aeotech_multisensor_6_relative_humidity:
+  name:
+  platform: zwave
+  unique_id: 3-72057594093256786
+sensor.aeotech_multisensor_6_ultraviolet:
+  name:
+  platform: zwave
+  unique_id: 3-72057594093257138
+sensor.aeotech_multisensor_6_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 3-72057594094305281
+sensor.aeotech_multisensor_6_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 3-72057594094305297
+sensor.aeotech_multisensor_6_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 3-72057594094305313
+sensor.aeotech_multisensor_6_burglar:
+  name:
+  platform: zwave
+  unique_id: 3-72057594094305441
+media_player.plex_plex_141c248b1d0b1c2b_com_plexapp_android:
+  name:
+  platform: plex
+  unique_id: 141c248b1d0b1c2b-com-plexapp-android
+media_player.plex_plex_6m5wos06gvv9k4iqm0nd1ds2:
+  name:
+  platform: plex
+  unique_id: 6m5wos06gvv9k4iqm0nd1ds2
+media_player.plex_plex_258171bb678922e8_com_plexapp_android:
+  name:
+  platform: plex
+  unique_id: 258171bb678922e8-com-plexapp-android
+media_player.entrycast:
+  name:
+  platform: cast
+  unique_id: 6fd432ef-04f9-b586-a00a-bcd938cb515a
+media_player.plex_plex_1zphh5gfiokpkl5lo9a2onuh:
+  name:
+  platform: plex
+  unique_id: 1zphh5gfiokpkl5lo9a2onuh

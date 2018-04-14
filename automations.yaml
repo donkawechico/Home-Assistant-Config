@@ -1,5 +1,5 @@
 - action:
-  - delay: 00:00:02
+  - delay: 00:00:00
   - service: shell_command.take_photo_raspistill
   alias: Take Photo When Door Opens
   condition: []
@@ -14,16 +14,18 @@
       entity_id: group.house_lights
     service: homeassistant.turn_on
   alias: Turn on Lights When Home
+  initial_state: 'off'
   condition: []
   id: '1515812343861'
   trigger:
   - entity_id: binary_sensor.donnie_home
+    from: 'off'
     platform: state
     to: 'on'
 - action:
   - data:
-      entity_id: group.automations_to_turn_off_when_dark
-    service: automation.turn_on
+      entity_id: group.automations_that_should_match_dark_state
+    service: homeassistant.turn_on
   alias: Turn on Light Automations When Dark Out
   condition: []
   id: '1516846403500'
@@ -33,21 +35,26 @@
     to: 'on'
 - action:
   - data:
-      entity_id: group.automations_to_turn_on_when_bedtime
+      entity_id: group.turn_on_when_bedtime
     service: homeassistant.turn_on
+  - data:
+      entity_id: group.turn_off_when_bedtime
+    service: homeassistant.turn_off
   alias: Turn on Bedtime Automations
   condition: []
   id: '1516846527349'
+  hide_entity: true
   trigger:
   - entity_id: input_select.house_mode
     platform: state
     to: Bedtime
 - action:
   - data:
-      entity_id: group.automations_to_turn_on_when_bedtime
+      entity_id: group.turn_on_when_bedtime
     service: homeassistant.turn_off
   alias: Turn off Bedtime Automations
   condition: []
+  hide_entity: true
   id: '1516846565370'
   trigger:
   - entity_id: input_select.house_mode
@@ -64,6 +71,7 @@
       entity_id: light.nightstand
     service: light.turn_off
   alias: Turn on nightlight during bedtime
+  initial_state: 'off'
   condition: []
   id: '1516846884974'
   trigger:
@@ -76,6 +84,7 @@
     service: input_boolean.turn_on
   alias: Motion Detected
   condition: []
+  hide_entity: true
   id: '1516847180330'
   trigger:
   - entity_id: sensor.aeotech_multisensor_6_burglar
@@ -87,6 +96,7 @@
       entity_id: input_boolean.motion_detected
     service: input_boolean.turn_off
   alias: Motion no longer detected
+  hide_entity: true
   condition: []
   id: '1516847230725'
   trigger:
@@ -94,3 +104,67 @@
     from: '8'
     platform: state
     to: '0'
+- action:
+  - delay: '30'
+  - data:
+      entity_id: group.delay_activation_after_restart
+    service: homeassistant.turn_on
+  alias: Delay Automations on Restart
+  condition: []
+  id: '1518402080621'
+  trigger:
+  - event: start
+    platform: homeassistant
+- action:
+  - data:
+      entity_id: group.automations_that_should_match_dark_state
+    service: homeassistant.turn_off
+  alias: Turn off light automations when Sun rises
+  condition: []
+  id: '1520040557685'
+  trigger:
+  - event: sunrise
+    platform: sun
+- action:
+  - service: script.turn_on_heater
+  alias: Turn on heater at 5
+  condition: []
+  id: '1521615321464'
+  trigger:
+  - at: 05:00:00
+    platform: time
+- action:
+  - service: script.turn_off_heater
+  alias: Turn off heater at 8
+  condition: []
+  id: '1521615521241'
+  trigger:
+  - at: 08:00:00
+    platform: time
+- action: []
+  alias: ''
+  condition: []
+  id: '1521615574784'
+  trigger: []
+- action:
+  - delay: 00:05:00
+  - data: {}
+    service: automation.reload
+  alias: Reload Automations After Restart
+  condition: []
+  id: '1522690214948'
+  trigger:
+  - event: start
+    platform: homeassistant
+- action:
+  - data:
+      entity_id: media_player.home_assistant_speaker
+      message: Door Opened
+    service: tts.google_say
+  alias: Door Opens
+  condition: []
+  id: '1523565081728'
+  trigger:
+  - entity_id: sensor.front_door
+    platform: state
+    to: OPEN
