@@ -1,0 +1,13 @@
+alias: Stream to RPI Speaker
+trigger:
+  platform: state
+  entity_id: input_text.rpi_speaker_url
+action:
+  - service: script.turn_on
+    entity_id: script.turn_on_chromecast
+  - service: media_extractor.play_media
+    data_template:
+      entity_id: media_player.livingroomcast
+      media_content_id: "{{ states('input_text.rpi_speaker_url') }}"
+      # media_content_type: 'vidio/youtube'
+      media_content_type: 'video/youtube'

@@ -4,3 +4,9 @@ sensor.aeotech_multisensor_6_luminance:
 sensor.aeotech_multisensor_6_burglar:
   ignored: false
   polling_intensity: 10000
+sensor.aeotech_multisensor_6_temperature:
+  ignored: false
+  polling_intensity: 1000
+sensor.aeotech_multisensor_6_relative_humidity:
+  ignored: false
+  polling_intensity: 1000

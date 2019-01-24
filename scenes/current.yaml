@@ -1,0 +1,32 @@
+name: previous
+entities:
+  light.kitchen_strip:
+    state: off
+  light.aurora:
+    state: off
+  light.aientryumbrella:
+    state: off
+  light.ailivingroomorb:
+    state: off
+  light.aikitchengascannozzle:
+    state: off
+  light.ailivingroomgascan:
+    state: off
+  light.ailivingroomsculpture:
+    state: off
+  light.aikitchengascanmain:
+    state: off
+  light.aishopgascan:
+    state: off
+  switch.water_light:
+    state: off
+  switch.ikea_lamp:
+    state: off
+  switch.accent_lights:
+    state: off
+  light.the_sun:
+    state: off
+  light.chandelier:
+    state: off
+  light.nightstand:
+    state: off

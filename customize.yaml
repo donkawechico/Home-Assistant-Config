@@ -73,6 +73,9 @@ switch.chromecast:
 switch.projector:
   emulated_hue_hidden: false
   emulated_hue_name: Projector
+switch.bedtime_projector:
+  emulated_hue_hidden: false
+  emulated_hue_name: Bedtime Projector
 script.bedtime:
   emulated_hue_hidden: false
   emulated_hue_name: Bedtime
@@ -87,9 +90,9 @@ switch.theater_mode:
   emulated_hue_name: Theater Mode
 media_player.plex_a9w8mh48b5u5b0xxxftt9q8w:
   friendly_name: theater
-switch.piano:
+switch.coffeemaker:
   emulated_hue_hidden: false
-  emulated_hue_name: Piano
+  emulated_hue_name: Coffee Maker
 group.gas_cans:
   emulated_hue_hidden: true
   emulated_hue_name: All Gas Cans
@@ -108,3 +111,11 @@ light.kitchen_lights:
 light.gas_cans:
   emulated_hue_hidden: false
   emulated_hue_name: gas cans
+switch.heater:
+  emulated_hue_hidden: false
+  emulated_hue_name: heater
+light.nanoleafaurora51d296local:
+  friendly_name: nanoleaf_aurora
+switch.climate_control:
+  emulated_hue_hidden: false
+  emulated_hue_name: climate control

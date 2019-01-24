@@ -1,7 +1,16 @@
-ashby_bart_departures:
+leave_minutes_parking_at_aguirowitz:
   widget_type: sensor
-  title: BART Departures
-  entity: sensor.bart_departures_ashby
+  title: Time to leave for work if parking @ aguirowitz
+  entity: sensor.leave_by_home_to_work_parking_aguirowitz
+  precision: 0
+  units: ' min'
+
+leave_minutes_parking_at_ashby:
+  widget_type: sensor
+  title: Time to leave for work if parking @ ashby
+  entity: sensor.leave_by_home_to_work_parking_ashby
+  precision: 0
+  units: ' min'
   
 driving_time_ashby:
   widget_type: sensor
@@ -34,4 +43,4 @@ livingroom_motion:
   entity: sensor.aeotech_multisensor_6_burglar
 
 layout:
-  - ashby_bart_departures, driving_time_ashby, livingroom_humidity, livingroom_temperature, livingroom_light_level
+  - leave_minutes_parking_at_aguirowitz, leave_minutes_parking_at_ashby, livingroom_humidity, livingroom_temperature, livingroom_light_level

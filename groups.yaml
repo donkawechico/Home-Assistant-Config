@@ -14,15 +14,32 @@ default_view:
   - group.kitchen
   - group.shop
   - group.entry
-#  - group.gas_cans
   - group.bedroom
   - group.synchronize
-#  - input_boolean.beacon_lighting
   - group.travel_times
   - input_text.chromecast_url
-  - group.miflora_sensors
+  - input_text.last_video_sender
+  - input_text.rpi_speaker_url
   - light.gas_cans
   - light.kitchen_lights
+  - group.leave_by_alerts
+  - light.aurora
+  - light.test_light
+  - group.scene_saver
+  - group.coffee_maker
+  - switch.should_save_media_state
+  - group.air_conditioner
+  - vacuum.roomba
+air_conditioner:
+  view: no
+  icon: mdi:snowflake
+  entities:
+  - switch.climate_control
+  - input_boolean.ac_on
+  - climate.living_room
+  - script.set_too_cold
+  - script.set_too_warm
+  - sensor.dew_point_preference
 cameras:
   view: yes
   icon: mdi:camera
@@ -30,9 +47,13 @@ cameras:
   - script.take_photo_bedroom
   - script.take_photo_fridge
   - script.take_photo_livingroom
+  - script.take_photo_pizero
   - camera.living_room
   - camera.bedroom
   - camera.fridge
+  - camera.pizero
+  - camera.tablet_camera_front
+  - camera.tablet_camera_bedroom
 house_lights:
   view: yes
   name: House Lights
@@ -46,6 +67,8 @@ scenes:
   name: Scenes
   icon: mdi:palette
   entities:
+  - scene.previous
+  - scene.current
   - scene.david_lynch
   - scene.theater
   - scene.Green
@@ -99,6 +122,7 @@ all_color_lights:
   - light.nightstand
   - light.aishopgascan
   - light.ailivingroomsculpture
+  - light.aurora
   #- light.kitchen_strip
 front_wall:
   name: Front Wall
@@ -156,6 +180,7 @@ all_sensor:
   - sensor.weather
   - group.aeotech_multisensor
   - group.virtual_sensors
+  - group.miflora_sensors
 aeotech_multisensor:
   view: no
   name: Aeotech Multisensor 6
@@ -170,6 +195,7 @@ aeotech_multisensor:
   - sensor.aeotech_multisensor_6_sourcenodeid
   - sensor.aeotech_multisensor_6_ultraviolet
   - sensor.aeotech_multisensor_6_temperature
+  - sensor.temperature_feels_like
 physical_sensors:
   name: Physical Sensors
   entities:
@@ -258,7 +284,8 @@ travel_times:
   - sensor.transit_time_home
   - sensor.transit_time_aguirowitz
   - sensor.driving_time_aguirowitz
-  - sensor.bart_departures_civic_center
+  - sensor.bart_departures_civic_center_soonest
+  - sensor.bart_departures_civic_center_easiest
   - sensor.bart_departures_ashby
 automations_to_turn_off_when_no_one_home:
   view: no
@@ -325,3 +352,24 @@ miflora_sensors:
   - sensor.mi_flora_light_intensity
   - sensor.mi_flora_temperature
   - sensor.mi_flora_conductivity
+leave_by_alerts:
+  view: no
+  name: Leave In X Minutes
+  entities:
+  - sensor.leave_by_home_to_work_parking_aguirowitz
+  - sensor.leave_by_home_to_work_parking_ashby
+  - sensor.leave_by_work_to_home_easiest
+  - sensor.leave_by_work_to_home_soonest
+scene_saver:
+  view: no
+  name: Save Scene
+  entities:
+  - input_text.scene_name
+  - script.save_scene
+coffee_maker:
+  view: no
+  name: Coffee Maker
+  entities:
+  - switch.is_coffee_loaded
+  - switch.coffeemaker
+  #- input_text.coffeemaker_time

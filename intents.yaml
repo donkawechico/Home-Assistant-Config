@@ -78,3 +78,42 @@ OffensiveEntryIntent:
     type: ssml
     text: >
         <speak><emphasis level="strong"><prosody pitch="-20%" volume="medium">Yes sir.</prosody></emphasis><break time="3s"/></speak>
+
+HASayStuffIntent:
+#  action:
+#    service: tts.google_say
+#    data:
+#      message: "Welcome Home"
+#      entity_id: media_player.rpi_speaker
+  speech:
+    text: >
+      {%- set leaveForAshby = states('sensor.leave_by_home_to_work_parking_ashby') -%}
+      {%- set leaveForAguirowitz = states('sensor.leave_by_home_to_work_parking_aguirowitz') -%}
+      {% if ParkingSpot == "ashby" %}
+        {{ leaveForAshby }} minutes.
+      {% elif ParkingSpot == "aguirowitz" or ParkingSpot == 'mlk' %}
+        {{ leaveForAguirowitz }} minutes.
+      {% else %}
+        {{ leaveForAshby }} minutes if parking at Ashby.
+        {{ leaveForAguirowitz }} minutes if parking at uh-gearowits.
+      {% endif %}
+
+MakeCoffeeIntent:
+  action:
+    service: switch.turn_on
+    entity_id: switch.is_coffee_loaded
+  speech:
+    text: >
+      Okay. Coffee Maker will turn on at 7:15 am.
+
+ClimateIntentTooCold:
+  action:
+    service: script.turn_on
+    entity_id: script.set_too_cold
+
+ClimateIntentTooWarm:
+  action:
+    service: script.turn_on
+    entity_id: script.set_too_warm
+
+      

@@ -46,6 +46,7 @@ input_select:
     options:
       - All Home Speakers
       - Livingroom Speakers
+      - LivingroomCast
     initial: All Home Speakers
     icon: mdi:speaker-wireless
 

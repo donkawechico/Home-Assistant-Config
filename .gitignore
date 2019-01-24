@@ -42,3 +42,6 @@ passwords.txt
 conf/compiled
 *__pycache__*
 *tts_cache*
+error.log
+deleteme*
+test.*

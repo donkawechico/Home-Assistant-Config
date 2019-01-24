@@ -1,9 +1,0 @@
-#hideout:
-#  module: hideout
-#  class: Hideout
-hello_world:
-  module: hello
-  class: HelloWorld
-test_app:
-  module: test_app
-  class: TestApp

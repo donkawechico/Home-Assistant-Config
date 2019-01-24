@@ -1,14 +1,10 @@
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 
-class TestApp(appapi.AppDaemon):
+class TestApp(hass.Hass):
 
   def initialize(self):
-    self.listen_state(self.motion, "sensor.aeotech_multisensor_6_burglar", new = "-1")
-    self.listen_state(self.no_motion, "sensor.aeotech_multisensor_6_burglar", new = "-1")
-    #self.listen_state(self.motion, "input_boolean.tv_on", new = "on")
+    self.listen_state(self.do_something, entity='media_player.livingroomcast')
+    #self.listen_state(self.do_something, 'media_player.livingroomcast')
 
-  def motion(self, entity, attribute, old, new, kwargs):
-    self.turn_on("light.nightstand")
-
-  def no_motion(self, entity, attribute, old, new, kwargs):
-    self.turn_off("light.nightstand")
+  def do_something(self, entity, attribute, old, new, kwargs):
+    self.log('old: ' + old)

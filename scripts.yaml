@@ -1,36 +1,31 @@
 turn_on_ac:
   alias: ACOn
   sequence:
-  - service: remote.send_command
-    data:
+  - data:
       command: PowerOn
       device: 46416385
       entity_id: remote.harmony_hub
-  - service: input_boolean.turn_on
-    data:
+    service: remote.send_command
+  - data:
       entity_id: input_boolean.ac_on
-  - delay:
-      seconds: 3
-  - service: remote.send_command
-    data:
-      command: Timet
-      device: 46416385
-      entity_id: remote.harmony_hub
-  - delay:
-      hours: 1
-  - service: script.turn_on
-    entity_id: script.turn_off_ac
+    service: input_boolean.turn_on
+#  - delay: 00:00:02
+#  - data:
+#      command: Timet
+#      device: 46416385
+#      entity_id: remote.harmony_hub
+#    service: remote.send_command
 turn_off_ac:
   alias: ACOff
   sequence:
-  - service: remote.send_command
-    data:
+  - data:
       command: PowerOff
       device: 46416385
       entity_id: remote.harmony_hub
-  - service: input_boolean.turn_off
-    data:
-      entity_id: input_boolean.heater_on
+    service: remote.send_command
+  - data:
+      entity_id: input_boolean.ac_on
+    service: input_boolean.turn_off
 turn_on_heater:
   alias: HeaterOn
   sequence:
@@ -105,11 +100,6 @@ turn_off_playstation:
   - service: media_player.turn_off
     data:
       entity_id: media_player.ps4_waker
-  - condition: state
-    entity_id: binary_sensor.dark_out
-    state: 'on'
-  - service: scene.turn_on
-    entity_id: scene.warm
 bedtime_old:
   alias: Going to bed Old
   sequence:
@@ -228,21 +218,28 @@ take_photo_livingroom:
   sequence:
   - condition: state
     entity_id: input_select.privacy_mode
-    state: 'Open'
+    state: Open
   - service: shell_command.take_photo_raspistill
+take_photo_pizero:
+  alias: Take a photo from the pizero
+  sequence:
+  - condition: state
+    entity_id: input_select.privacy_mode
+    state: Open
+  - service: shell_command.take_photo_raspistill_pizero
 take_photo_bedroom:
   alias: Take a photo of the bedroom
   sequence:
   - condition: state
     entity_id: input_select.privacy_mode
-    state: 'Open'
+    state: Open
   - service: shell_command.take_photo_bedroom
 take_photo_fridge:
   alias: Take a photo toward fridge area
   sequence:
   - condition: state
     entity_id: input_select.privacy_mode
-    state: 'Open'
+    state: Open
   - service: shell_command.take_photo_fridge
 turn_on_ps4_waker_plex:
   alias: Turn on playstation w/ auto monitor and launch into Plex
@@ -284,13 +281,194 @@ turn_off_all_projectors:
 test_tts:
   alias: Test TTS
   sequence:
-  - service: tts.google_say
-    data:
-      entity_id: media_player.home_assistant_speaker
-      message: "Testing 123. Testing. Unique New York."
+  - data:
+      entity_id: media_player.rpi_speaker
+      message: Testing 123. Testing. Unique New York.
+    service: tts.google_say
 turn_on_all_chromecasts:
   alias: Turn on all chromecasts
   sequence:
   - service: homeassistant.turn_on
     data:
       entity_id: group.all_chromecasts
+play_mp3:
+  alias: Play a given local mp3 file
+  sequence:
+  - data:
+      entity_id: media_player.rpi_speaker
+      media_content_id: https://dk.servebeer.com/local/queen_princes_of_the_universe_short.mp3
+      media_content_type: music
+    service: media_player.play_media
+scene_underwater:
+  alias: scene underwater
+  sequence:
+  - service: scene.turn_on
+    data:
+      entity_id: scene.underwater
+  - service: light.turn_on
+    data:
+      entity_id: light.aurora
+      effect: Koi Pond
+      brightness_pct: 25
+turn_on_bedtime_projector:
+  alias: Turn On Bedtime Projector
+  sequence:
+  - service: light.turn_off
+    data:
+      entity_id: light.nightstand
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - delay:
+      seconds: 20
+  - service: remote.send_command
+    data:
+      command: Menu
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionLeft
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionLeft
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionDown
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionDown
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionDown
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: Select
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - delay:
+      seconds: 2
+  - service: remote.send_command
+    data:
+      command: DirectionDown
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionDown
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionDown
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: DirectionDown
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: Select
+      device: 44803053
+      entity_id: remote.harmony_hub
+  - service: remote.send_command
+    data:
+      command: Exit
+      device: 44803053
+      entity_id: remote.harmony_hub
+turn_off_bedtime_projector:
+  alias: Turn Off Bedtime Projector
+  sequence:
+  - service: remote.send_command
+    data:
+      command: PowerToggle
+      device: 44803053
+      entity_id: remote.harmony_hub
+receiver_volume_down:
+  alias: Receiver Volume Down
+  sequence:
+  - data:
+      command: VolumeDown
+      device: '46382997'
+      entity_id: remote.harmony_hub
+    service: remote.send_command
+receiver_volume_up:
+  alias: Receiver Volume Up
+  sequence:
+  - data:
+      command: VolumeUp
+      device: '46382997'
+      entity_id: remote.harmony_hub
+    service: remote.send_command
+# save_scene:
+#   alias: Save Scene
+#   sequence:
+#   - service: shell_command.save_scene
+turn_on_coffeemaker_for_one_hour:
+  alias: Turn on coffee maker for 1 hour if coffee is loaded
+  sequence:
+  - condition: state
+    entity_id: switch.is_coffee_loaded
+    state: 'on'
+  - data:
+      entity_id: switch.coffeemaker
+    service: switch.turn_on
+  - delay: 01:00:00
+  - data:
+      entity_id: switch.coffeemaker
+    service: switch.turn_off
+  - data:
+      payload: EMPTY
+      topic: stat/coffeemaker/CONTENTS
+    service: mqtt.publish
+wait_an_hour_turn_off_ac:
+  alias: In 1 hour, turn off AC
+  sequence:
+  - delay: 01:00:00
+  - data:
+      entity_id: script.turn_off_ac
+    service: script.turn_on
+turn_on_climate_control:
+  alias: Turn on climate control
+  sequence:
+  - data:
+      entity_id: climate.living_room
+      operation_mode: 'cool'
+    service: climate.set_operation_mode
+turn_off_climate_control:
+  alias: Turn off climate control
+  sequence:
+  - data:
+      entity_id: climate.living_room
+      operation_mode: 'off'
+    service: climate.set_operation_mode
+set_too_cold:
+  alias: Increase climate target temp
+  sequence:
+  - data_template:
+      entity_id: climate.living_room
+      temperature: >
+        {{ (states('sensor.dew_point') | float) + 50 }}
+    service: climate.set_temperature
+set_too_warm:
+  alias: Decrease climate target temp
+  sequence:
+  - data_template:
+      entity_id: climate.living_room
+      temperature: >
+        {{ (states('sensor.dew_point') | float) - 50 }}
+    service: climate.set_temperature

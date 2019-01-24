@@ -29,6 +29,10 @@ input_boolean:
     name: "Is Sun Projector On"
     initial: off
     icon: mdi:weather-sunny
+  bedtime_projector_on:
+    name: "Is Bedtime Projector On"
+    initial: off
+    icon: mdi:bed
   motion_detected:
     name: "Was Motion Detected"
     initial: off
@@ -55,6 +59,13 @@ cloud:
         - group.house_lights
         - scene.warm
         - switch.bedtime
+        - light.aurora
+        - script.scene_underwater
+        - script.party_mode_funk
+        - script.party_mode_rave
+        - media_player.livingroomcast
+        - switch.is_coffee_loaded
+        - sensor.temperature_feels_like
     entity_config:
       light.ailivingroomorb:
         name: Orb
@@ -64,21 +75,61 @@ cloud:
         name: Bedtime
         description: Bedtime mode
         display_categories: SWITCH
+      script.scene_underwater:
+        name: Scene Underwater
+        description: Scene Underwater
+        display_categories: SCENE_TRIGGER
+      script.party_mode_funk:
+        name: Funk Party
+        description: Make a funk party in the house
+        display_categories: SCENE_TRIGGER
+      script.party_mode_rave:
+        name: Rave Party
+        description: Insta-rave
+        display_categories: SCENE_TRIGGER
+      script.bedtime_projector:
+        name: Bedtime Projector
+        description: Turn on projector in bedroom and set to sleep
+        display_categories: SCENE_TRIGGER
+      media_player.livingroomcast:
+        name: Livingroom Cast
+        description: Livingroom Chromecast
+        display_categories: OTHER
+      switch.is_coffee_loaded:
+        name: Is Coffee Maker Loaded
+        description: Is Coffee Maker filled with water and grounds
+        display_categories: SWITCH
+      sensor.temperature_feels_like:
+        name: House
+        description: '"Feels like" temp in the livingroom'
+        display_categories: TEMPERATURE_SENSOR
 
 config:
 
 http:
-  api_password: !secret api_password
+  #api_password: !secret api_password
   base_url: !secret base_url
   ssl_certificate: !secret ssl_cert_path
   ssl_key: !secret ssl_key
   use_x_forwarded_for: True
+  trusted_proxies:
+  - 127.0.0.1
+  - ::1
+  trusted_networks:
+  - 127.0.0.1
+  - ::1
+  - 192.168.0.0/24
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+  #login_attempts_threshold: -1
 
 updater:
   include_used_components: true
 
 discovery:
-#  ignore: harmony
+  # ignore:
+  #   - google_cast
+
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -96,6 +147,14 @@ logbook:
       - sensor.aeotech_multisensor_6_sourcenodeid
       - sensor.aeotech_multisensor_6_alarm_type
       - sensor.weather_icon
+      - sensor.bart_departures_civic_center_easiest
+      - sensor.bart_departures_civic_center_soonest
+      - sensor.bart_departures_ashby
+      - sensor.leave_by_work_to_home_easiest
+      - sensor.leave_by_work_to_home_soonest
+      - sensor.leave_by_home_to_work_parking_ashby
+      - sensor.leave_by_home_to_work_parking_aguirowitz
+      - sensor.yr_symbol
 
 sun:
 
@@ -105,7 +164,7 @@ binary_sensor: !include binary_sensor.yaml
 
 tts:
   platform: google
-  cache: True
+  cache: true
   cache_dir: /home/homeassistant/.homeassistant/tts_cache
   time_memory: 57600
 
@@ -155,59 +214,69 @@ device_tracker:
     password: !secret router_password
     interval_seconds: 10
     consider_home: 30
-  - platform: owntracks
-    max_gps_accuracy: 200
-    waypoints: True #setting to true means owntracks zones exportable to HA from app
-    waypoint_whitelist: 
-      - donkawechico
-    mqtt_topic: "owntracks/#"
-    events_only: false
-    region_mapping:
-      Sir: home
+  # - platform: owntracks
+  #   max_gps_accuracy: 200
+  #   waypoints: True #setting to true means owntracks zones exportable to HA from app
+  #   waypoint_whitelist: 
+  #     - donkawechico
+  #   mqtt_topic: "owntracks/#"
+  #   events_only: false
+  #   region_mapping:
+  #     Sir: home
+  #     donkawechico_s7_workdesk: workdesk
+  - platform: google_maps
+    username: !secret googlebot_username
+    password: !secret googlebot_password
 
-media_player:
-  - platform: cast
-    host: 192.168.1.110
-    friendly_name: "Livingroom Cast"
-  - platform: cast
-    host: 192.168.1.111
-    friendly_name: "Suncast"
-#  - platform: cast
-#    friendly_name: "Livingroom Speaker"
-#    host: 192.168.1.128
-#  - platform: cast
-#    friendly_name: "EntryCast"
-#    host: 192.168.1.142
-  - platform: plex
-    entity_namespace: 'plex'
-# Currently, setting this to true throws an error:
-# https://github.com/home-assistant/home-assistant/issues/10074
-#    include_non_clients: true
-    include_non_clients: false
-    scan_interval: 5
-    show_all_controls: true
-    use_custom_entity_ids: true
-    use_episode_art: true
-    friendly_name: 'theater'
-  - platform: spotify
-    client_id: !secret spotify_client_id
-    client_secret: !secret spotify_client_secret
-    cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
-  # - platform: ps4
-  #   name: "PS4 Waker"
-  #   host: 192.168.1.100
-  #   cmnd: "sudo ps4-waker"
+# media_player:
+#   - platform: plex
+#     entity_namespace: 'plex'
+# # Currently, setting this to true throws an error:
+# # https://github.com/home-assistant/home-assistant/issues/10074
+# #    include_non_clients: true
+#     include_non_clients: false
+#     scan_interval: 5
+#     show_all_controls: true
+#     use_custom_entity_ids: true
+#     use_episode_art: true
+#     friendly_name: 'theater'
+#   - platform: spotify
+#     client_id: !secret spotify_client_id
+#     client_secret: !secret spotify_client_secret
+#     cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
+#   - platform: vlc
+#     name: rpi_speaker
+#     arguments: '--alsa-audio-device=hw:2,0' #can also be 2,1. use aplay -l to list audio devices
+#   - platform: vlc
+#     name: rpi_speaker_4
+#     arguments: '--alsa-audio-device=hw:2,1' #can also be 2,1. use aplay -l to list audio devices
+#   - platform: vlc
+#     name: rpi_speaker_2
+#     arguments: '--alsa-audio-device=hw:1,0' #can also be 2,1. use aplay -l to list audio devices
+#   - platform: vlc
+#     name: rpi_speaker_3
+#     arguments: '--alsa-audio-device=hw:0,0' #can also be 2,1. use aplay -l to list audio devices
+#   - platform: ps4
+#     name: "PS4 Waker"
+#     host: 192.168.1.100
+#     cmnd: "sudo ps4-waker"
 
 group: !include groups.yaml
 automation: !include automations.yaml
+automation old: !include advanced_automations.yaml
 scene: !include_dir_list scenes/
 
 logger:
-  default: warn
+  default: critical
   logs:
+    homeassistant.components: info
+    homeassistant.components.device_tracker: info
+    homeassistant.components.device_tracker.ddwrt: warning
     homeassistant.components.mqtt: error
     homeassistant.components.media_player.spotify: info
     homeassistant.components.image_processing: error
+    homeassistant.components.http.view: critical
+    homeassistant.components.appdaemon: debug
   #  homeassistant.components.media_player.plex: error
 
 # Enables support for tracking state changes over time.
@@ -240,6 +309,7 @@ recorder:
       - sensor.beacon_yellow
       - sensor.bart_departures_civic_center
       - sensor.bart_departures_ashby
+      - input_text.api_password
 
 
 #remote:
@@ -256,37 +326,47 @@ zone:
 #     radius: 60
 #     icon: mdi:home
 #     passive: false
-   - name: Yammer
-     latitude: !secret zone_work_lat
-     longitude: !secret zone_work_long
-     radius: 25
-     icon: mdi:briefcase
-     passive: false
-   - name: bedroom
-     latitude: !secret zone_home_lat
-     longitude: !secret zone_home_long
-     radius: 50
-     passive: true
-   - name: livingroom
-     latitude: !secret zone_home_lat
-     longitude: !secret zone_home_long
-     passive: true
-     radius: 50
-   - name: entryway
-     latitude: !secret zone_home_lat
-     longitude: !secret zone_home_long
-     passive: true
-     radius: 50
-   - name: workdesk
-     latitude: !secret zone_work_lat
-     longitude: !secret zone_work_long
-     passive: true
-     radius: 50
-#   - name: Aguirowitz
-#     latitude: !secret zone_aguirowitz_lat
-#     longitude: !secret zone_aguirowitz_long
-#     radius: 20
-#     passive: false
+  - name: Yammer
+    latitude: !secret zone_work_lat
+    longitude: !secret zone_work_long
+    radius: 75
+    icon: mdi:briefcase
+    passive: false
+  - name: bedroom
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    radius: 50
+    passive: true
+  - name: livingroom
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    passive: true
+    radius: 50
+  - name: entryway
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    passive: true
+    radius: 50
+  - name: workdesk
+    latitude: !secret zone_work_lat
+    longitude: !secret zone_work_long
+    passive: true
+    radius: 0
+  - name: Aguirowitz
+    latitude: !secret zone_aguirowitz_lat
+    longitude: !secret zone_aguirowitz_long
+    radius: 20
+    passive: false
+  - name: OMCA
+    latitude: 37.79870
+    longitude: -122.26330
+    radius: 150
+    passive: false
+  - name: Pool Hall
+    latitude: !secret pool_hall_lat
+    longitude: !secret pool_hall_long
+    radius: 50
+    passive: false
 
 # Example configuration.yaml entry
 media_extractor:
@@ -295,6 +375,10 @@ media_extractor:
     media_player.livingroomcast:
       video: bestvideo
       music: bestaudio
+    media_player.rpi_speaker:
+      video: worstvideo
+      music: worstaudio
+
 
 input_select:
   home_state:
@@ -367,7 +451,36 @@ light:
       - light.aikitchengascannozzle
       - light.ailivingroomgascan
       - light.aishopgascan
-
+  - platform: mqtt
+    name: Test Light
+    state_topic: "test/light/test/state"
+    command_topic: "test/light/test/cmnd"
+    command_on_template: "on,{{ brightness|d }},{{ red|d }}-{{ green|d }}-{{ blue|d }}"
+    command_off_template: "off"
+    brightness_template: "{{ value.split(',')[1] }}"
+    red_template: "{{ value.split(',')[2].split('-')[0] }}"
+    green_template: "{{ value.split(',')[2].split('-')[1] }}"
+    blue_template: "{{ value.split(',')[2].split('-')[2] }}"
+  # - platform: mqtt
+  #   name: "Kitchen Strip"
+  #   state_topic: "hass/light/kitchen/strip"
+  #   command_topic: "harmony-api/hubs/harmony-hub/devices/kitchen-led-strip-rgb/command"
+  #   brightness_state_topic: "hass/light/kitchen/strip/brightness"
+  #   brightness_command_topic: "harmony-api/hubs/harmony-hub/devices/kitchen-led-strip-rgb/command"
+  #   rgb_state_topic: "office/rgb1/rgb/status"
+  #   rgb_command_topic: "harmony-api/hubs/harmony-hub/devices/kitchen-led-strip-rgb/command"
+  #   state_value_template: "{{ value_json.state }}"
+  #   brightness_value_template: "{{ value_json.brightness }}"
+  #   rgb_value_template: "{{ value_json.rgb | join(',') }}"
+  #   qos: 1
+  #   payload_on: "power-toggle"
+  #   payload_off: "power-toggle"
+  #   optimistic: true
+  - platform: nanoleaf_aurora
+    host: !secret nanoleaf_ip
+    token: !secret nanoleaf_token
+    
+    
 
 map:
 
@@ -391,12 +504,19 @@ camera:
     name: ISS
     still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&zoom=5&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&key=!secret static_map_key
     limit_refetch_to_url_change: true
+  - platform: local_file
+    name: pizero
+    file_path: !secret camera_image_path_pizero
 
 shell_command:
   take_photo_raspistill: !secret raspistill_script
+  take_photo_raspistill_pizero: !secret raspistill_script_pizero
   take_photo_fridge: !secret usb_camera_script_fridge
   take_photo_bedroom: !secret usb_camera_script_bedroom
   ps4_waker_plex: /usr/bin/ps4-waker start CUSA01850
+  save_scene: /bin/bash -c "/home/homeassistant/dkscenegen/scenegen.py -s {{states.input_text.scene_name.state}} > /home/homeassistant/.homeassistant/scenes/{{states.input_text.scene_name.state}}.yaml"
+  save_lights_previous: cp /home/homeassistant/.homeassistant/scenes/current.yaml /home/homeassistant/.homeassistant/scenes/previous.yaml
+  save_lights_current: /bin/bash -c "/home/homeassistant/dkscenegen/scenegen.py -s previous > /home/homeassistant/.homeassistant/scenes/current.yaml"
 
 zwave:
   usb_path: /dev/zwave
@@ -405,16 +525,29 @@ zwave:
 input_text:
   chromecast_url:
     name: Chromecast Url
+  last_video_sender:
+    name: Last Youtube Sender
+  rpi_speaker_url:
+    name: Stream to RPi Speaker
+  scene_name:
+    name: Scene Name
+  api_password:
+    name: API Password
+    initial: !secret api_password
+    mode: password
+  coffeemaker_time:
+    name: Coffee maker time to go on
+    initial: '07:15:00'
     
 notify:
   - name: pushbullet
     platform: pushbullet
     api_key: !secret pushbullet_api_key
 
-no_ip:
-  domain: !secret base_url
-  username: !secret noip_username
-  password: !secret noip_password
+#no_ip:
+#  domain: !secret base_url
+#  username: !secret noip_username
+#  password: !secret noip_password
 
 #panel_iframe:
 #  alexa:
@@ -423,3 +556,54 @@ no_ip:
 #  emulated_hue:
 #    title: 'Emulated Hue Devices'
 #    url: 'https://192.168.1.180/api/pi/lights'
+
+panel_custom:
+  - name: floorplan
+    sidebar_title: Floorplan
+    sidebar_icon: mdi:home
+    url_path: floorplan
+#    webcomponent_path: /home/homeassistant/.homeassistant/panels/ha-floorplan.html
+    config: !include floorplan.yaml
+
+#android_ip_webcam:
+#  - host: !secret ip_camera_front_ip
+#    port: !secret ip_camera_front_port
+#    username: !secret ip_camera_front_username
+#    password: !secret ip_camera_front_password
+#    name: Tablet Camera Front
+#    sensors:
+#      - motion
+#      - proximity
+#      - sound
+#      - battery_level
+#  - host: !secret ip_camera_bedroom_ip
+#    port: !secret ip_camera_bedroom_port
+#    username: !secret ip_camera_bedroom_username
+#    password: !secret ip_camera_bedroom_password
+#    name: Tablet Camera Bedroom
+#    sensors:
+#      - proximity
+
+climate:
+  - platform: generic_thermostat
+    name: Living room
+    heater: switch.air_conditioner
+    target_sensor: sensor.dew_point
+    ac_mode: True
+    min_temp: 5500
+    max_temp: 7500
+    target_temp: 6500
+    initial_operation_mode: "auto"
+    keep_alive:
+      minutes: 6000
+    hot_tolerance: 0
+    cold_tolerance: 0
+    min_cycle_duration:
+      seconds: 5
+    away_temp: 8000
+
+vacuum:
+  - platform: roomba
+    host: !secret roomba_ip
+    username: !secret roomba_blid
+    password: !secret roomba_password

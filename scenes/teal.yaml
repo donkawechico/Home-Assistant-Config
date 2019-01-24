@@ -1,0 +1,83 @@
+name: teal
+entities:
+  light.kitchen_strip:
+    state: off
+  light.kitchen_lights:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.gas_cans:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.test_light:
+    state: off
+  light.aurora:
+    state: on
+    brightness: 22
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.aientryumbrella:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.ailivingroomorb:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 244
+    rgb_color: [0, 255, 255]
+  light.aikitchengascannozzle:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.aientryumbrell:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.ailivingroomgascan:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.ailivingroomsculpture:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.aikitchengascanmain:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.aishopgascan:
+    state: on
+    brightness: 255
+    white_value: 0
+    color_temp: 500
+    rgb_color: [0, 255, 255]
+  light.chandelier:
+    state: on
+    brightness: 254
+    rgb_color: [56, 255, 253]
+  light.nightstand:
+    state: on
+    brightness: 254
+    rgb_color: [56, 255, 253]
+  light.the_sun:
+    state: on
+    brightness: 254
+    rgb_color: [56, 255, 253]
