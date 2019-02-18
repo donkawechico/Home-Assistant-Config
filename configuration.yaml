@@ -57,6 +57,7 @@ cloud:
         - light.aientryumbrella
         - switch.plex
         - group.house_lights
+        - group.bedroom
         - scene.warm
         - switch.bedtime
         - light.aurora
@@ -107,7 +108,7 @@ cloud:
 config:
 
 http:
-  #api_password: !secret api_password
+  # api_password: !secret api_password
   base_url: !secret base_url
   ssl_certificate: !secret ssl_cert_path
   ssl_key: !secret ssl_key
@@ -451,16 +452,16 @@ light:
       - light.aikitchengascannozzle
       - light.ailivingroomgascan
       - light.aishopgascan
-  - platform: mqtt
-    name: Test Light
-    state_topic: "test/light/test/state"
-    command_topic: "test/light/test/cmnd"
-    command_on_template: "on,{{ brightness|d }},{{ red|d }}-{{ green|d }}-{{ blue|d }}"
-    command_off_template: "off"
-    brightness_template: "{{ value.split(',')[1] }}"
-    red_template: "{{ value.split(',')[2].split('-')[0] }}"
-    green_template: "{{ value.split(',')[2].split('-')[1] }}"
-    blue_template: "{{ value.split(',')[2].split('-')[2] }}"
+  # - platform: mqtt
+  #   name: Test Light
+  #   state_topic: "test/light/test/state"
+  #   command_topic: "test/light/test/cmnd"
+  #   command_on_template: "on,{{ brightness|d }},{{ red|d }}-{{ green|d }}-{{ blue|d }}"
+  #   command_off_template: "off"
+  #   brightness_template: "{{ value.split(',')[1] }}"
+  #   red_template: "{{ value.split(',')[2].split('-')[0] }}"
+  #   green_template: "{{ value.split(',')[2].split('-')[1] }}"
+  #   blue_template: "{{ value.split(',')[2].split('-')[2] }}"
   # - platform: mqtt
   #   name: "Kitchen Strip"
   #   state_topic: "hass/light/kitchen/strip"
@@ -479,8 +480,83 @@ light:
   - platform: nanoleaf_aurora
     host: !secret nanoleaf_ip
     token: !secret nanoleaf_token
-    
-    
+  - platform: mqtt
+    schema: json
+    name: 'ailivingroomorb'
+    state_topic: 'home/livingroom/light/orb'
+    command_topic: 'home/livingroom/light/orb/set'
+    color_temp: true
+    brightness: true
+    rgb: true
+    white_value: true
+    effect: true
+    optimistic: false
+  - platform: mqtt
+    schema: json
+    name: 'ailivingroomsculpture'
+    state_topic: 'home/livingroom/light/sculpture'
+    command_topic: 'home/livingroom/light/sculpture/set'
+    color_temp: true
+    brightness: true
+    rgb: true
+    white_value: true
+    effect: true
+    optimistic: false
+  - platform: mqtt
+    schema: json
+    name: 'ailivingroomgascan'
+    state_topic: 'home/livingroom/light/gascan'
+    command_topic: 'home/livingroom/light/gascan/set'
+    color_temp: true
+    brightness: true
+    rgb: true
+    white_value: true
+    effect: true
+    optimistic: false
+  - platform: mqtt
+    schema: json
+    name: 'aikitchengascanmain'
+    state_topic: 'home/kitchen/light/gascan/main'
+    command_topic: 'home/kitchen/light/gascan/main/set'
+    color_temp: true
+    brightness: true
+    rgb: true
+    white_value: true
+    effect: true
+    optimistic: false
+  - platform: mqtt
+    schema: json
+    name: 'aikitchengascannozzle'
+    state_topic: 'home/kitchen/light/gascan/nozzle'
+    command_topic: 'home/kitchen/light/gascan/nozzle/set'
+    color_temp: true
+    brightness: true
+    rgb: true
+    white_value: true
+    effect: true
+    optimistic: false
+  - platform: mqtt
+    schema: json
+    name: 'aientryumbrella'
+    state_topic: 'home/entry/light/umbrella'
+    command_topic: 'home/entry/light/umbrella/set'
+    color_temp: true
+    brightness: true
+    rgb: true
+    white_value: true
+    effect: true
+    optimistic: false
+  - platform: mqtt
+    schema: json
+    name: 'aishopgascan'
+    state_topic: 'home/shop/light/gascan'
+    command_topic: 'home/shop/light/gascan/set'
+    color_temp: true
+    brightness: true
+    rgb: true
+    white_value: true
+    effect: true
+    optimistic: false
 
 map:
 
@@ -607,3 +683,5 @@ vacuum:
     host: !secret roomba_ip
     username: !secret roomba_blid
     password: !secret roomba_password
+
+system_health:
