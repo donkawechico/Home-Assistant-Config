@@ -1,0 +1,164 @@
+  # - platform: miflora
+  #   mac: C4:7C:8D:66:57:BB
+  - platform: yr
+  - platform: mqtt
+    state_topic: "stat/sensor/door/POWER"
+    name: "Front Door"
+    value_template: >
+      {% if value=='OFF' %}
+        CLOSED
+      {% else %}
+        OPEN
+      {% endif %}
+  - platform: mqtt
+    state_topic: "hass/light/kitchen/strip"
+    name: "MQTT Kitchen Strip"
+  - platform: mqtt
+    state_topic: "hass/climate/livingroom/preference"
+    name: "Dew Point Preference"
+  - platform: mqtt_room
+    device_id: d0d3fa86ca7645ec9bd96af41f767830-34810-59634
+    name: 'Nearable Bike new'
+    state_topic: 'room_presence'
+    timeout: 5
+    away_timeout: 10
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_841f
+    name: 'Beacon (Beet)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_eaa8
+    name: 'Beacon (Yellow)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_4986_e440
+    name: 'Beacon (Ice)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_190a_0a03
+    name: 'Beacon (Pink)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: b9407f30f5f8466eaff925556b57fe6d_09ec_11f0
+    name: 'Beacon (Mint)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: mqtt_room
+    device_id: d0d3fa86ca7645ec9bd96af45ba3e514_6ec7_c28f
+    name: 'Nearable (Office Chair)'
+    state_topic: 'happy-bubbles/presence/ha'
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    name: weather
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+  # - platform: google_travel_time
+  #   name: Driving Time Ashby
+  #   api_key: !secret google_travel_time_key
+  #   origin: zone.home
+  #   destination: 3100 Adeline St, Berkeley, CA 94703
+  #   options:
+  #     mode: driving
+  # - platform: google_travel_time
+  #   name: Walking Time Ashby
+  #   api_key: !secret google_travel_time_key
+  #   origin: zone.home
+  #   destination: 3100 Adeline St, Berkeley, CA 94703
+  #   options:
+  #     mode: walking
+  # - platform: google_travel_time
+  #   name: Transit Time Work
+  #   api_key: !secret google_travel_time_key
+  #   origin: device_tracker.donkawechico_s7
+  #   destination: !secret work_address
+  #   options:
+  #     mode: transit
+  # - platform: google_travel_time
+  #   name: Transit Time Home
+  #   api_key: !secret google_travel_time_key
+  #   origin: device_tracker.donkawechico_s7
+  #   destination: !secret home_address
+  #   options:
+  #     mode: transit
+  # - platform: google_travel_time
+  #   name: Transit Time Aguirowitz
+  #   api_key: !secret google_travel_time_key
+  #   origin: device_tracker.donkawechico_s7
+  #   destination: !secret aguirowitz_address
+  #   options:
+  #     mode: transit
+  # - platform: google_travel_time
+  #   name: Driving Time Aguirowitz
+  #   api_key: !secret google_travel_time_key
+  #   origin: device_tracker.donkawechico_s7
+  #   destination: !secret aguirowitz_address
+  - platform: rest
+    resource: https://api.bart.gov/api/etd.aspx?cmd=etd&orig=ashb&key=MW9S-E7SL-26DU-VV8V&json=y
+    name: Bart Departures Ashby
+    value_template: "{{ 
+      ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'MLBR') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      + 
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'DALY') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'FRMT') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+  - platform: command_line
+    name: SSL cert expiry
+    unit_of_measurement: days
+    scan_interval: 10800
+    command: "ssl-cert-check -b -c /etc/letsencrypt/live/dk.servebeer.com/cert.pem | awk '{ print $NF }'"
+  - platform: rest
+    resource: https://api.bart.gov/api/etd.aspx?cmd=etd&orig=civc&key=MW9S-E7SL-26DU-VV8V&json=y
+    name: Bart Departures Civic Center Soonest
+    value_template: "{{
+      ((value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'RICH') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PITT') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'PHIL') | map(attribute='estimate') | first | map(attribute='minutes') | list)
+      +
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'NCON') | map(attribute='estimate') | first | map(attribute='minutes') | list)) | map('int') | sort }}"
+  - platform: rest
+    resource: https://api.bart.gov/api/etd.aspx?cmd=etd&orig=civc&key=MW9S-E7SL-26DU-VV8V&json=y
+    name: Bart Departures Civic Center Easiest
+    value_template: "{{
+      (value_json.root.station[0].etd | selectattr('abbreviation', 'equalto', 'RICH') | map(attribute='estimate') | first | map(attribute='minutes') | list) | map('int') | sort }}"
+  - platform: template
+    sensors:
+      donnie_home:
+        friendly_name: "Donnie is at home"
+        value_template: >-
+          {% 
+            if (is_state('device_tracker.donkawechico_s7', 'home') or
+                is_state('device_tracker.donkawechico_s7', 'livingroom') or
+                is_state('device_tracker.donkawechico_s7', 'bedroom') or
+                is_state('device_tracker.donkawechico_s7', 'entryway') or
+                is_state('device_tracker.donnie_pixel_2', 'home'))
+          %} 
+          home
+          {% else %}
+          not_home
+          {% endif %}
+      camera_privacy_mode:
+        friendly_name: "Camera Privacy Mode"
+        value_template: >
+          {% if is_state('input_select.privacy_mode', 'No Cameras') or
+                is_state('input_select.privacy_mode', 'Total Privacy') %}
+            Locked
+          {% else %}
+            Open
+          {% endif %}
+      temperature_feels_like:
+        friendly_name: 'Feels Like'
+        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
+        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.aeotech_multisensor_6_temperature.state|float)) + (10.14333127 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) - (0.22475541 * (states.sensor.aeotech_multisensor_6_temperature.state|float) * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.aeotech_multisensor_6_temperature.state|float) * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2))|round(2))*100 }}'
+        unit_of_measurement: '°F x 100'
+      dew_point:
+        friendly_name: 'Dew Point'
+        value_template: '{{ (((states.sensor.aeotech_multisensor_6_temperature.state | float - ((100 - states.sensor.aeotech_multisensor_6_relative_humidity.state | float) /5))))*100}}'
+        unit_of_measurement: '°F x 100'
+  - platform: time_date
+    display_options:
+      - 'time'

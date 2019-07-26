@@ -116,4 +116,8 @@ ClimateIntentTooWarm:
     service: script.turn_on
     entity_id: script.set_too_warm
 
+RebootRouterIntent:
+  action:
+    service: script.turn_on
+    entity_id: script.reboot_router
       

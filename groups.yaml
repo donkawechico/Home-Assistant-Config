@@ -105,6 +105,7 @@ shop:
   entities:
   - light.aishopgascan
   - light.the_sun
+  - switch.pool_table_light
 bedroom:
   name: Bedroom
   entities:
@@ -170,6 +171,7 @@ all_light_switches:
   - switch.ikea_lamp
   - switch.water_light
   - switch.accent_lights
+  - switch.pool_table_light
 all_sensor:
   view: yes
   name: Sensors
@@ -241,18 +243,6 @@ locations:
   - group.beacons
   - group.nearables
   - camera.iss
-beacons:
-  view: no
-  name: Beacons
-  entities:
-  - sensor.beacon_beet
-  - sensor.beacon_yellow
-  - sensor.beacon_ice
-  - sensor.beacon_mint
-  - sensor.beacon_pink
-  - sensor.beacon_blueberry
-  - sensor.nearable_office_chair
-  - device_tracker.beacon_workdesk
 gas_cans:
   view: no
   name: All Gas Cans
@@ -274,19 +264,6 @@ nearables:
   - device_tracker.beacon_nearable_bike
   - device_tracker.beacon_nearable_car
   - device_tracker.beacon_nearable_chair
-travel_times:
-  view: no
-  name: Travel
-  entities:
-  - sensor.transit_time_work
-  - sensor.driving_time_ashby
-  - sensor.walking_time_ashby
-  - sensor.transit_time_home
-  - sensor.transit_time_aguirowitz
-  - sensor.driving_time_aguirowitz
-  - sensor.bart_departures_civic_center_soonest
-  - sensor.bart_departures_civic_center_easiest
-  - sensor.bart_departures_ashby
 automations_to_turn_off_when_no_one_home:
   view: no
   name: Turn these off when no one's home
@@ -352,20 +329,6 @@ miflora_sensors:
   - sensor.mi_flora_light_intensity
   - sensor.mi_flora_temperature
   - sensor.mi_flora_conductivity
-leave_by_alerts:
-  view: no
-  name: Leave In X Minutes
-  entities:
-  - sensor.leave_by_home_to_work_parking_aguirowitz
-  - sensor.leave_by_home_to_work_parking_ashby
-  - sensor.leave_by_work_to_home_easiest
-  - sensor.leave_by_work_to_home_soonest
-scene_saver:
-  view: no
-  name: Save Scene
-  entities:
-  - input_text.scene_name
-  - script.save_scene
 coffee_maker:
   view: no
   name: Coffee Maker

@@ -119,3 +119,6 @@ light.nanoleafaurora51d296local:
 switch.climate_control:
   emulated_hue_hidden: false
   emulated_hue_name: climate control
+switch.pool_table_light:
+  emulated_hue_hidden: false
+  emulated_hue_name: pool table light

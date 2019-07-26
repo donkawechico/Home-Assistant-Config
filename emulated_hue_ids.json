@@ -48,6 +48,7 @@
     "51": "switch.bedtime_projector",
     "52": "switch.automatic_ac",
     "53": "switch.climate_control",
+    "54": "switch.pool_table_light",
     "6": "group.gas_cans",
     "7": "group.all_remotes",
     "8": "light.the_sun",
