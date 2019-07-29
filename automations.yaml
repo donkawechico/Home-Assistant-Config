@@ -1,130 +1,3 @@
-- id: '1515794368913'
-  alias: Take Photo When Door Opens
-  trigger:
-  - entity_id: sensor.front_door
-    from: CLOSED
-    platform: state
-    to: OPEN
-  condition: []
-  action:
-  - delay: 00:00:00
-  - service: shell_command.take_photo_raspistill
-- id: '1515812343861'
-  alias: Turn on Lights When Home
-  trigger:
-  - entity_id: binary_sensor.donnie_home
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      entity_id: group.house_lights
-    service: homeassistant.turn_on
-  initial_state: 'off'
-- id: '1516846403500'
-  alias: Turn on Light Automations When Dark Out
-  trigger:
-  - entity_id: binary_sensor.dark_out
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      entity_id: group.automations_that_should_match_dark_state
-    service: homeassistant.turn_on
-- id: '1516846527349'
-  alias: Turn on Bedtime Automations
-  trigger:
-  - entity_id: input_select.house_mode
-    platform: state
-    to: Bedtime
-  condition: []
-  action:
-  - data:
-      entity_id: group.turn_on_when_bedtime
-    service: homeassistant.turn_on
-  - data:
-      entity_id: group.turn_off_when_bedtime
-    service: homeassistant.turn_off
-  hide_entity: true
-- id: '1516846565370'
-  alias: Turn off Bedtime Automations
-  trigger:
-  - entity_id: input_select.house_mode
-    from: Bedtime
-    platform: state
-  condition: []
-  action:
-  - data:
-      entity_id: group.turn_on_when_bedtime
-    service: homeassistant.turn_off
-  hide_entity: true
-- id: '1516846884974'
-  alias: Turn on nightlight during bedtime
-  trigger:
-  - entity_id: input_boolean.motion_detected
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      brightness: 50
-      color_name: red
-      entity_id: light.nightstand
-    service: light.turn_on
-  - wait_template: '{{ is_state("input_boolean.motion_detected", "off") }}'
-  - data:
-      entity_id: light.nightstand
-    service: light.turn_off
-  initial_state: 'off'
-- id: '1516847180330'
-  alias: Motion Detected
-  trigger:
-  - entity_id: sensor.aeotech_multisensor_6_burglar
-    from: '0'
-    platform: state
-    to: '8'
-  condition: []
-  action:
-  - data:
-      entity_id: input_boolean.motion_detected
-    service: input_boolean.turn_on
-  hide_entity: true
-- id: '1516847230725'
-  alias: Motion no longer detected
-  trigger:
-  - entity_id: sensor.aeotech_multisensor_6_burglar
-    from: '8'
-    platform: state
-    to: '0'
-  condition: []
-  action:
-  - data:
-      entity_id: input_boolean.motion_detected
-    service: input_boolean.turn_off
-  hide_entity: true
-- id: '1518402080621'
-  alias: Delay Automations on Restart
-  trigger:
-  - event: start
-    platform: homeassistant
-  condition: []
-  action:
-  - delay: '30'
-  - data:
-      entity_id: group.delay_activation_after_restart
-    service: homeassistant.turn_on
-- id: '1520040557685'
-  alias: Turn off light automations when Sun rises
-  trigger:
-  - event: sunrise
-    platform: sun
-  condition: []
-  action:
-  - data:
-      entity_id: group.automations_that_should_match_dark_state
-    service: homeassistant.turn_off
 - id: '1521615321464'
   alias: Turn on heater at 6:45 if Christine is there
   trigger:
@@ -147,161 +20,9 @@
   condition: []
   action:
   - service: script.turn_off_heater
-- id: '1522690214948'
-  alias: Reload Automations After Restart
-  trigger:
-  - event: start
-    platform: homeassistant
-  condition: []
-  action:
-  - delay: 00:05:00
-  - data: {}
-    service: automation.reload
-- id: '1523565081728'
-  alias: Play Song When Door Opens
-  trigger:
-  - entity_id: sensor.front_door
-    platform: state
-    to: OPEN
-  condition: []
-  action:
-  - data: {}
-    service: script.play_mp3
-  initial_state: 'off'
-- id: stream_to_rpi_speaker
-  alias: Stream to RPI Speaker
-  trigger:
-    platform: state
-    entity_id: input_text.rpi_speaker_url
-  action:
-  - service: script.turn_on
-    entity_id: script.turn_on_chromecast
-  - service: media_extractor.play_media
-    data_template:
-      entity_id: media_player.livingroomcast
-      media_content_id: '{{ states(''input_text.rpi_speaker_url'') }}'
-      media_content_type: video/youtube
-- id: stream_to_chromecast_in_livingroom
-  alias: Stream to Chromecast on Livingroom TV
-  trigger:
-  - entity_id: input_text.chromecast_url
-    platform: state
-  condition:
-  - condition: state
-    entity_id: binary_sensor.someone_home
-    state: 'on'
-  action:
-  - entity_id: script.turn_on_chromecast
-    service: script.turn_on
-  - entity_id: media_player.livingroomcast
-    service: media_player.media_pause
-  - timeout: 00:00:03
-    wait_template: '{{ is_state(''media_player.livingroomcast'', ''paused'') }}'
-  - data_template:
-      entity_id: media_player.livingroomcast
-      media_content_id: '{{ states("input_text.chromecast_url") }}'
-      media_content_type: video/youtube
-    service: media_extractor.play_media
-- id: '1527274779695'
-  alias: Save Previous Light State When Lights Change
-  initial_state: 'off'
-  trigger:
-  - event_data:
-      domain: light
-    event_type: call_service
-    platform: event
-  - entity_id: group.all_light_switches
-    platform: state
-  condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.save_previous_light_state_when_lights_change.attributes.last_triggered)
-      | int > 2 }}'
-  action:
-  - delay: 00:00:02
-  - service: shell_command.save_lights_previous
-  - data: {}
-    service: shell_command.save_lights_current
-- id: '1527558200296'
-  alias: Turn on coffee maker in the morning
-  trigger:
-  - at: 07:20:00
-    platform: time
-  condition: []
-  action:
-  - data:
-      entity_id: script.turn_on_coffeemaker_for_one_hour
-    service: script.turn_on
-- id: '1528042666691'
-  alias: If coffeemaker is turned on directly, turn off after an hour
-  trigger:
-  - entity_id: switch.coffeemaker
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - delay: 01:00:00
-  - data:
-      entity_id: switch.coffeemaker
-    service: switch.turn_off
-- id: '1529892965912'
-  alias: Turn off AC when too cold
-  initial_state: 'off'
-  trigger:
-  - below: 72.8
-    entity_id: sensor.aeotech_multisensor_6_temperature
-    platform: numeric_state
-  condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: binary_sensor.someone_home
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.automatic_ac
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.ac_on
-      state: 'on'
-  action:
-  - entity_id: script.turn_off_ac
-    service: script.turn_on
-- id: '1529893033693'
-  alias: Turn on AC when too warm
-  initial_state: 'off'
-  trigger:
-  - above: 77.5
-    entity_id: sensor.temperature_feels_like
-    platform: numeric_state
-  condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: binary_sensor.someone_home
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.automatic_ac
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.ac_on
-      state: 'off'
-  action:
-  - entity_id: script.turn_on_ac
-    service: script.turn_on
-- id: '1531614010210'
-  alias: If ac_on has been on for an hour, turn off ac
-  initial_state: 'off'
-  trigger:
-  - entity_id: input_boolean.ac_on
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      entity_id: script.wait_an_hour_turn_off_ac
-    service: script.turn_on
 - id: '1531621091643'
   alias: Turn Off AC on restart (ensures correct bool)
-  initial_state: 'off'
+  initial_state: 'on'
   trigger:
   - event: start
     platform: homeassistant
@@ -310,45 +31,6 @@
   - data:
       entity_id: script.turn_off_ac
     service: script.turn_on
-- id: '1534979455190'
-  alias: Reduce the target temperature overnight
-  trigger:
-  - at: 00:50:00
-    platform: time
-  condition:
-  - after: '23:00:00'
-    before: 06:00:00
-    condition: time
-  action:
-  - data:
-      entity_id: climate.living_room
-      temperature: 6300
-    service: climate.set_temperature
-- id: '1534979637286'
-  alias: Reset Target Temperature
-  trigger:
-  - at: 06:00:00
-    platform: time
-  condition: []
-  action:
-  - data:
-      entity_id: climate.living_room
-      temperature: 6600
-    service: climate.set_temperature
-- id: '1536965226084'
-  alias: Track Dew Point Preference
-  trigger:
-  - entity_id: sensor.dew_point
-    platform: state
-  condition:
-  - condition: state
-    entity_id: binary_sensor.someone_home
-    state: 'on'
-  action:
-  - data:
-      payload_template: '{{ states(''sensor.dew_point'') }}'
-      topic: hass/climate/livingroom/preference
-    service: mqtt.publish
 - id: '1537471675803'
   alias: Set Climate 'Away Mode' when not at home
   trigger:
@@ -358,9 +40,9 @@
   condition: []
   action:
   - data:
-      away_mode: 'on'
       entity_id: climate.living_room
-    service: climate.set_away_mode
+      preset_mode: away
+    service: climate.set_preset_mode
 - id: '1537496116823'
   alias: Turn on climate control when someone is home
   trigger:
@@ -370,6 +52,27 @@
   condition: []
   action:
   - data:
-      away_mode: 'off'
       entity_id: climate.living_room
-    service: climate.set_away_mode
+      preset_mode: none
+    service: climate.set_preset_mode
+- id: '1564419516085'
+  alias: Notify Me when AC state changes
+  trigger:
+  - entity_id: input_boolean.ac_on
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: The AC is {{ states.input_boolean.ac_on.state }}
+    service: notify.telegram
+- id: '1564422413764'
+  alias: Notify me when at donnie home state changes
+  trigger:
+  - entity_id: binary_sensor.donnie_home
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: Donnie is {% if is_state('binary_sensor.donnie_home', 'off') %}not
+        home{% else %}home{% endif %}
+    service: notify.telegram

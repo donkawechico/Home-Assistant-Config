@@ -4,7 +4,7 @@ entities:
     state: false
   switch.accent_lights:
     state: false
-  switch.ikea_lamp:
+  switch.pool_table_light:
     state: false
   light.aikitchengascanmain:
     state: on

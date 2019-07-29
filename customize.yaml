@@ -38,10 +38,6 @@ light.aishopgascan:
   emulated_hue_hidden: true
 device_tracker.amazon6a82acc0d:
   entity_picture: https://goo.gl/CKCYx1
-switch.ikea_lamp:
-  emulated_hue_hidden: false
-  emulated_hue_name: Ikea Lamp
-  friendly_name: Ikea Lamp
 switch.water_light:
   emulated_hue_hidden: false
   emulated_hue_name: Water Light
@@ -76,23 +72,14 @@ switch.projector:
 switch.bedtime_projector:
   emulated_hue_hidden: false
   emulated_hue_name: Bedtime Projector
-script.bedtime:
-  emulated_hue_hidden: false
-  emulated_hue_name: Bedtime
 switch.television:
   emulated_hue_hidden: false
   emulated_hue_name: TV
 switch.sun_projector:
   emulated_hue_hidden: false
   emulated_hue_name: Sun Projector
-switch.theater_mode:
-  emulated_hue_hidden: false
-  emulated_hue_name: Theater Mode
 media_player.plex_a9w8mh48b5u5b0xxxftt9q8w:
   friendly_name: theater
-switch.coffeemaker:
-  emulated_hue_hidden: false
-  emulated_hue_name: Coffee Maker
 group.gas_cans:
   emulated_hue_hidden: true
   emulated_hue_name: All Gas Cans
@@ -101,10 +88,6 @@ sensor.aeotech_multisensor_6_burglar:
   polling_intensity: 1
 sensor.aeotech_multisensor_6_luminance:
   polling_intensity: 1
-sensor.transit_time_my_location_to_aguirowitz:
-  friendly_name: transit_time_aguirowitz
-input_select.house_mode:
-  order: '1'
 light.kitchen_lights:
   emulated_hue_hidden: false
   emulated_hue_name: kitchen lights
@@ -114,11 +97,12 @@ light.gas_cans:
 switch.heater:
   emulated_hue_hidden: false
   emulated_hue_name: heater
-light.nanoleafaurora51d296local:
-  friendly_name: nanoleaf_aurora
 switch.climate_control:
   emulated_hue_hidden: false
   emulated_hue_name: climate control
 switch.pool_table_light:
   emulated_hue_hidden: false
   emulated_hue_name: pool table light
+script.set_bedtime_projector_sleeptime:
+  emulated_hue_hidden: false
+  emulated_hue_name: sleep timer

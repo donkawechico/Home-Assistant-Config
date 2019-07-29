@@ -42,10 +42,11 @@ cloud:
     filter:
       include_entities:
         - light.ailivingroomorb
-        - group.all_color_lights
+        - light.all_color_lights
         - light.ailivingroomgascan
         - light.aikitchengascanmain
         - light.aikitchengascannozzle
+        - light.ailivingroomsculpture
         - light.aishopgascan
         - light.gas_cans
         - light.aientryumbrella
@@ -53,11 +54,10 @@ cloud:
         - group.bedroom
         - scene.warm
         - switch.bedtime
-        - light.aurora
+        - light.nanoleaf
         - script.scene_underwater
-        - media_player.livingroomcast
-        - switch.is_coffee_loaded
-        - sensor.temperature_feels_like
+      include_domains:
+        - media_player
     entity_config:
       light.ailivingroomorb:
         name: Orb
@@ -79,14 +79,10 @@ cloud:
         name: Livingroom Cast
         description: Livingroom Chromecast
         display_categories: OTHER
-      switch.is_coffee_loaded:
-        name: Is Coffee Maker Loaded
-        description: Is Coffee Maker filled with water and grounds
-        display_categories: SWITCH
-      sensor.temperature_feels_like:
-        name: House
-        description: '"Feels like" temp in the livingroom'
-        display_categories: TEMPERATURE_SENSOR
+      media_player.playstation_4:
+        name: Playstation Console
+        description: Playstation 4 Media Player
+        display_categories: MEDIA_PLAYER
 
 config:
 
@@ -119,8 +115,6 @@ logbook:
   exclude:
     entities:
       - sensor.aeotech_multisensor_6_ultraviolet
-      - automation.motion_no_longer_detected
-      - automation.motion_detected
       - sensor.aeotech_multisensor_6_sourcenodeid
       - sensor.aeotech_multisensor_6_alarm_type
       - sensor.weather_icon
@@ -178,11 +172,13 @@ device_tracker:
     username: !secret router_username
     password: !secret router_password
     interval_seconds: 10
-    consider_home: 30
-
+    consider_home: 180
+  - platform: google_maps
+    username: !secret googlebot_username
+    password: !secret googlebot_password
+    max_gps_accuracy: 100
 group: !include groups.yaml
 automation: !include automations.yaml
-automation old: !include advanced_automations.yaml
 scene: !include_dir_list scenes/
 
 logger:
@@ -213,19 +209,13 @@ recorder:
     entities:
       - device_tracker.christine_phone
       - device_tracker.christines_macbook
-      - device_tracker.work_laptop
+      - device_tracker.donniesmbp
+      - device_tracker.donnie_pixel_2
   exclude:
     entities:
       - input_text.api_password
 
-# Example configuration.yaml entry
 zone:
-#   - name: Home
-#     latitude: !secret zone_home_lat
-#     longitude: !secret zone_home_long
-#     radius: 60
-#     icon: mdi:home
-#     passive: false
   - name: Yammer
     latitude: !secret zone_work_lat
     longitude: !secret zone_work_long
@@ -255,43 +245,8 @@ media_extractor:
     media_player.livingroomcast:
       video: bestvideo
       music: bestaudio
-    media_player.rpi_speaker:
-      video: worstvideo
-      music: worstaudio
 
 input_select:
-  home_state:
-    name: Home State
-    options:
-      - Outside
-      - Entering
-      - Leaving
-      - Inside
-      - Not home
-      - Unknown
-    initial: Unknown
-    icon: mdi:panda
-  christine_home_state:
-    name: Christine Home State
-    options:
-      - Outside
-      - Entering
-      - Leaving
-      - Inside
-      - Not here
-      - Unknown
-    initial: Unknown
-    icon: mdi:panda
-  house_mode:
-    name: House Mode
-    options:
-      - None
-      - Theater
-      - Intermission
-      - Bedtime
-      - All Off
-    initial: None
-    icon: mdi:home-modern
   privacy_mode:
     name: Privacy Mode
     options:
@@ -326,6 +281,20 @@ light:
       - light.aikitchengascannozzle
       - light.ailivingroomgascan
       - light.aishopgascan
+  - platform: group
+    name: All Color Lights
+    entities:
+      - light.aikitchengascanmain
+      - light.aikitchengascannozzle
+      - light.ailivingroomorb
+      - light.ailivingroomgascan
+      - light.aientryumbrella
+      - light.the_sun
+      - light.chandelier
+      - light.nightstand
+      - light.aishopgascan
+      - light.ailivingroomsculpture
+      - light.nanoleaf
   - platform: nanoleaf
     host: !secret nanoleaf_ip
     token: !secret nanoleaf_token
@@ -434,7 +403,6 @@ shell_command:
   take_photo_raspistill_pizero: !secret raspistill_script_pizero
   take_photo_fridge: !secret usb_camera_script_fridge
   take_photo_bedroom: !secret usb_camera_script_bedroom
-  ps4_waker_plex: /usr/bin/ps4-waker start CUSA01850
   reboot_router: !secret reboot_script
 
 zwave:
@@ -442,27 +410,18 @@ zwave:
   polling_interval: 10000
 
 input_text:
-  chromecast_url:
-    name: Chromecast Url
-  last_video_sender:
-    name: Last Youtube Sender
-  rpi_speaker_url:
-    name: Stream to RPi Speaker
-  scene_name:
-    name: Scene Name
   api_password:
     name: API Password
     initial: !secret api_password
     mode: password
-  coffeemaker_time:
-    name: Coffee maker time to go on
-    initial: '07:15:00'
     
 notify:
   - name: pushbullet
     platform: pushbullet
     api_key: !secret pushbullet_api_key
-
+  - name: telegram
+    platform: telegram
+    chat_id: 643816930
 panel_custom:
   - name: floorplan
     sidebar_title: Floorplan
@@ -477,17 +436,18 @@ climate:
     heater: switch.air_conditioner
     target_sensor: sensor.dew_point
     ac_mode: true
-    min_temp: 5500
-    max_temp: 7500
-    target_temp: 6500
-    initial_operation_mode: "auto"
+    min_temp: 50.0
+    max_temp: 75.0
+    target_temp: 57.0
+    initial_hvac_mode: "cool"
     keep_alive:
       minutes: 6000
     hot_tolerance: 0
     cold_tolerance: 0
     min_cycle_duration:
       seconds: 5
-    away_temp: 8000
+    away_temp: 70.0
+    precision: 0.1
 
 vacuum:
   - platform: roomba
@@ -496,15 +456,18 @@ vacuum:
     password: !secret roomba_password
 
 system_health:
+
 media_player:
   - platform: spotify
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
     cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
+  - platform: plex
 
-# speedtestdotnet:
-#   scan_interval:
-#     minutes: 30
-#   monitored_conditions:
-#     - ping
-#     - download
+# Example configuration.yaml entry for the Telegram Bot
+telegram_bot:
+  - platform: polling
+    api_key: 978995231:AAGt2D5dyeFu4BN4o45302YR4itUkAFhWkE
+    allowed_chat_ids:
+      - 643816930
+

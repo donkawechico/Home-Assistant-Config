@@ -8,7 +8,7 @@ entities:
     rgb_color: [255, 29, 22]
   switch.accent_lights:
     state: on
-  switch.ikea_lamp:
+  switch.pool_table_light:
     state: off
   light.ailivingroomsculpture:
     state: on

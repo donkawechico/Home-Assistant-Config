@@ -16,7 +16,7 @@ entities:
     xy_color: [0.204, 0.099]
   light.test_light:
     state: off
-  light.aurora:
+  light.nanoleaf:
     state: on
     brightness: 22
     color_temp: 500

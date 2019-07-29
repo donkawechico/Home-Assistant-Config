@@ -2,32 +2,19 @@ default_view:
   view: yes
   icon: mdi:home
   entities:
-#  - group.house_lights
-  - device_tracker.donkawechico_s7
-  - device_tracker.nearable_bike
   - binary_sensor.donnie_home
   - binary_sensor.someone_home
-  - sensor.bart_departures_civic_center
+  - binary_sensor.christine_home
   - sensor.ssl_cert_expiry
-  - group.modes
   - group.living_room
   - group.kitchen
   - group.shop
   - group.entry
   - group.bedroom
   - group.synchronize
-  - group.travel_times
-  - input_text.chromecast_url
-  - input_text.last_video_sender
-  - input_text.rpi_speaker_url
   - light.gas_cans
   - light.kitchen_lights
-  - group.leave_by_alerts
-  - light.aurora
-  - light.test_light
-  - group.scene_saver
-  - group.coffee_maker
-  - switch.should_save_media_state
+  - light.nanoleaf
   - group.air_conditioner
   - vacuum.roomba
 air_conditioner:
@@ -39,7 +26,10 @@ air_conditioner:
   - climate.living_room
   - script.set_too_cold
   - script.set_too_warm
-  - sensor.dew_point_preference
+  - script.turn_on_ac
+  - script.turn_off_ac
+  - script.turn_on_heater
+  - script.turn_off_heater
 cameras:
   view: yes
   icon: mdi:camera
@@ -59,7 +49,7 @@ house_lights:
   name: House Lights
   icon: mdi:ceiling-light
   entities:
-  - group.all_color_lights
+  - light.all_color_lights
   - group.all_light_switches
   - light.kitchen_strip
 scenes:
@@ -67,8 +57,6 @@ scenes:
   name: Scenes
   icon: mdi:palette
   entities:
-  - scene.previous
-  - scene.current
   - scene.david_lynch
   - scene.theater
   - scene.Green
@@ -89,7 +77,6 @@ living_room:
   - light.chandelier
   - switch.accent_lights
   - switch.water_light
-  - switch.ikea_lamp
 kitchen:
   name: Kitchen
   entities:
@@ -110,21 +97,20 @@ bedroom:
   name: Bedroom
   entities:
   - light.nightstand
-all_color_lights:
-  name: Color Lights
-  entities:
-  - light.aikitchengascanmain
-  - light.aikitchengascannozzle
-  - light.ailivingroomorb
-  - light.ailivingroomgascan
-  - light.aientryumbrella
-  - light.the_sun
-  - light.chandelier
-  - light.nightstand
-  - light.aishopgascan
-  - light.ailivingroomsculpture
-  - light.aurora
-  #- light.kitchen_strip
+# all_color_lights:
+#   name: Color Lights
+#   entities:
+#   - light.aikitchengascanmain
+#   - light.aikitchengascannozzle
+#   - light.ailivingroomorb
+#   - light.ailivingroomgascan
+#   - light.aientryumbrella
+#   - light.the_sun
+#   - light.chandelier
+#   - light.nightstand
+#   - light.aishopgascan
+#   - light.ailivingroomsculpture
+#   - light.nanoleaf
 front_wall:
   name: Front Wall
   entities:
@@ -155,20 +141,18 @@ all_media_players:
   icon: mdi:theater
   entities:
   - media_player.livingroomcast
-  - media_player.home_assistant_speaker
   - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
   - media_player.suncast
   - media_player.entrycast
-  - media_player.ps4_waker
   - switch.plex
   - group.music_spotify
   - media_player.spotify
   - switch.chromecast
   - switch.playstation
+  - media_player.playstation_4
 all_light_switches:
   name: Light Switches
   entities:
-  - switch.ikea_lamp
   - switch.water_light
   - switch.accent_lights
   - switch.pool_table_light
@@ -197,12 +181,10 @@ aeotech_multisensor:
   - sensor.aeotech_multisensor_6_sourcenodeid
   - sensor.aeotech_multisensor_6_ultraviolet
   - sensor.aeotech_multisensor_6_temperature
-  - sensor.temperature_feels_like
 physical_sensors:
   name: Physical Sensors
   entities:
   - sensor.front_door
-  - sensor.motion_sensor
 virtual_sensors:
   name: Virtual Sensors
   entities:
@@ -214,11 +196,6 @@ safe_to_turn_off:
   name: Safe to Turn Off Devices
   entities:
   - group.house_lights
-automations_to_turn_on_when_almost_dark:
-  view: false
-  name: Dark Out Automations
-  entities:
-  - automation.turn_on_lights_when_dark_outside
 synchronize:
   view: yes
   name: Synchronize
@@ -226,13 +203,12 @@ synchronize:
   entities:
   - switch.is_kitchen_strip_on
   - input_boolean.tv_on
+  - input_boolean.ac_on
 automations:
   view: yes
   name: Automations
   icon: mdi:robot
   entities:
-  - group.automations_to_turn_off_when_no_one_home
-  - group.automations_to_turn_off_when_dark
   - group.all_automations
 locations:
   view: yes
@@ -240,8 +216,6 @@ locations:
   icon: mdi:map-marker
   entities:
   - group.all_devices
-  - group.beacons
-  - group.nearables
   - camera.iss
 gas_cans:
   view: no
@@ -257,44 +231,11 @@ tracked_devices:
   icon: mdi:cellphone-link
   entities:
   - group.all_devices
-nearables:
-  view: no
-  name: Estimote Nearable Stickers
-  entities:
-  - device_tracker.beacon_nearable_bike
-  - device_tracker.beacon_nearable_car
-  - device_tracker.beacon_nearable_chair
-automations_to_turn_off_when_no_one_home:
-  view: no
-  name: Turn these off when no one's home
-  entities:
-  - automation.turn_on_lights_when_dark_outside
-turn_on_when_bedtime:
-  view: no
-  name: Turn these on when it's bedtime
-  entities:
-  - automation.turn_on_nightlight_during_bedtime
-  - light.nightstand
-turn_off_when_bedtime:
-    view: no
-    name: Turn these off when it's bedtime
-    entities:
-    - group.house_lights
-    - group.all_media_players
-modes:
-  view: no
-  name: House Modes
-  entities:
-  - input_select.house_mode
-  - input_select.privacy_mode
 someone_home:
   view: no
   name: Someone is home
   entities:
-  - device_tracker.donkawechico_s7
-  - device_tracker.donkawechico_sailfish
   - device_tracker.christine_phone
-  - device_tracker.smg930v
   - sensor.donnie_home
 scripts:
   view: yes
@@ -302,11 +243,6 @@ scripts:
   icon: mdi:script
   entities:
   - group.all_scripts
-delay_activation_after_restart:
-  view: no
-  name: These entities are activated some time after restart
-  entities:
-  - automation.turn_on_lights_when_home
 all_chromecasts:
   view: no
   name: All Chromecast media players
@@ -314,12 +250,6 @@ all_chromecasts:
   - media_player.livingroomcast
   - media_player.suncast
   - media_player.entrycast
-  - media_player.home_assistant_speaker
-automations_that_should_match_dark_state:
-  view: no
-  name: Automations that should be on when dark and off when light
-  entities:
-  - automation.turn_on_lights_when_home
 miflora_sensors:
   view: no
   name: Mi Flora Sensors
@@ -329,10 +259,8 @@ miflora_sensors:
   - sensor.mi_flora_light_intensity
   - sensor.mi_flora_temperature
   - sensor.mi_flora_conductivity
-coffee_maker:
+notify_me_devices:
   view: no
-  name: Coffee Maker
+  name: Notify me when these devices change state
   entities:
-  - switch.is_coffee_loaded
-  - switch.coffeemaker
-  #- input_text.coffeemaker_time
+   - input_boolean.ac_on

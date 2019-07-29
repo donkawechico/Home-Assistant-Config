@@ -32,7 +32,7 @@ entities:
     state: on
     brightness: 255
     rgb_color: [255, 0, 128]
-  switch.ikea_lamp:
+  switch.pool_table_light:
     state: off
   light.ailivingroomsculpture:
     state: on

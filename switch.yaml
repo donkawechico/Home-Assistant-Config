@@ -38,51 +38,12 @@
   payload_on: "ON"
   payload_off: "OFF"
   retain: true
-- platform: mqtt
-  name: "Ikea Lamp"
-  state_topic: "stat/ikea/POWER"
-  command_topic: "cmnd/ikea/POWER"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: true
-- platform: mqtt
-  name: "coffeemaker"
-  state_topic: "stat/coffeemaker/POWER"
-  command_topic: "cmnd/coffeemaker/POWER"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: true
-- platform: mqtt
-  name: "should_save_media_state"
-  state_topic: "hass/media_state_saver/ACTIVE"
-  command_topic: "hass/media_state_saver/ACTIVE"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: true
-- platform: mqtt
-  name: "Is Coffee Loaded"
-  state_topic: "stat/coffeemaker/CONTENTS"
-  command_topic: "stat/coffeemaker/CONTENTS"
-  payload_on: "LOADED"
-  payload_off: "EMPTY"
-  # Retaining seems to make the default "LOADED"
-  retain: false
-  qos: 1
 - platform: command_line
   switches:
     # Relies on https://github.com/skorokithakis/catt
     suncast_fireplace:
       command_on: "/usr/local/bin/catt cast 'https://www.youtube.com/watch?v=6RoTpvA9MSw'"
       command_off: "/usr/local/bin/catt stop"
-#    wake_ps4:
-#      command_on: 'ps4-waker'
-#      command_off: 'ps4-waker standby'
-#      command_state: 'telnet PS4 9295 | grep "Connected" > nul && (echo "true") || (echo "false")' 
-#      value_template: '{{ value }}'
-#      friendly_name: "Playstation 4"
 - platform: template
   switches:
     air_conditioner:
@@ -141,18 +102,6 @@
       turn_off:
         service: script.turn_on
         entity_id: script.turn_off_projector
-    theater_mode:
-      value_template: "{{ is_state('input_select.house_mode','Theater') }}"
-      turn_on:
-        service: input_select.select_option
-        data:
-          entity_id: input_select.house_mode
-          option: Theater
-      turn_off:
-        service: input_select.select_option
-        data:
-          entity_id: input_select.house_mode
-          option: None
     sun_projector:
       value_template: "{{ is_state('input_boolean.sun_projector_on','on') }}"
       turn_on:
@@ -161,18 +110,6 @@
       turn_off:
         service: script.turn_on
         entity_id: script.turn_off_sun_projector
-    bedtime:
-      value_template: "{{ is_state('input_select.house_mode','Bedtime') }}"
-      turn_on:
-        service: input_select.select_option
-        data:
-          entity_id: input_select.house_mode
-          option: Bedtime
-      turn_off:
-        service: input_select.select_option
-        data:
-          entity_id: input_select.house_mode
-          option: None
     bedtime_projector:
       value_template: "{{ is_state('input_boolean.bedtime_projector','on') }}"
       turn_on:
@@ -182,7 +119,7 @@
         service: script.turn_on
         entity_id: script.turn_off_bedtime_projector
     climate_control:
-      value_template: "{{ states.climate.living_room.attributes.operation_mode == 'cool' }}"
+      value_template: "{{ states.climate.living_room.attributes.hvac_action != 'off' }}"
       turn_on:
         service: script.turn_on
         entity_id: script.turn_on_climate_control

@@ -59,7 +59,7 @@ entities:
   light.nightstand:
     state: on
     transition: 3
-  switch.ikea_lamp:
+  switch.pool_table_light:
     state: off
   light.kitchen_strip:
       state: on
