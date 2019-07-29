@@ -7,6 +7,14 @@
   payload_off: "OFF"
   retain: true
 - platform: mqtt
+  name: "Pool Table Light"
+  state_topic: "stat/pooltablelight/POWER"
+  command_topic: "cmnd/pooltablelight/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: mqtt
   name: "Water Light"
   state_topic: "stat/waterlight/POWER"
   command_topic: "cmnd/waterlight/POWER"

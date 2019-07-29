@@ -1,20 +1,18 @@
 homeassistant:
-  name: Home
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
-  elevation: 0
-  unit_system: imperial
-  time_zone: America/Los_Angeles
   customize: !include customize.yaml
+  unit_system: imperial
   customize_domain:
     automation:
       initial_state: 'on'
   packages: 
     pack_1: !include custom_components/spotify_playlist_player.yaml
-    #opencv: !include custom_components/opencv_cameras.yaml
     david_lynch: !include custom_components/david_lynch_ambience.yaml
   whitelist_external_dirs:
     - '/home/homeassistant/.homeassistant/camera'
+  auth_providers:
+    - type: homeassistant
+    - type: legacy_api_password
+      api_password: !secret api_password
 
 input_boolean:
   ac_on:
@@ -36,9 +34,6 @@ input_boolean:
   motion_detected:
     name: "Was Motion Detected"
     initial: off
-  beacon_lighting:
-    name: "Phone Location Controls Lighting"
-    initial: off
 
 frontend:
 
@@ -46,7 +41,6 @@ cloud:
   alexa:
     filter:
       include_entities:
-        - input_boolean.beacon_lighting
         - light.ailivingroomorb
         - group.all_color_lights
         - light.ailivingroomgascan
@@ -55,15 +49,12 @@ cloud:
         - light.aishopgascan
         - light.gas_cans
         - light.aientryumbrella
-        - switch.plex
         - group.house_lights
         - group.bedroom
         - scene.warm
         - switch.bedtime
         - light.aurora
         - script.scene_underwater
-        - script.party_mode_funk
-        - script.party_mode_rave
         - media_player.livingroomcast
         - switch.is_coffee_loaded
         - sensor.temperature_feels_like
@@ -79,14 +70,6 @@ cloud:
       script.scene_underwater:
         name: Scene Underwater
         description: Scene Underwater
-        display_categories: SCENE_TRIGGER
-      script.party_mode_funk:
-        name: Funk Party
-        description: Make a funk party in the house
-        display_categories: SCENE_TRIGGER
-      script.party_mode_rave:
-        name: Rave Party
-        description: Insta-rave
         display_categories: SCENE_TRIGGER
       script.bedtime_projector:
         name: Bedtime Projector
@@ -108,7 +91,7 @@ cloud:
 config:
 
 http:
-  # api_password: !secret api_password
+  api_password: !secret api_password
   base_url: !secret base_url
   ssl_certificate: !secret ssl_cert_path
   ssl_key: !secret ssl_key
@@ -120,20 +103,13 @@ http:
   - 127.0.0.1
   - ::1
   - 192.168.0.0/24
-  ip_ban_enabled: true
-  login_attempts_threshold: 5
-  #login_attempts_threshold: -1
+  ip_ban_enabled: false
+  login_attempts_threshold: -1
 
 updater:
   include_used_components: true
 
 discovery:
-  # ignore:
-  #   - google_cast
-
-
-# Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
 
 # Enables support for tracking state changes over time.
 history:
@@ -148,13 +124,6 @@ logbook:
       - sensor.aeotech_multisensor_6_sourcenodeid
       - sensor.aeotech_multisensor_6_alarm_type
       - sensor.weather_icon
-      - sensor.bart_departures_civic_center_easiest
-      - sensor.bart_departures_civic_center_soonest
-      - sensor.bart_departures_ashby
-      - sensor.leave_by_work_to_home_easiest
-      - sensor.leave_by_work_to_home_soonest
-      - sensor.leave_by_home_to_work_parking_ashby
-      - sensor.leave_by_home_to_work_parking_aguirowitz
       - sensor.yr_symbol
 
 sun:
@@ -162,13 +131,6 @@ sun:
 sensor: !include sensor.yaml
 
 binary_sensor: !include binary_sensor.yaml
-
-tts:
-  platform: google
-  cache: true
-  cache_dir: /home/homeassistant/.homeassistant/tts_cache
-  time_memory: 57600
-
 
 mqtt:
   broker: !secret mqtt_host
@@ -203,7 +165,9 @@ emulated_hue:
   expose_by_default: false
 
 alexa:
-snips:
+  smart_home:
+    endpoint: https://api.amazonalexa.com/v3/events
+    
 dialogflow:
 
 intent_script: !include intents.yaml
@@ -215,52 +179,6 @@ device_tracker:
     password: !secret router_password
     interval_seconds: 10
     consider_home: 30
-  # - platform: owntracks
-  #   max_gps_accuracy: 200
-  #   waypoints: True #setting to true means owntracks zones exportable to HA from app
-  #   waypoint_whitelist: 
-  #     - donkawechico
-  #   mqtt_topic: "owntracks/#"
-  #   events_only: false
-  #   region_mapping:
-  #     Sir: home
-  #     donkawechico_s7_workdesk: workdesk
-  - platform: google_maps
-    username: !secret googlebot_username
-    password: !secret googlebot_password
-
-# media_player:
-#   - platform: plex
-#     entity_namespace: 'plex'
-# # Currently, setting this to true throws an error:
-# # https://github.com/home-assistant/home-assistant/issues/10074
-# #    include_non_clients: true
-#     include_non_clients: false
-#     scan_interval: 5
-#     show_all_controls: true
-#     use_custom_entity_ids: true
-#     use_episode_art: true
-#     friendly_name: 'theater'
-#   - platform: spotify
-#     client_id: !secret spotify_client_id
-#     client_secret: !secret spotify_client_secret
-#     cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
-#   - platform: vlc
-#     name: rpi_speaker
-#     arguments: '--alsa-audio-device=hw:2,0' #can also be 2,1. use aplay -l to list audio devices
-#   - platform: vlc
-#     name: rpi_speaker_4
-#     arguments: '--alsa-audio-device=hw:2,1' #can also be 2,1. use aplay -l to list audio devices
-#   - platform: vlc
-#     name: rpi_speaker_2
-#     arguments: '--alsa-audio-device=hw:1,0' #can also be 2,1. use aplay -l to list audio devices
-#   - platform: vlc
-#     name: rpi_speaker_3
-#     arguments: '--alsa-audio-device=hw:0,0' #can also be 2,1. use aplay -l to list audio devices
-#   - platform: ps4
-#     name: "PS4 Waker"
-#     host: 192.168.1.100
-#     cmnd: "sudo ps4-waker"
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -278,7 +196,6 @@ logger:
     homeassistant.components.image_processing: error
     homeassistant.components.http.view: critical
     homeassistant.components.appdaemon: debug
-  #  homeassistant.components.media_player.plex: error
 
 # Enables support for tracking state changes over time.
 recorder:
@@ -294,32 +211,14 @@ recorder:
       - input_boolean
       - automation
     entities:
-      - device_tracker.nearable_bike
-      - device_tracker.nearable_car
-      - device_tracker.nearable_chair
-      - device_tracker.beacon_workdesk
       - device_tracker.christine_phone
       - device_tracker.christines_macbook
-      - device_tracker.donkawechico_sailfish
       - device_tracker.work_laptop
-      - device_tracker.donkawechico_s7
   exclude:
     entities:
-      - sensor.beacon_beet
-      - sensor.beacon_pink
-      - sensor.beacon_yellow
-      - sensor.bart_departures_civic_center
-      - sensor.bart_departures_ashby
       - input_text.api_password
 
-
-#remote:
-#  - platform: harmony
-#    name: Harmony Hub
-#    host: !secret harmony_ip
-
 # Example configuration.yaml entry
-#zone: !include_dir_merge_named zones.yaml
 zone:
 #   - name: Home
 #     latitude: !secret zone_home_lat
@@ -333,26 +232,6 @@ zone:
     radius: 75
     icon: mdi:briefcase
     passive: false
-  - name: bedroom
-    latitude: !secret zone_home_lat
-    longitude: !secret zone_home_long
-    radius: 50
-    passive: true
-  - name: livingroom
-    latitude: !secret zone_home_lat
-    longitude: !secret zone_home_long
-    passive: true
-    radius: 50
-  - name: entryway
-    latitude: !secret zone_home_lat
-    longitude: !secret zone_home_long
-    passive: true
-    radius: 50
-  - name: workdesk
-    latitude: !secret zone_work_lat
-    longitude: !secret zone_work_long
-    passive: true
-    radius: 0
   - name: Aguirowitz
     latitude: !secret zone_aguirowitz_lat
     longitude: !secret zone_aguirowitz_long
@@ -379,7 +258,6 @@ media_extractor:
     media_player.rpi_speaker:
       video: worstvideo
       music: worstaudio
-
 
 input_select:
   home_state:
@@ -423,10 +301,6 @@ input_select:
     initial: Open
     icon: mdi:home-modern
 
-# Todo: Plug in levels and value templates:
-# https://home-assistant.io/components/light.template/
-#      value_template: "{{ is_state('input_boolean.kitchen_strip_on', 'on') }}"
-
 light:
   - platform: template
     lights:
@@ -452,32 +326,7 @@ light:
       - light.aikitchengascannozzle
       - light.ailivingroomgascan
       - light.aishopgascan
-  # - platform: mqtt
-  #   name: Test Light
-  #   state_topic: "test/light/test/state"
-  #   command_topic: "test/light/test/cmnd"
-  #   command_on_template: "on,{{ brightness|d }},{{ red|d }}-{{ green|d }}-{{ blue|d }}"
-  #   command_off_template: "off"
-  #   brightness_template: "{{ value.split(',')[1] }}"
-  #   red_template: "{{ value.split(',')[2].split('-')[0] }}"
-  #   green_template: "{{ value.split(',')[2].split('-')[1] }}"
-  #   blue_template: "{{ value.split(',')[2].split('-')[2] }}"
-  # - platform: mqtt
-  #   name: "Kitchen Strip"
-  #   state_topic: "hass/light/kitchen/strip"
-  #   command_topic: "harmony-api/hubs/harmony-hub/devices/kitchen-led-strip-rgb/command"
-  #   brightness_state_topic: "hass/light/kitchen/strip/brightness"
-  #   brightness_command_topic: "harmony-api/hubs/harmony-hub/devices/kitchen-led-strip-rgb/command"
-  #   rgb_state_topic: "office/rgb1/rgb/status"
-  #   rgb_command_topic: "harmony-api/hubs/harmony-hub/devices/kitchen-led-strip-rgb/command"
-  #   state_value_template: "{{ value_json.state }}"
-  #   brightness_value_template: "{{ value_json.brightness }}"
-  #   rgb_value_template: "{{ value_json.rgb | join(',') }}"
-  #   qos: 1
-  #   payload_on: "power-toggle"
-  #   payload_off: "power-toggle"
-  #   optimistic: true
-  - platform: nanoleaf_aurora
+  - platform: nanoleaf
     host: !secret nanoleaf_ip
     token: !secret nanoleaf_token
   - platform: mqtt
@@ -576,10 +425,6 @@ camera:
   - platform: local_file
     name: fridge
     file_path: !secret camera_image_path_fridge
-  - platform: generic
-    name: ISS
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&zoom=5&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&key=!secret static_map_key
-    limit_refetch_to_url_change: true
   - platform: local_file
     name: pizero
     file_path: !secret camera_image_path_pizero
@@ -590,9 +435,7 @@ shell_command:
   take_photo_fridge: !secret usb_camera_script_fridge
   take_photo_bedroom: !secret usb_camera_script_bedroom
   ps4_waker_plex: /usr/bin/ps4-waker start CUSA01850
-  save_scene: /bin/bash -c "/home/homeassistant/dkscenegen/scenegen.py -s {{states.input_text.scene_name.state}} > /home/homeassistant/.homeassistant/scenes/{{states.input_text.scene_name.state}}.yaml"
-  save_lights_previous: cp /home/homeassistant/.homeassistant/scenes/current.yaml /home/homeassistant/.homeassistant/scenes/previous.yaml
-  save_lights_current: /bin/bash -c "/home/homeassistant/dkscenegen/scenegen.py -s previous > /home/homeassistant/.homeassistant/scenes/current.yaml"
+  reboot_router: !secret reboot_script
 
 zwave:
   usb_path: /dev/zwave
@@ -620,19 +463,6 @@ notify:
     platform: pushbullet
     api_key: !secret pushbullet_api_key
 
-#no_ip:
-#  domain: !secret base_url
-#  username: !secret noip_username
-#  password: !secret noip_password
-
-#panel_iframe:
-#  alexa:
-#    title: 'Alexa'
-#    url: 'https://alexa.amazon.com'
-#  emulated_hue:
-#    title: 'Emulated Hue Devices'
-#    url: 'https://192.168.1.180/api/pi/lights'
-
 panel_custom:
   - name: floorplan
     sidebar_title: Floorplan
@@ -641,31 +471,12 @@ panel_custom:
 #    webcomponent_path: /home/homeassistant/.homeassistant/panels/ha-floorplan.html
     config: !include floorplan.yaml
 
-#android_ip_webcam:
-#  - host: !secret ip_camera_front_ip
-#    port: !secret ip_camera_front_port
-#    username: !secret ip_camera_front_username
-#    password: !secret ip_camera_front_password
-#    name: Tablet Camera Front
-#    sensors:
-#      - motion
-#      - proximity
-#      - sound
-#      - battery_level
-#  - host: !secret ip_camera_bedroom_ip
-#    port: !secret ip_camera_bedroom_port
-#    username: !secret ip_camera_bedroom_username
-#    password: !secret ip_camera_bedroom_password
-#    name: Tablet Camera Bedroom
-#    sensors:
-#      - proximity
-
 climate:
   - platform: generic_thermostat
     name: Living room
     heater: switch.air_conditioner
     target_sensor: sensor.dew_point
-    ac_mode: True
+    ac_mode: true
     min_temp: 5500
     max_temp: 7500
     target_temp: 6500
@@ -685,3 +496,15 @@ vacuum:
     password: !secret roomba_password
 
 system_health:
+media_player:
+  - platform: spotify
+    client_id: !secret spotify_client_id
+    client_secret: !secret spotify_client_secret
+    cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
+
+# speedtestdotnet:
+#   scan_interval:
+#     minutes: 30
+#   monitored_conditions:
+#     - ping
+#     - download

@@ -45,3 +45,4 @@ conf/compiled
 error.log
 deleteme*
 test.*
+*.log*

@@ -64,6 +64,7 @@ script:
           source: >
             {% if is_state("input_select.spotify_source", "All Home Speakers") %} All Home Speakers
             {% elif is_state("input_select.spotify_source", "Livingroom Speakers") %} Livingroom Speaker
+            {% elif is_state("input_select.spotify_source", "LivingroomCast") %} LivingroomCast
             {% endif %}
       - service: media_player.play_media
         data_template:

@@ -185,7 +185,6 @@ haunt:
 
 layout:
   - clock.clock(2x1), donnie_presence, sensor.front_door, dark_outside_sensor, sync_kitchen_strip, haunt
-  - include: multisensor
   - label_rooms(3x1),                    label_scenes(2x1),                 label_temp_control(2x1)
   - house_lights, livingroom, kitchen,   underwater_scene, darkness_scene,  turn_on_ac, turn_off_ac
   - shop, bedroom, spacer,               theater_scene, warm_scene,         turn_on_heater, turn_off_heater
