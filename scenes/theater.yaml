@@ -6,13 +6,13 @@ entities:
     state: false
   switch.pool_table_light:
     state: false
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness_pct: 2
     white_value: 0
     rgb_color: [255, 136, 13]
     transition: 8
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness_pct: 2
     white_value: 0
@@ -23,31 +23,31 @@ entities:
     brightness_pct: 2
     rgb_color: [73, 48, 11]
     transition: 8
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     brightness_pct: 2
     white_value: 0
     rgb_color: [255, 136, 13]
     transition: 8
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     brightness_pct: 2
     white_value: 0
     rgb_color: [255, 136, 13]
     transition: 8
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness_pct: 2
     white_value: 0
     rgb_color: [255, 136, 13]
     transition: 8
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness_pct: 2
     white_value: 0
     rgb_color: [255, 136, 13]
     transition: 8
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness_pct: 2
     white_value: 0

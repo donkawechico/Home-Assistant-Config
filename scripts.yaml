@@ -83,17 +83,25 @@ turn_off_kitchen_strip:
 turn_on_playstation:
   alias: Turn on playstation and auto-select monitor
   sequence:
-  - service: remote.turn_on
-    data_template:
+  - data:
+      entity_id: media_player.playstation_4
+    service: media_player.turn_on
+  - data_template:
+      entity_id: remote.harmony_hub
       activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27544124\n\
         {% else %}\n  30170629\n{% endif %}\n"
+    service: remote.turn_on
 turn_off_playstation:
   alias: Turn off playstation and auto-select monitor
   sequence:
-  - service: remote.turn_off
-    data_template:
+  - data:
+      entity_id: media_player.playstation_4
+    service: media_player.turn_off
+  - data_template:
+      entity_id: remote.harmony_hub
       activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27544124\n\
         {% else %}\n  30170629\n{% endif %}\n"
+    service: remote.turn_off
 turn_on_tv:
   alias: Turn on Television
   sequence:
@@ -150,15 +158,15 @@ turn_on_chromecast:
   sequence:
   - service: remote.turn_on
     data_template:
+      entity_id: remote.harmony_hub
       activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27562206\n\
         {% else %}\n  27569061\n{% endif %}\n"
-  - service: media_player.turn_on
-    entity_id: media_player.livingroomcast
 turn_off_chromecast:
   alias: Turn off chromecast and monitor
   sequence:
   - service: remote.turn_off
     data_template:
+      entity_id: remote.harmony_hub
       activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27562206\n\
         {% else %}\n  27569061\n{% endif %}\n"
 turn_on_sun_projector:
@@ -192,58 +200,59 @@ take_photo_livingroom:
     entity_id: input_select.privacy_mode
     state: Open
   - service: shell_command.take_photo_raspistill
-take_photo_pizero:
-  alias: Take a photo from the pizero
-  sequence:
-  - condition: state
-    entity_id: input_select.privacy_mode
-    state: Open
-  - service: shell_command.take_photo_raspistill_pizero
-take_photo_bedroom:
-  alias: Take a photo of the bedroom
-  sequence:
-  - condition: state
-    entity_id: input_select.privacy_mode
-    state: Open
-  - service: shell_command.take_photo_bedroom
-take_photo_fridge:
-  alias: Take a photo toward fridge area
-  sequence:
-  - condition: state
-    entity_id: input_select.privacy_mode
-    state: Open
-  - service: shell_command.take_photo_fridge
-turn_on_all_projectors:
-  alias: Turn on all projectors in house
-  sequence:
-  - service: remote.turn_on
-    data:
-      activity: 27562206
-  - service: remote.send_command
-    data:
-      command: PowerToggle
-      device: 44803053
-      entity_id: remote.harmony_hub
-turn_off_all_projectors:
-  alias: Turn off all projectors in house
-  sequence:
-  - service: remote.turn_off
-  - service: remote.send_command
-    data:
-      command: PowerToggle
-      device: 44803053
-      entity_id: remote.harmony_hub
-  - service: remote.send_command
-    data:
-      command: PowerToggle
-      device: 44803053
-      entity_id: remote.harmony_hub
-turn_on_all_chromecasts:
-  alias: Turn on all chromecasts
-  sequence:
-  - service: homeassistant.turn_on
-    data:
-      entity_id: group.all_chromecasts
+# take_photo_pizero:
+#   alias: Take a photo from the pizero
+#   sequence:
+#   - condition: state
+#     entity_id: input_select.privacy_mode
+#     state: Open
+#   - service: shell_command.take_photo_raspistill_pizero
+# take_photo_bedroom:
+#   alias: Take a photo of the bedroom
+#   sequence:
+#   - condition: state
+#     entity_id: input_select.privacy_mode
+#     state: Open
+#   - service: shell_command.take_photo_bedroom
+# take_photo_fridge:
+#   alias: Take a photo toward fridge area
+#   sequence:
+#   - condition: state
+#     entity_id: input_select.privacy_mode
+#     state: Open
+#   - service: shell_command.take_photo_fridge
+# turn_on_all_projectors:
+#   alias: Turn on all projectors in house
+#   sequence:
+#   - service: remote.turn_on
+#     data:
+#       entity_id: remote.harmony_hub
+#       activity: 27562206
+#   - service: remote.send_command
+#     data:
+#       command: PowerToggle
+#       device: 44803053
+#       entity_id: remote.harmony_hub
+# turn_off_all_projectors:
+#   alias: Turn off all projectors in house
+#   sequence:
+#   - service: remote.turn_off
+#   - service: remote.send_command
+#     data:
+#       command: PowerToggle
+#       device: 44803053
+#       entity_id: remote.harmony_hub
+#   - service: remote.send_command
+#     data:
+#       command: PowerToggle
+#       device: 44803053
+#       entity_id: remote.harmony_hub
+# turn_on_all_chromecasts:
+#   alias: Turn on all chromecasts
+#   sequence:
+#   - service: homeassistant.turn_on
+#     data:
+#       entity_id: group.all_chromecasts
 scene_underwater:
   alias: scene underwater
   sequence:
@@ -361,22 +370,22 @@ turn_off_bedtime_projector:
       command: PowerToggle
       device: 44803053
       entity_id: remote.harmony_hub
-receiver_volume_down:
-  alias: Receiver Volume Down
-  sequence:
-  - data:
-      command: VolumeDown
-      device: 46382997
-      entity_id: remote.harmony_hub
-    service: remote.send_command
-receiver_volume_up:
-  alias: Receiver Volume Up
-  sequence:
-  - data:
-      command: VolumeUp
-      device: 46382997
-      entity_id: remote.harmony_hub
-    service: remote.send_command
+# receiver_volume_down:
+#   alias: Receiver Volume Down
+#   sequence:
+#   - data:
+#       command: VolumeDown
+#       device: 46382997
+#       entity_id: remote.harmony_hub
+#     service: remote.send_command
+# receiver_volume_up:
+#   alias: Receiver Volume Up
+#   sequence:
+#   - data:
+#       command: VolumeUp
+#       device: 46382997
+#       entity_id: remote.harmony_hub
+#     service: remote.send_command
 turn_on_climate_control:
   alias: Turn on climate control
   sequence:
@@ -396,20 +405,16 @@ set_too_cold:
   sequence:
   - data_template:
       entity_id: climate.living_room
-      temperature: '{{ (states(''sensor.dew_point'') | float) + 0.2 }}
-
-        '
+      temperature: '{{ (states(''sensor.relevant_dew_point'') | float) + 0.2 }}'
     service: climate.set_temperature
 set_too_warm:
   alias: Decrease climate target temp
   sequence:
   - data_template:
       entity_id: climate.living_room
-      temperature: '{{ (states(''sensor.dew_point'') | float) - 0.2 }}
-
-        '
+      temperature: '{{ (states(''sensor.relevant_dew_point'') | float) - 0.2 }}'
     service: climate.set_temperature
-reboot_router:
-  alias: Reboot router
-  sequence:
-  - service: shell_command.reboot_router
+# reboot_router:
+#   alias: Reboot router
+#   sequence:
+#   - service: shell_command.reboot_router

@@ -6,13 +6,14 @@ default_view:
   - binary_sensor.someone_home
   - binary_sensor.christine_home
   - sensor.ssl_cert_expiry
+  - group.modes
   - group.living_room
   - group.kitchen
   - group.shop
   - group.entry
   - group.bedroom
   - group.synchronize
-  - light.gas_cans
+  - light.all_color_lights
   - light.kitchen_lights
   - light.nanoleaf
   - group.air_conditioner
@@ -23,11 +24,14 @@ air_conditioner:
   entities:
   - switch.climate_control
   - input_boolean.ac_on
+  - input_select.climate_room
   - climate.living_room
   - script.set_too_cold
   - script.set_too_warm
   - script.turn_on_ac
   - script.turn_off_ac
+  - sensor.dew_point_bedroom
+  - sensor.dew_point_livingroom
   - script.turn_on_heater
   - script.turn_off_heater
 cameras:
@@ -71,62 +75,50 @@ scenes:
 living_room:
   name: Living Room
   entities:
-  - light.ailivingroomsculpture
-  - light.ailivingroomgascan
-  - light.ailivingroomorb
+  - light.ai_livingroom_sculpture
+  - light.ai_livingroom_gascan
+  - light.ai_livingroom_orb
   - light.chandelier
   - switch.accent_lights
   - switch.water_light
 kitchen:
   name: Kitchen
   entities:
-  - light.aikitchengascanmain
-  - light.aikitchengascannozzle
+  - light.ai_kitchen_gascan_main
+  - light.ai_kitchen_gascan_nozzle
   - light.kitchen_strip
 entry:
   name: Entryway
   entities:
-  - light.aientryumbrella
+  - light.ai_entry_umbrella
+  - switch.macrame_light
 shop:
   name: Shop
   entities:
-  - light.aishopgascan
+  - light.ai_shop_gascan
   - light.the_sun
   - switch.pool_table_light
 bedroom:
   name: Bedroom
   entities:
   - light.nightstand
-# all_color_lights:
-#   name: Color Lights
-#   entities:
-#   - light.aikitchengascanmain
-#   - light.aikitchengascannozzle
-#   - light.ailivingroomorb
-#   - light.ailivingroomgascan
-#   - light.aientryumbrella
-#   - light.the_sun
-#   - light.chandelier
-#   - light.nightstand
-#   - light.aishopgascan
-#   - light.ailivingroomsculpture
-#   - light.nanoleaf
+  - switch.music_light
 front_wall:
   name: Front Wall
   entities:
-  - light.ailivingroomorb
-  - light.aientryumbrella
+  - light.ai_livingroom_orb
+  - light.ai_entry_umbrella
   - light.chandelier
   - switch.accent_lights
 back_wall:
   name: Wall behind couch
   entities:
-  - light.ailivingroomgascan
-  - light.aikitchengascannozzle
-  - light.aikitchengascanmain
-  - light.ailivingroomsculpture
+  - light.ai_livingroom_gascan
+  - light.ai_kitchen_gascan_nozzle
+  - light.ai_kitchen_gascan_main
+  - light.ai_livingroom_sculpture
   - light.the_sun
-  - light.aishopgascan
+  - light.ai_shop_gascan
 amazon_dots:
   view: false
   name: Amazon Echo Dots
@@ -156,31 +148,53 @@ all_light_switches:
   - switch.water_light
   - switch.accent_lights
   - switch.pool_table_light
+  - switch.macrame_light
+  - switch.music_light
 all_sensor:
   view: yes
   name: Sensors
   icon: mdi:radio-tower
   entities:
   - sensor.front_door
-  - sensor.aeotech_multisensor_6_burglar
+  - sensor.multisensor_livingroom_burglar
+  - sensor.multisensor_bedroom_burglar
+  - sensor.trisensor_entry_burglar
   - sensor.weather
-  - group.aeotech_multisensor
+  - group.multisensor_livingroom
+  - group.multisensor_bedroom
+  - group.trisensor_entry
   - group.virtual_sensors
   - group.miflora_sensors
-aeotech_multisensor:
+multisensor_livingroom:
   view: no
-  name: Aeotech Multisensor 6
+  name: Multisensor (Livingroom)
   entities:
-  - zwave.aeotech_multisensor_6
-  - binary_sensor.aeotech_multisensor_6_sensor
-  - sensor.aeotech_multisensor_6_alarm_type
-  - sensor.aeotech_multisensor_6_alarm_level
-  - sensor.aeotech_multisensor_6_burglar
-  - sensor.aeotech_multisensor_6_luminance
-  - sensor.aeotech_multisensor_6_relative_humidity
-  - sensor.aeotech_multisensor_6_sourcenodeid
-  - sensor.aeotech_multisensor_6_ultraviolet
-  - sensor.aeotech_multisensor_6_temperature
+  - sensor.multisensor_livingroom_alarm_type
+  - sensor.multisensor_livingroom_alarm_level
+  - sensor.multisensor_livingroom_burglar
+  - sensor.multisensor_livingroom_luminance
+  - sensor.multisensor_livingroom_relative_humidity
+  - sensor.multisensor_livingroom_temperature
+multisensor_bedroom:
+  view: no
+  name: Multisensor (Bedroom)
+  entities:
+  - sensor.multisensor_bedroom_alarm_type
+  - sensor.multisensor_bedroom_alarm_level
+  - sensor.multisensor_bedroom_burglar
+  - sensor.multisensor_bedroom_luminance
+  - sensor.multisensor_bedroom_relative_humidity
+  - sensor.multisensor_bedroom_temperature
+trisensor_entry:
+  view: no
+  name: Trisensor (Entry)
+  entities:
+  - sensor.trisensor_entry_alarm_type
+  - sensor.trisensor_entry_alarm_level
+  - sensor.trisensor_entry_burglar
+  - sensor.trisensor_entry_luminance
+  - sensor.trisensor_entry_sourcenodeid
+  - sensor.trisensor_entry_temperature
 physical_sensors:
   name: Physical Sensors
   entities:
@@ -221,10 +235,10 @@ gas_cans:
   view: no
   name: All Gas Cans
   entities:
-  - light.aikitchengascanmain
-  - light.aikitchengascannozzle
-  - light.ailivingroomgascan
-  - light.aishopgascan
+  - light.ai_kitchen_gascan_main
+  - light.ai_kitchen_gascan_nozzle
+  - light.ai_livingroom_gascan
+  - light.ai_shop_gascan
 tracked_devices:
   view: yes
   name: Tracked Devices
@@ -264,3 +278,9 @@ notify_me_devices:
   name: Notify me when these devices change state
   entities:
    - input_boolean.ac_on
+modes:
+  view: no
+  name: Various house modes
+  entities:
+  - input_select.house_mode
+  - input_select.occupants

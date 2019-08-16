@@ -46,3 +46,4 @@ error.log
 deleteme*
 test.*
 *.log*
+*bkup*

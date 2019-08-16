@@ -4,9 +4,9 @@ homeassistant:
   customize_domain:
     automation:
       initial_state: 'on'
-  packages: 
-    pack_1: !include custom_components/spotify_playlist_player.yaml
-    david_lynch: !include custom_components/david_lynch_ambience.yaml
+  # packages: 
+    # pack_1: !include custom_components/spotify_playlist_player.yaml
+    # david_lynch: !include custom_components/david_lynch_ambience.yaml
   whitelist_external_dirs:
     - '/home/homeassistant/.homeassistant/camera'
   auth_providers:
@@ -34,35 +34,33 @@ input_boolean:
   motion_detected:
     name: "Was Motion Detected"
     initial: off
+  donnie_home:
+    name: "Set Donnie to Home"
+    initial: off
 
 frontend:
+
+# Harmony is a discovered component, but we can override it with other 
+# values if the "name" param is identical
+#   Check if "hold_secs" ever becomes a float
+remote:
+  - platform: harmony
+    name: Harmony Hub
+    delay_secs: 1.0
+    # hold_secs: 1.0
 
 cloud:
   alexa:
     filter:
       include_entities:
-        - light.ailivingroomorb
-        - light.all_color_lights
-        - light.ailivingroomgascan
-        - light.aikitchengascanmain
-        - light.aikitchengascannozzle
-        - light.ailivingroomsculpture
-        - light.aishopgascan
-        - light.gas_cans
-        - light.aientryumbrella
-        - group.house_lights
-        - group.bedroom
         - scene.warm
         - switch.bedtime
         - light.nanoleaf
         - script.scene_underwater
+        - script.bedtime_projector
       include_domains:
         - media_player
     entity_config:
-      light.ailivingroomorb:
-        name: Orb
-        description: Orb light in livingroom
-        display_categories: LIGHT
       switch.bedtime:
         name: Bedtime
         description: Bedtime mode
@@ -88,6 +86,7 @@ config:
 
 http:
   api_password: !secret api_password
+  server_port: 443
   base_url: !secret base_url
   ssl_certificate: !secret ssl_cert_path
   ssl_key: !secret ssl_key
@@ -102,23 +101,44 @@ http:
   ip_ban_enabled: false
   login_attempts_threshold: -1
 
-updater:
-  include_used_components: true
+# updater:
 
 discovery:
 
 # Enables support for tracking state changes over time.
 history:
+  exclude:
+    domains:
+      - automation
+    entities:
+      - sensor.chromecast_devices
+      - input_select.privacy_mode
+      - sensor.relevant_dew_point
+  include:
+    domains:
+      - sensor
+      - device_tracker
+      - person
+
 
 # View all events in a logbook
 logbook:
   exclude:
     entities:
-      - sensor.aeotech_multisensor_6_ultraviolet
-      - sensor.aeotech_multisensor_6_sourcenodeid
-      - sensor.aeotech_multisensor_6_alarm_type
+      - sensor.multisensor_livingroom_ultraviolet
+      - sensor.multisensor_livingroom_sourcenodeid
+      - sensor.multisensor_livingroom_alarm_type
+      - sensor.multisensor_bedroom_ultraviolet
+      - sensor.multisensor_bedroom_sourcenodeid
+      - sensor.multisensor_bedroom_alarm_type
+      - sensor.trisensor_entry_ultraviolet
+      - sensor.trisensor_entry_sourcenodeid
+      - sensor.trisensor_entry_alarm_type
       - sensor.weather_icon
       - sensor.yr_symbol
+      - sensor.time
+      - sensor.chromecast_devices
+
 
 sun:
 
@@ -148,21 +168,105 @@ switch: !include switch.yaml
 
 script: !include scripts.yaml
 
-emulated_hue:
-  host_ip: !secret emulated_hue_ip
-  listen_port: !secret emulated_hue_port
-  exposed_domains:
-    - light
-    - switch
-    - group
-    - script
-  expose_by_default: false
-
+#emulated_hue:
+#  host_ip: !secret emulated_hue_ip
+#  listen_port: !secret emulated_hue_port
+#  exposed_domains:
+#    - light
+#    - switch
+#    - group
+#    - script
+#  expose_by_default: false
+#  entities:
+#    switch.pool_table_light:
+#      name: "Pool Table Light"
+#      hidden: false
+#    switch.macrame_light:
+#      name: "Macrame Light"
+#      hidden: false
+#    switch.music_light:
+#      name: "Music Light"
+#      hidden: false
+#    light.kitchen_lights:
+#      name: "kitchen lights"
+#      hidden: false
+#    light.gas_cans:
+#      name: "gas cans"
+#      hidden: false
+#    switch.heater:
+#      name: "heater"
+#      hidden: false
+#    switch.climate_control:
+#      name: "climate control"
+#      hidden: false
+#    script.set_bedtime_projector_sleeptime:
+#      name: "sleep timer"
+#      hidden: false
+#    switch.water_light:
+#      name: "Water Light"
+#      hidden: false
+#    switch.accent_lights:
+#      name: "Accent Lights"
+#      hidden: false
+#    group.house_lights:
+#      name: "House Lights"
+#      hidden: false
+#    group.all_devices:
+#      name: "All Devices"
+#      hidden: false
+#    switch.air_conditioner:
+#      name: "Air Conditioning"
+#      hidden: false
+#    light.kitchen_strip:
+#      name: "Kitchen Strip"
+#      hidden: false
+#    switch.playstation:
+#      name: "Playstation"
+#      hidden: false
+#    switch.chromecast:
+#      name: "Chromecast"
+#      hidden: false
+#    switch.projector:
+#      name: "Projector"
+#      hidden: false
+#    switch.bedtime_projector:
+#      name: "Bedtime Projector"
+#      hidden: false
+#    switch.television:
+#      name: "TV"
+#      hidden: false
+#    switch.sun_projector:
+#      name: "Sun Projector"
+#      hidden: false
+#    light.ai_livingroom_sculpture:
+#      name: "Sculpture"
+#      hidden: true
+#    light.ai_livingroom_gascan:
+#      name: Livingroom Gas Can
+#      hidden: true
+#    light.ai_entry_umbrella:
+#      name: Umbrella
+#      hidden: true
+#    light.ai_kitchen_gascan_main:
+#      name: Kitchen Gas Can Main
+#      hidden: true
+#    light.ai_kitchen_gascan_nozzle:
+#      name: Kitchen Gas Can Nozzle
+#      hidden: true
+#    light.ai_livingroom_orb:
+#      hidden: true
+#      name: Orb
+#    light.ai_shop_gascan:
+#      name: Shop Gas Can
+#      hidden: true
+      
 alexa:
   smart_home:
     endpoint: https://api.amazonalexa.com/v3/events
+    client_id: !secret alexa_skill_client_id
+    client_secret: !secret alexa_skill_client_secret
     
-dialogflow:
+# dialogflow:
 
 intent_script: !include intents.yaml
 
@@ -175,24 +279,27 @@ device_tracker:
     consider_home: 180
   - platform: google_maps
     username: !secret googlebot_username
-    password: !secret googlebot_password
     max_gps_accuracy: 100
+
 group: !include groups.yaml
-automation: !include automations.yaml
+
 scene: !include_dir_list scenes/
 
 logger:
-  default: critical
+  default: error
   logs:
     homeassistant.components: info
     homeassistant.components.device_tracker: info
     homeassistant.components.device_tracker.ddwrt: warning
-    homeassistant.components.mqtt: error
+    homeassistant.components.ddwrt.device_tracker: warning
+    homeassistant.components.mqtt: warning
     homeassistant.components.media_player.spotify: info
     homeassistant.components.image_processing: error
-    homeassistant.components.http.view: critical
-    homeassistant.components.appdaemon: debug
-
+    homeassistant.components.http.view: warning
+    homeassistant.components.appdaemon: info
+    homeassistant.components.proximity: warning
+    homeassistant.components.alexa.state_report: info
+    
 # Enables support for tracking state changes over time.
 recorder:
   # Delete events and states older than 2 weeks
@@ -211,12 +318,46 @@ recorder:
       - device_tracker.christines_macbook
       - device_tracker.donniesmbp
       - device_tracker.donnie_pixel_2
+      - device_tracker.google_maps_100705896910531391902 # Daniel
+      - device_tracker.google_maps_102217405067205510136 # Donnie
+      - device_tracker.google_maps_104973091759009457547 # Christine
+      - device_tracker.google_maps_105743070279004462174 # Raqui
+      - device_tracker.google_maps_111911918163605295211 # Julia
+      - person.donnie
+      - person.raqui
+      - person.christine
+      - person.julia
+      - person.daniel
   exclude:
     entities:
-      - input_text.api_password
+      - sensor.multisensor_livingroom_ultraviolet
+      - sensor.multisensor_bedroom_ultraviolet
+      - sensor.time
+      #- sensor.temperature_feels_like_livingroom
+      #- sensor.temperature_feels_like_bedroom
+      - sensor.netgear_r6400_v1_dd_wrt_bytes_sent
+      - sensor.netgear_r6400_v1_dd_wrt_bytes_received
+      - sensor.netgear_r6400_v1_dd_wrt_packets_received
+      - sensor.netgear_r6400_v1_dd_wrt_packets_sent
+      - sensor.netgear_r6400_v1_dd_wrt_packets_sec_received
+      - sensor.netgear_r6400_v1_dd_wrt_packets_sec_sent
+      - sensor.chromecast_devices
+    event_types:
+      - service_removed
+      - platform_discovered
+      - homeassistant_start
+      - homeassistant_stop      
+      - feedreader
+      - service_registered
+      - call_service
+      - component_loaded
+      - logbook_entry
+      - system_log_event
+      - script_started
+      - timer_out_of_sync
 
 zone:
-  - name: Yammer
+  - name: Work
     latitude: !secret zone_work_lat
     longitude: !secret zone_work_long
     radius: 75
@@ -227,24 +368,79 @@ zone:
     longitude: !secret zone_aguirowitz_long
     radius: 20
     passive: false
-  - name: OMCA
-    latitude: 37.79870
-    longitude: -122.26330
+  - name: Raquis Work
+    latitude: !secret raqui_work_lat
+    longitude: !secret raqui_work_long
     radius: 150
     passive: false
-  - name: Pool Hall
-    latitude: !secret pool_hall_lat
-    longitude: !secret pool_hall_long
+  - name: Pool Hall BR
+    latitude: !secret pool_hall_br_lat
+    longitude: !secret pool_hall_br_long
+    radius: 50
+    passive: false
+  - name: Pool Hall D
+    latitude: !secret pool_hall_d_lat
+    longitude: !secret pool_hall_d_long
+    radius: 50
+    passive: false
+  - name: Christines House
+    latitude: !secret christine_house_lat
+    longitude: !secret christine_house_long
+    radius: 35
+    passive: false
+  - name: Christines Work
+    latitude: !secret christine_work_lat
+    longitude: !secret christine_work_long
+    radius: 50
+    passive: false
+  - name: Daniels Work
+    latitude: !secret daniel_work_lat
+    longitude: !secret daniel_work_long
+    radius: 50
+    passive: false
+  - name: Ashby
+    latitude: 37.85349
+    longitude: -122.27009
+    radius: 100
+    passive: false
+  - name: MacArthur
+    latitude: 37.8290643
+    longitude: -122.269241
+    radius: 50
+    passive: false
+  - name: 24th
+    latitude: 37.75224
+    longitude: -122.41846
+    radius: 50
+    passive: false
+  - name: Julias Home
+    latitude: !secret julia_home_lat
+    longitude: !secret julia_home_long
+    radius: 50
+    passive: false
+  - name: Costco OR
+    latitude: !secret julia_costco_lat
+    longitude: !secret julia_costco_long
+    radius: 200
+    passive: false
+  - name: Target OR
+    latitude: !secret julia_target_lat
+    longitude: !secret julia_target_long
+    radius: 200
+  - name: Berkeley Bowl
+    latitude: 37.85704
+    longitude: -122.26731
     radius: 50
     passive: false
 
+
 # Example configuration.yaml entry
-media_extractor:
-  default_query: best
-  customize:
-    media_player.livingroomcast:
-      video: bestvideo
-      music: bestaudio
+# media_extractor:
+#   default_query: best
+#   customize:
+#     media_player.livingroomcast:
+#       video: bestvideo
+#       music: bestaudio
 
 input_select:
   privacy_mode:
@@ -255,6 +451,35 @@ input_select:
       - Total Privacy
     initial: Open
     icon: mdi:home-modern
+  climate_room:
+    name: Climate Room
+    options:
+      - Bedroom
+      - Livingroom
+  occupants:
+    name: People in house
+    options:
+      - Empty
+      - Guests
+      - Owners
+      - Intruder
+      - Unknown
+  house_mode:
+    name: House Mode
+    options:
+      - Bedtime
+      - Theater
+      - Normal
+      - Pool Hall
+      - Party
+      - Away
+  alarm_mode:
+    name: Alarm System
+    options:
+      - Activated
+      - Deactivated
+      - Debug
+
 
 light:
   - platform: template
@@ -271,36 +496,36 @@ light:
   - platform: group
     name: Kitchen Lights
     entities:
-      - light.aikitchengascanmain
-      - light.aikitchengascannozzle
+      - light.ai_kitchen_gascan_main
+      - light.ai_kitchen_gascan_nozzle
       - light.kitchen_strip
   - platform: group
-    name: Gas Cans
+    name: Livingroom Lights
     entities:
-      - light.aikitchengascanmain
-      - light.aikitchengascannozzle
-      - light.ailivingroomgascan
-      - light.aishopgascan
+      - light.ai_livingroom_gascan
+      - light.ai_livingroom_orb
+      - light.ai_livingroom_sculpture
+      - light.chandelier
   - platform: group
     name: All Color Lights
     entities:
-      - light.aikitchengascanmain
-      - light.aikitchengascannozzle
-      - light.ailivingroomorb
-      - light.ailivingroomgascan
-      - light.aientryumbrella
+      - light.ai_kitchen_gascan_main
+      - light.ai_kitchen_gascan_nozzle
+      - light.ai_livingroom_orb
+      - light.ai_livingroom_gascan
+      - light.ai_entry_umbrella
       - light.the_sun
       - light.chandelier
       - light.nightstand
-      - light.aishopgascan
-      - light.ailivingroomsculpture
+      - light.ai_shop_gascan
+      - light.ai_livingroom_sculpture
       - light.nanoleaf
   - platform: nanoleaf
     host: !secret nanoleaf_ip
     token: !secret nanoleaf_token
   - platform: mqtt
     schema: json
-    name: 'ailivingroomorb'
+    name: 'ai_livingroom_orb'
     state_topic: 'home/livingroom/light/orb'
     command_topic: 'home/livingroom/light/orb/set'
     color_temp: true
@@ -311,7 +536,7 @@ light:
     optimistic: false
   - platform: mqtt
     schema: json
-    name: 'ailivingroomsculpture'
+    name: 'ai_livingroom_sculpture'
     state_topic: 'home/livingroom/light/sculpture'
     command_topic: 'home/livingroom/light/sculpture/set'
     color_temp: true
@@ -322,7 +547,7 @@ light:
     optimistic: false
   - platform: mqtt
     schema: json
-    name: 'ailivingroomgascan'
+    name: 'ai_livingroom_gascan'
     state_topic: 'home/livingroom/light/gascan'
     command_topic: 'home/livingroom/light/gascan/set'
     color_temp: true
@@ -333,7 +558,7 @@ light:
     optimistic: false
   - platform: mqtt
     schema: json
-    name: 'aikitchengascanmain'
+    name: 'ai_kitchen_gascan_main'
     state_topic: 'home/kitchen/light/gascan/main'
     command_topic: 'home/kitchen/light/gascan/main/set'
     color_temp: true
@@ -344,7 +569,7 @@ light:
     optimistic: false
   - platform: mqtt
     schema: json
-    name: 'aikitchengascannozzle'
+    name: 'ai_kitchen_gascan_nozzle'
     state_topic: 'home/kitchen/light/gascan/nozzle'
     command_topic: 'home/kitchen/light/gascan/nozzle/set'
     color_temp: true
@@ -355,7 +580,7 @@ light:
     optimistic: false
   - platform: mqtt
     schema: json
-    name: 'aientryumbrella'
+    name: 'ai_entry_umbrella'
     state_topic: 'home/entry/light/umbrella'
     command_topic: 'home/entry/light/umbrella/set'
     color_temp: true
@@ -366,7 +591,7 @@ light:
     optimistic: false
   - platform: mqtt
     schema: json
-    name: 'aishopgascan'
+    name: 'ai_shop_gascan'
     state_topic: 'home/shop/light/gascan'
     command_topic: 'home/shop/light/gascan/set'
     color_temp: true
@@ -378,11 +603,11 @@ light:
 
 map:
 
-hue:
-  bridges:
-    - host: 192.168.1.130
-      allow_unreachable: true
-      allow_hue_groups: false
+# hue:
+#   bridges:
+#     - host: 192.168.1.130
+#       allow_unreachable: true
+#       allow_hue_groups: false
 
 camera:
   - platform: local_file
@@ -407,43 +632,28 @@ shell_command:
 
 zwave:
   usb_path: /dev/zwave
-  polling_interval: 10000
+  polling_interval: 30000
+  network_key: "0x2B, 0x29, 0xD1, 0xC6, 0x09, 0x2C, 0xCC, 0x0D, 0x7C, 0x4B, 0x2F, 0xF6, 0xFF, 0x2D, 0x50, 0x83"
 
-input_text:
-  api_password:
-    name: API Password
-    initial: !secret api_password
-    mode: password
-    
 notify:
-  - name: pushbullet
-    platform: pushbullet
-    api_key: !secret pushbullet_api_key
   - name: telegram
     platform: telegram
     chat_id: 643816930
-panel_custom:
-  - name: floorplan
-    sidebar_title: Floorplan
-    sidebar_icon: mdi:home
-    url_path: floorplan
-#    webcomponent_path: /home/homeassistant/.homeassistant/panels/ha-floorplan.html
-    config: !include floorplan.yaml
 
 climate:
   - platform: generic_thermostat
     name: Living room
     heater: switch.air_conditioner
-    target_sensor: sensor.dew_point
+    target_sensor: sensor.relevant_dew_point
     ac_mode: true
     min_temp: 50.0
     max_temp: 75.0
-    target_temp: 57.0
-    initial_hvac_mode: "cool"
+    target_temp: 56.2
+    initial_hvac_mode: "off"
     keep_alive:
       minutes: 6000
     hot_tolerance: 0
-    cold_tolerance: 0
+    cold_tolerance: 0.2
     min_cycle_duration:
       seconds: 5
     away_temp: 70.0
@@ -470,4 +680,107 @@ telegram_bot:
     api_key: 978995231:AAGt2D5dyeFu4BN4o45302YR4itUkAFhWkE
     allowed_chat_ids:
       - 643816930
+
+automation: !include automations.yaml
+
+lovelace:
+
+spotcast:
+  username: !secret spotify_username
+  password: !secret spotify_password
+
+google:
+  client_id: !secret gcal_client_id
+  client_secret: !secret gcal_client_secret
+
+person:
+
+cast:
+  media_player:
+    - host: 192.168.1.110
+
+proximity:
+  all_and_home:
+    devices:
+      - device_tracker.google_maps_102217405067205510136
+      - device_tracker.google_maps_104973091759009457547
+      - device_tracker.google_maps_100705896910531391902
+      - device_tracker.google_maps_105743070279004462174
+    tolerance: 20
+    unit_of_measurement: mi
+  donnie_and_home:
+    devices:
+      - device_tracker.google_maps_102217405067205510136
+    tolerance: 20
+  christine_and_home:
+    devices:
+      - device_tracker.google_maps_104973091759009457547
+    tolerance: 20
+  donnie_and_work:
+    zone: work
+    devices:
+      - device_tracker.google_maps_102217405067205510136
+    tolerance: 20
+  raqui_and_aguirowitz:
+    zone: aguirowitz
+    devices:
+      - device_tracker.google_maps_105743070279004462174
+    tolerance: 20
+  daniel_and_aguirowitz:
+    zone: aguirowitz
+    devices:
+      - device_tracker.google_maps_100705896910531391902
+    tolerance: 20
+  donnie_and_aguirowitz:
+    zone: aguirowitz
+    devices:
+      - device_tracker.google_maps_102217405067205510136
+    tolerance: 20
+  christine_and_christine_home:
+    zone: christines_house
+    devices:
+      - device_tracker.google_maps_104973091759009457547
+    tolerance: 20
+  christine_and_work:
+    zone: christines_work
+    devices:
+      - device_tracker.google_maps_104973091759009457547
+    tolerance: 20
+  donnie_and_christine_home:
+    zone: christines_house
+    devices:
+      - device_tracker.google_maps_102217405067205510136
+    tolerance: 20
+  daniel_and_work:
+    zone: daniels_work
+    devices:
+      - device_tracker.google_maps_100705896910531391902
+    tolerance: 20
+  raqui_and_work:
+    zone: raquis_work
+    devices:
+      - device_tracker.google_maps_105743070279004462174
+    tolerance: 20
+  julia_and_costco:
+    zone: costco_or
+    devices:
+      - device_tracker.google_maps_111911918163605295211
+    tolerance: 20
+  julia_and_target:
+    zone: target_or
+    devices:
+      - device_tracker.google_maps_111911918163605295211
+    tolerance: 20
+  julia_and_home:
+    zone: julias_home
+    devices:
+      - device_tracker.google_maps_111911918163605295211
+    tolerance: 20
+
+
+hacs:
+  token: !secret hacs_github_token
+  appdaemon: True
+  python_script: True
+  theme: True
 

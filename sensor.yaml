@@ -31,7 +31,8 @@
         friendly_name: "Donnie is at home"
         value_template: >-
           {% 
-            if (is_state('device_tracker.donnie_pixel_2', 'home'))
+            if  is_state('person.donnie', 'home') or
+                is_state('input_boolean.donnie_home', 'on')
           %} 
           home
           {% else %}
@@ -54,15 +55,37 @@
           {% else %}
             Open
           {% endif %}
-      temperature_feels_like:
-        friendly_name: 'Feels Like'
-        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
-        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.aeotech_multisensor_6_temperature.state|float)) + (10.14333127 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) - (0.22475541 * (states.sensor.aeotech_multisensor_6_temperature.state|float) * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.aeotech_multisensor_6_temperature.state|float) * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2))|round(2))*100 }}'
-        unit_of_measurement: '°F x 100'
-      dew_point:
-        friendly_name: 'Dew Point'
-        value_template: '{{ states.sensor.aeotech_multisensor_6_temperature.state | float - (9/25) * (100 - states.sensor.aeotech_multisensor_6_relative_humidity.state | float) }}'
+#      temperature_feels_like_livingroom:
+#        friendly_name: 'Livingroom Feels Like'
+#        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
+#        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.multisensor_livingroom_temperature.state|float)) + (10.14333127 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) - (0.22475541 * (states.sensor.multisensor_livingroom_temperature.state|float) * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.multisensor_livingroom_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.multisensor_livingroom_temperature.state|float)**2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.multisensor_livingroom_temperature.state|float) * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.multisensor_livingroom_temperature.state|float)**2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2))|round(2)) }}'
+#        unit_of_measurement: '°F'
+      dew_point_livingroom:
+        friendly_name: 'Livingroom Dew Point'
+        value_template: '{{ states.sensor.multisensor_livingroom_temperature.state | float - (9/25) * (100 - states.sensor.multisensor_livingroom_relative_humidity.state | float) }}'
         unit_of_measurement: '°F'
+#      temperature_feels_like_bedroom:
+#        friendly_name: 'Bedroom Feels Like'
+#        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
+#        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.multisensor_bedroom_temperature.state|float)) + (10.14333127 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) - (0.22475541 * (states.sensor.multisensor_bedroom_temperature.state|float) * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.multisensor_bedroom_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.multisensor_bedroom_temperature.state|float)**2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.multisensor_bedroom_temperature.state|float) * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.multisensor_bedroom_temperature.state|float)**2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2))|round(2)) }}'
+#        unit_of_measurement: '°F'
+      dew_point_bedroom:
+        friendly_name: 'Bedroom Dew Point'
+        value_template: '{{ states.sensor.multisensor_bedroom_temperature.state | float - (9/25) * (100 - states.sensor.multisensor_bedroom_relative_humidity.state | float) }}'
+        unit_of_measurement: '°F'
+      relevant_dew_point:
+        friendly_name: 'Dew Point measurement to use for climate control'
+        value_template: >
+          {% if is_state('input_select.climate_room', 'Bedroom') %}
+            {{ states.sensor.dew_point_bedroom.state }}
+          {% elif is_state('input_select.climate_room', 'Livingroom') %}
+            {{ states.sensor.dew_point_livingroom.state }}
+          {% else %}
+            {{ states.sensor.dew_point_livingroom.state }}
+          {% endif %}
   - platform: time_date
     display_options:
       - 'time'
+      - 'date'
+      - 'date_time'
+  - platform: spotcast

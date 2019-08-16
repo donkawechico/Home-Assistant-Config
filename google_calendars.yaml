@@ -1,0 +1,133 @@
+
+- cal_id: k065sbeuuddiolpidqth3rh134@group.calendar.google.com
+  entities:
+  - device_id: unshared
+    ignore_availability: true
+    name: Unshared
+    track: true
+
+- cal_id: 9m37ondeu9ej53uusd8od6d2fc@group.calendar.google.com
+  entities:
+  - device_id: movie_release_dates
+    ignore_availability: true
+    name: Movie Release Dates
+    track: true
+
+- cal_id: osr698gm6cu3j7u488un7jf4dc@group.calendar.google.com
+  entities:
+  - device_id: finances
+    ignore_availability: true
+    name: Finances
+    track: true
+
+- cal_id: hpoquhp1bmvbgemlfajko4uei0@group.calendar.google.com
+  entities:
+  - device_id: car_moving_days
+    ignore_availability: true
+    name: Car Moving Days
+    track: true
+
+- cal_id: d3aked7q3sk26q7v9lpj80b68k@group.calendar.google.com
+  entities:
+  - device_id: social_event
+    ignore_availability: true
+    name: Social Event
+    track: true
+
+- cal_id: donniekarns@gmail.com
+  entities:
+  - device_id: birthdays
+    ignore_availability: true
+    name: Birthdays
+    track: true
+
+- cal_id: ltlbf7h1199b5g8rlgk6iq2ub4@group.calendar.google.com
+  entities:
+  - device_id: work
+    ignore_availability: true
+    name: Work
+    track: true
+
+- cal_id: geesc4sgrvcb3mc3q6d36snb1g@group.calendar.google.com
+  entities:
+  - device_id: appointments
+    ignore_availability: true
+    name: Appointments
+    track: true
+
+- cal_id: bfh54q12qn0r6iiidqspr9mjb0@group.calendar.google.com
+  entities:
+  - device_id: illigitimus_game_calender
+    ignore_availability: true
+    name: Illigitimus Game Calender
+    track: true
+
+- cal_id: u1mqmfroi38qfgmbsjvlcr17b8@group.calendar.google.com
+  entities:
+  - device_id: other
+    ignore_availability: true
+    name: Other
+    track: true
+
+- cal_id: mad.raquitansky@gmail.com
+  entities:
+  - device_id: mad_raquitansky_gmail_com
+    ignore_availability: true
+    name: mad.raquitansky@gmail.com
+    track: true
+
+- cal_id: uio0vjap9pfp0ja78oudfnalbg@group.calendar.google.com
+  entities:
+  - device_id: aguirowitz
+    ignore_availability: true
+    name: Aguirowitz
+    track: true
+
+- cal_id: juliamurray@gmail.com
+  entities:
+  - device_id: it_s_julia
+    ignore_availability: true
+    name: It's Julia
+    track: true
+
+- cal_id: mi0ceb07rso3d84a2k9mivu3ps@group.calendar.google.com
+  entities:
+  - device_id: donnie_karns
+    ignore_availability: true
+    name: Donnie Karns
+    track: true
+
+- cal_id: q9lcn97tkcrthb3glb6vt1lbbhf37lui@import.calendar.google.com
+  entities:
+  - device_id: my_apa_calendar
+    ignore_availability: true
+    name: My APA Calendar
+    track: true
+
+- cal_id: cgerard14@gmail.com
+  entities:
+  - device_id: cgerard14_gmail_com
+    ignore_availability: true
+    name: cgerard14@gmail.com
+    track: true
+
+- cal_id: u06j57k1u9ii798gifaecb8im4@group.calendar.google.com
+  entities:
+  - device_id: ig_posting_2019
+    ignore_availability: true
+    name: IG Posting (2019)
+    track: true
+
+- cal_id: usa@holiday.calendar.google.com
+  entities:
+  - device_id: holidays_in_united_states
+    ignore_availability: true
+    name: Holidays in United States
+    track: true
+
+- cal_id: p#weather@group.v.calendar.google.com
+  entities:
+  - device_id: weather
+    ignore_availability: true
+    name: Weather
+    track: true

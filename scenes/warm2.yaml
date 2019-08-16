@@ -1,10 +1,10 @@
 name: warm2
 entities:
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     brightness_pct: 100
     rgb_color: [255, 157, 19]
@@ -16,11 +16,11 @@ entities:
     state: on
     brightness_pct: 100
     rgb_color: [255, 147, 41]
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness_pct: 100
     rgb_color: [238, 59, 0]
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness_pct: 100
     rgb_color: [203, 74, 0]
@@ -30,11 +30,11 @@ entities:
     state: on
     brightness_pct: 100
     rgb_color: [255, 178, 67]
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [255, 104, 1]
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [255, 170, 95]
@@ -42,7 +42,7 @@ entities:
     state: on
     brightness_pct: 100
     rgb_color: [255, 211, 130]
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness_pct: 100
     rgb_color: [225, 114, 0]

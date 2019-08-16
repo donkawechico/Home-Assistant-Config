@@ -21,49 +21,43 @@ entities:
     brightness: 22
     color_temp: 500
     rgb_color: [0, 255, 255]
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness: 255
     white_value: 0
     color_temp: 500
     rgb_color: [0, 255, 255]
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness: 255
     white_value: 0
     color_temp: 244
     rgb_color: [0, 255, 255]
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness: 255
     white_value: 0
     color_temp: 500
     rgb_color: [0, 255, 255]
-  light.aientryumbrell:
+  light.ai_livingroom_gascan:
     state: on
     brightness: 255
     white_value: 0
     color_temp: 500
     rgb_color: [0, 255, 255]
-  light.ailivingroomgascan:
+  light.ai_livingroom_sculpture:
     state: on
     brightness: 255
     white_value: 0
     color_temp: 500
     rgb_color: [0, 255, 255]
-  light.ailivingroomsculpture:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness: 255
     white_value: 0
     color_temp: 500
     rgb_color: [0, 255, 255]
-  light.aikitchengascanmain:
-    state: on
-    brightness: 255
-    white_value: 0
-    color_temp: 500
-    rgb_color: [0, 255, 255]
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness: 255
     white_value: 0

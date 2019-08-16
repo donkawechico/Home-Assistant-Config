@@ -15,6 +15,22 @@
   payload_off: "OFF"
   retain: true
 - platform: mqtt
+  name: "Macrame Light"
+  state_topic: "stat/macramelight/POWER"
+  command_topic: "cmnd/macramelight/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: mqtt
+  name: "Music Light"
+  state_topic: "stat/musiclight/POWER"
+  command_topic: "cmnd/musiclight/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+- platform: mqtt
   name: "Water Light"
   state_topic: "stat/waterlight/POWER"
   command_topic: "cmnd/waterlight/POWER"

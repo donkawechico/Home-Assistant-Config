@@ -11,7 +11,9 @@
     entity_id: device_tracker.christine_phone
     state: home
   action:
-  - service: script.turn_on_heater
+  - data:
+      entity_id: script.turn_off_ac
+    service: script.turn_on
 - id: '1521615521241'
   alias: Turn off heater at 8
   trigger:
@@ -19,7 +21,9 @@
     platform: time
   condition: []
   action:
-  - service: script.turn_off_heater
+  - data:
+      entity_id: script.turn_off_heater
+    service: script.turn_on
 - id: '1531621091643'
   alias: Turn Off AC on restart (ensures correct bool)
   initial_state: 'on'
@@ -55,24 +59,381 @@
       entity_id: climate.living_room
       preset_mode: none
     service: climate.set_preset_mode
+  - data:
+      entity_id: script.turn_on_climate_control
+    service: script.turn_on
 - id: '1564419516085'
   alias: Notify Me when AC state changes
   trigger:
   - entity_id: input_boolean.ac_on
     platform: state
-  condition: []
+  condition:
+  - condition: state
+    entity_id: sensor.donnie_home
+    state: 'off'
   action:
   - data:
       message: The AC is {{ states.input_boolean.ac_on.state }}
     service: notify.telegram
 - id: '1564422413764'
-  alias: Notify me when at donnie home state changes
+  alias: Donnie set to not home. Confirm
   trigger:
   - entity_id: binary_sensor.donnie_home
     platform: state
   condition: []
   action:
   - data:
+      data:
+        inline_keyboard: AWAY:/donnieaway,HOME:/donniehome
       message: Donnie is {% if is_state('binary_sensor.donnie_home', 'off') %}not
-        home{% else %}home{% endif %}
+        home{% else %}home{% endif %}. Confirm?
+      title: PRESENCE
     service: notify.telegram
+- id: '1564449999980'
+  alias: Notify Me when Raqui leaves
+  trigger:
+  - entity_id: device_tracker.google_maps_105743070279004462174
+    from: Aguirowitz
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: Raqui is at {{ states.device_tracker.google_maps_105743070279004462174.state
+        }}
+    service: notify.telegram
+- id: '1564450626096'
+  alias: Notify me when Daniel leaves home
+  trigger:
+  - entity_id: device_tracker.google_maps_100705896910531391902
+    from: Aguirowitz
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: Daniel is at {{ states.device_tracker.google_maps_100705896910531391902.state
+        }}
+    service: notify.telegram
+- id: '1564499035437'
+  alias: Notify Me when Christine arrives at 24th Bart
+  trigger:
+  - entity_id: device_tracker.google_maps_104973091759009457547
+    platform: state
+    to: 24th
+  condition: []
+  action:
+  - data:
+      message: Christine is at 24th
+    service: notify.telegram
+- id: '1564499089065'
+  alias: Notify me when Christine arrives at work
+  trigger:
+  - entity_id: device_tracker.google_maps_104973091759009457547
+    platform: state
+    to: Christines Work
+  condition: []
+  action:
+  - data:
+      message: Christine is at work
+    service: notify.telegram
+- id: '1564499144957'
+  alias: Notify Me when Raqui is at Ashby
+  trigger:
+  - entity_id: device_tracker.google_maps_105743070279004462174
+    platform: state
+    to: Ashby
+  condition: []
+  action:
+  - data:
+      message: Raqui is at Ashby
+    service: notify.telegram
+- id: '1564499179776'
+  alias: Notify me when Raqui is at work
+  trigger:
+  - entity_id: device_tracker.google_maps_105743070279004462174
+    platform: state
+    to: Raquis Work
+  condition: []
+  action:
+  - data:
+      message: Raqui is at work
+    service: notify.telegram
+- id: '1564499414251'
+  alias: Notify me when Christine leaves house
+  trigger:
+  - entity_id: device_tracker.google_maps_104973091759009457547
+    from: Christines Home
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: Christine has left her house
+    service: notify.telegram
+- id: '1565131144880'
+  alias: Motion Detected When House Was Empty
+  trigger:
+  - entity_id: input_boolean.motion_detected
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.someone_home
+    state: 'off'
+  action:
+  - data:
+      data:
+        inline_keyboard: GUEST:/guestmode, INTRUDER:/raisealarm,DONNIE:/donniehome,IT'S
+          FINE:/nothing
+      message: Motion detected, but you're away. Who is it?
+      title: ALARM
+    service: notify.telegram
+- id: '1565131225544'
+  alias: Sense movement
+  trigger:
+  - entity_id: sensor.multisensor_livingroom_burglar
+    from: '0'
+    platform: state
+    to: '8'
+  condition: []
+  action:
+  - data:
+      entity_id: input_boolean.motion_detected
+    service: input_boolean.turn_on
+- id: '1565131289081'
+  alias: Sense Lack of Movement
+  trigger:
+  - entity_id: sensor.multisensor_livingroom_burglar
+    from: '8'
+    platform: state
+    to: '0'
+  condition: []
+  action:
+  - data:
+      entity_id: input_boolean.motion_detected
+    service: input_boolean.turn_off
+- id: '1565133221764'
+  alias: Telegram says motion is a guest
+  trigger:
+  - event_data:
+      data: /guestmode
+    event_type: telegram_callback
+    platform: event
+  condition: []
+  action:
+  - data:
+      entity_id: input_select.occupants
+      option: Guests
+    service: input_select.select_option
+  - data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Set occupants mode to GUESTS
+    service: telegram_bot.answer_callback_query
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.chat_id }}'
+      message: Motion detected was a guest
+    service: telegram_bot.edit_message
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+    service: telegram_bot.edit_replymarkup
+- id: telegram_motion_intruder
+  alias: Telegram says motion is an intruder
+  trigger:
+  - event_data:
+      data: /raisealarm
+    event_type: telegram_callback
+    platform: event
+  condition: []
+  action:
+  - data:
+      entity_id: input_select.occupants
+      option: Intruder
+    service: input_select.select_option
+  - data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Set occupants mode to INTRUDER
+    service: telegram_bot.answer_callback_query
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.chat_id }}'
+      message: Motion detected was an intruder!
+    service: telegram_bot.edit_message
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+    service: telegram_bot.edit_replymarkup
+- id: telegram_motion_donnie
+  alias: Telegram says motion is Donnie
+  trigger:
+  - event_data:
+      data: /donniehome
+    event_type: telegram_callback
+    platform: event
+  condition: []
+  action:
+  - data:
+      entity_id: input_boolean.donnie_home
+    service: input_boolean.turn_on
+  - data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Setting Donnie to home
+    service: telegram_bot.answer_callback_query
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.chat_id }}'
+      message: Motion detected was just Donnie
+    service: telegram_bot.edit_message
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+    service: telegram_bot.edit_replymarkup
+- id: telegram_donnie_away
+  alias: Telegram says Donnie is away
+  trigger:
+  - event_data:
+      data: /donnieaway
+    event_type: telegram_callback
+    platform: event
+  condition: []
+  action:
+  - data:
+      entity_id: input_boolean.donnie_home
+    service: input_boolean.turn_off
+  - data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Setting Donnie to away
+    service: telegram_bot.answer_callback_query
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.chat_id }}'
+      message: Set Donnie to Away
+    service: telegram_bot.edit_message
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+    service: telegram_bot.edit_replymarkup
+- id: telegram_motion_ignore
+  alias: Telegram says motion is meh whatever
+  trigger:
+  - event_data:
+      data: /nothing
+    event_type: telegram_callback
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Motion is OKAY. Ignoring...
+    service: telegram_bot.answer_callback_query
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.chat_id }}'
+      message: Motion detected is fine... not to worry
+    service: telegram_bot.edit_message
+  - data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+    service: telegram_bot.edit_replymarkup
+- id: '1565142127454'
+  alias: Magic Card Donnie Home
+  trigger:
+  - event_data:
+      card_type: event
+    event_type: magic_card_scanned
+    platform: event
+  condition: []
+  action:
+  - data:
+      message: Donnie scanned into Home
+    service: notify.telegram
+  - data:
+      entity_id: input_boolean.donnie_home
+    service: input_boolean.turn_on
+- id: '1565232751199'
+  alias: Magic Card Playlist Scanned
+  trigger:
+  - event_data:
+      card_type: playlist
+    event_type: magic_card_scanned
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      entity_id: 'scene.{{ trigger.event.data.card_uri.split(''|'')[3] }}'
+    service: scene.turn_on
+  - data_template:
+      device_name: '{{ trigger.event.data.card_uri.split(''|'')[1] }}'
+      uri: '{{ trigger.event.data.card_uri.split(''|'')[2] }}'
+      random_song: true
+    service: spotcast.start
+  - data:
+      entity_id: script.turn_on_chromecast
+    service: script.turn_on
+  - delay: 00:00:20
+  - data_template:
+      entity_id: media_player.{{ trigger.event.data.card_uri.split('|')[0] }}
+      shuffle: true
+    service: media_player.shuffle_set
+- id: '1565240273568'
+  alias: If Donnie Home set Occupants
+  trigger:
+  - entity_id: binary_sensor.donnie_home
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data_template:
+      entity_id: input_select.occupants
+      option: "{% if is_state('binary_sensor.donnie_home', 'on') %} \n  Owners\n{%\
+        \ else %}\n  Empty\n{% endif %}"
+    service: input_select.select_option
+- id: '1565244364291'
+  alias: Reset Manual Donnie Home after an hour
+  trigger:
+  - entity_id: input_boolean.donnie_home
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - delay: 00:30:00
+  - data:
+      entity_id: input_boolean.donnie_home
+    service: input_boolean.turn_off
+- id: '1565832071987'
+  alias: Take Photo When Door Opens
+  trigger:
+  - entity_id: sensor.front_door
+    platform: state
+    to: OPEN
+  condition: []
+  action:
+  - data:
+      entity_id: script.take_photo_livingroom
+    service: script.turn_on
+- id: '1565904622492'
+  alias: Test Magic Card Playlist Scanner
+  trigger:
+  - event_data: {}
+    event_type: magic_card_scanned_asdfasdf
+    platform: event
+  condition: []
+  action:
+  - data:
+      device_name: LivingroomCast
+      random_song: true
+      uri: spotify:playlist:37i9dQZF1DX3yvAYDslnv8
+    service: spotcast.start
+  - data:
+      entity_id: script.turn_on_chromecast
+    service: script.turn_on
+  - delay: 00:00:10
+  - data:
+      entity_id: media_player.spotify
+      shuffle: true
+    service: media_player.shuffle_set
