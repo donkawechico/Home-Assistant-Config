@@ -6,7 +6,6 @@
     "13": "light.kitchen_lights",
     "14": "switch.water_light",
     "15": "switch.accent_lights",
-    "16": "group.all_devices",
     "17": "switch.macrame_light",
     "18": "switch.music_light",
     "2": "script.set_bedtime_projector_sleeptime",

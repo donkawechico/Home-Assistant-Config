@@ -1,23 +1,7 @@
-- id: '1521615321464'
-  alias: Turn on heater at 6:45 if Christine is there
-  trigger:
-  - at: 06:45:00
-    platform: time
-  condition:
-  - below: '73'
-    condition: numeric_state
-    entity_id: sensor.aeotech_multisensor_6_temperature
-  - condition: state
-    entity_id: device_tracker.christine_phone
-    state: home
-  action:
-  - data:
-      entity_id: script.turn_off_ac
-    service: script.turn_on
 - id: '1521615521241'
-  alias: Turn off heater at 8
+  alias: Turn off HVAC at noon
   trigger:
-  - at: 08:00:00
+  - at: '12:00:00'
     platform: time
   condition: []
   action:
@@ -44,7 +28,7 @@
   condition: []
   action:
   - data:
-      entity_id: climate.living_room
+      entity_id: climate.thermostat
       preset_mode: away
     service: climate.set_preset_mode
 - id: '1537496116823'
@@ -56,25 +40,12 @@
   condition: []
   action:
   - data:
-      entity_id: climate.living_room
+      entity_id: climate.thermostat
       preset_mode: none
     service: climate.set_preset_mode
   - data:
       entity_id: script.turn_on_climate_control
     service: script.turn_on
-- id: '1564419516085'
-  alias: Notify Me when AC state changes
-  trigger:
-  - entity_id: input_boolean.ac_on
-    platform: state
-  condition:
-  - condition: state
-    entity_id: sensor.donnie_home
-    state: 'off'
-  action:
-  - data:
-      message: The AC is {{ states.input_boolean.ac_on.state }}
-    service: notify.telegram
 - id: '1564422413764'
   alias: Donnie set to not home. Confirm
   trigger:
@@ -88,88 +59,9 @@
       message: Donnie is {% if is_state('binary_sensor.donnie_home', 'off') %}not
         home{% else %}home{% endif %}. Confirm?
       title: PRESENCE
-    service: notify.telegram
-- id: '1564449999980'
-  alias: Notify Me when Raqui leaves
-  trigger:
-  - entity_id: device_tracker.google_maps_105743070279004462174
-    from: Aguirowitz
-    platform: state
-  condition: []
-  action:
-  - data:
-      message: Raqui is at {{ states.device_tracker.google_maps_105743070279004462174.state
-        }}
-    service: notify.telegram
-- id: '1564450626096'
-  alias: Notify me when Daniel leaves home
-  trigger:
-  - entity_id: device_tracker.google_maps_100705896910531391902
-    from: Aguirowitz
-    platform: state
-  condition: []
-  action:
-  - data:
-      message: Daniel is at {{ states.device_tracker.google_maps_100705896910531391902.state
-        }}
-    service: notify.telegram
-- id: '1564499035437'
-  alias: Notify Me when Christine arrives at 24th Bart
-  trigger:
-  - entity_id: device_tracker.google_maps_104973091759009457547
-    platform: state
-    to: 24th
-  condition: []
-  action:
-  - data:
-      message: Christine is at 24th
-    service: notify.telegram
-- id: '1564499089065'
-  alias: Notify me when Christine arrives at work
-  trigger:
-  - entity_id: device_tracker.google_maps_104973091759009457547
-    platform: state
-    to: Christines Work
-  condition: []
-  action:
-  - data:
-      message: Christine is at work
-    service: notify.telegram
-- id: '1564499144957'
-  alias: Notify Me when Raqui is at Ashby
-  trigger:
-  - entity_id: device_tracker.google_maps_105743070279004462174
-    platform: state
-    to: Ashby
-  condition: []
-  action:
-  - data:
-      message: Raqui is at Ashby
-    service: notify.telegram
-- id: '1564499179776'
-  alias: Notify me when Raqui is at work
-  trigger:
-  - entity_id: device_tracker.google_maps_105743070279004462174
-    platform: state
-    to: Raquis Work
-  condition: []
-  action:
-  - data:
-      message: Raqui is at work
-    service: notify.telegram
-- id: '1564499414251'
-  alias: Notify me when Christine leaves house
-  trigger:
-  - entity_id: device_tracker.google_maps_104973091759009457547
-    from: Christines Home
-    platform: state
-  condition: []
-  action:
-  - data:
-      message: Christine has left her house
-    service: notify.telegram
+    service: notify.telegram_donnie
 - id: '1565131144880'
-  alias: Motion Detected When House Was Empty
+  alias: '[MOTION][NOTIFY] Motion In Empty House'
   trigger:
   - entity_id: input_boolean.motion_detected
     from: 'off'
@@ -186,7 +78,7 @@
           FINE:/nothing
       message: Motion detected, but you're away. Who is it?
       title: ALARM
-    service: notify.telegram
+    service: notify.telegram_donnie
 - id: '1565131225544'
   alias: Sense movement
   trigger:
@@ -351,7 +243,7 @@
   action:
   - data:
       message: Donnie scanned into Home
-    service: notify.telegram
+    service: notify.telegram_donnie
   - data:
       entity_id: input_boolean.donnie_home
     service: input_boolean.turn_on
@@ -365,7 +257,7 @@
   condition: []
   action:
   - data_template:
-      entity_id: 'scene.{{ trigger.event.data.card_uri.split(''|'')[3] }}'
+      entity_id: scene.{{ trigger.event.data.card_uri.split('|')[3] }}
     service: scene.turn_on
   - data_template:
       device_name: '{{ trigger.event.data.card_uri.split(''|'')[1] }}'
@@ -437,3 +329,153 @@
       entity_id: media_player.spotify
       shuffle: true
     service: media_player.shuffle_set
+- id: '1578336447908'
+  alias: Notify me if door opens and no one is home
+  description: ''
+  trigger:
+  - entity_id: sensor.front_door
+    from: CLOSED
+    platform: state
+    to: OPEN
+  condition:
+  - condition: state
+    entity_id: binary_sensor.someone_home
+    state: 'off'
+  action:
+  - data:
+      message: Door opened, but no one is home. Sending photo in 10 seconds.
+      target: -307549115
+    service: telegram_bot.send_message
+  - delay: 00:00:10
+  - data:
+      file: /home/homeassistant/.homeassistant/camera/main.jpg
+      target: -307549115
+    service: telegram_bot.send_photo
+- id: '1578513106734'
+  alias: '[MOTION][RECORD] five-second video'
+  description: ''
+  trigger:
+  - entity_id: input_boolean.motion_detected
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.someone_home
+    state: 'off'
+  action:
+  - service: shell_command.record_raspicam_minute
+- id: '1578959351465'
+  alias: '[CAR][NOTIFY] Vee leaves a zone'
+  description: ''
+  trigger:
+  - entity_id: person.vee
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      message: Vee went from {{ trigger.from_state.state }} to {{ trigger.to_state.state
+        }}
+    service: notify.telegram_donnie
+- id: '1578961423381'
+  alias: '[Location][Notify] Notify me when person changes locations'
+  description: ''
+  trigger:
+  - entity_id: person.raqui
+    platform: state
+  - entity_id: person.julia
+    platform: state
+  - entity_id: person.daniel
+    platform: state
+  - entity_id: person.christine
+    platform: state
+  - entity_id: person.donnie
+    platform: state
+  - entity_id: person.vee
+    platform: state
+  action:
+  - data_template:
+      message: '{{ trigger.entity_id }} went from {{ trigger.from_state.state }} to
+        {{ trigger.to_state.state }} {{ trigger.from_state }} ---- {{ trigger.to_state
+        }}'
+    service: notify.telegram_donnie
+- id: '1579195169252'
+  alias: '[CAR][FUEL][NOTIFY] Low'
+  description: ''
+  trigger:
+  - entity_id: device_tracker.2012_mazda_mazda3
+    platform: state
+  - event_data:
+      type: ignition:on
+      vehicle:
+        id: C_38ff41f78ad35e19
+    event_type: automatic_update
+    platform: event
+  condition:
+  - condition: template
+    value_template: '{{ state_attr("device_tracker.2012_mazda_mazda3", "fuel_level")
+      < 20 }}'
+  action:
+  - data_template:
+      message: Vee needs gas! Dilythium chambers running at {{ state_attr("device_tracker.2012_mazda_mazda3",
+        "fuel_level") }}%
+    service: notify.telegram_group
+- id: '1579278565302'
+  alias: vee turned off
+  description: ''
+  trigger:
+  - event_data:
+      type: ignition:off
+      vehicle:
+        id: C_38ff41f78ad35e19
+    event_type: automatic_update
+    platform: event
+  condition: []
+  action:
+  - data:
+      message: vee turned off
+    service: notify.telegram_donnie
+- id: '1579279246646'
+  alias: vee turned on
+  description: ''
+  trigger:
+  - event_data:
+      type: ignition:on
+      vehicle:
+        id: C_38ff41f78ad35e19
+    event_type: automatic_update
+    platform: event
+  condition: []
+  action:
+  - data:
+      message: vee turned on
+    service: notify.telegram_donnie
+- id: '1579286418827'
+  alias: '[Car][Notify] on any event updates'
+  description: ''
+  trigger:
+  - event_data: {}
+    event_type: automatic_update
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      message: 'Vee event: {{ trigger.event.data.type }}.Data: {{ trigger.event.data
+        }}
+
+        '
+    service: notify.telegram_donnie
+- id: '1579402567251'
+  alias: '[LIGHT][BLINDS] Close when it''s too bright'
+  description: ''
+  trigger:
+  - above: '90'
+    entity_id: sensor.multisensor_livingroom_luminance
+    platform: numeric_state
+  condition:
+  - condition: template
+    value_template: '{{ state_attr(''automation.light_blinds_close_when_it_s_too_bright'',''last_triggered'').astimezone().day
+      != now().day }}'
+  action:
+  - entity_id: cover.blinds
+    service: cover.close_cover

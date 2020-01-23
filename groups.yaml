@@ -25,7 +25,7 @@ air_conditioner:
   - switch.climate_control
   - input_boolean.ac_on
   - input_select.climate_room
-  - climate.living_room
+  - climate.thermostat
   - script.set_too_cold
   - script.set_too_warm
   - script.turn_on_ac
@@ -79,6 +79,7 @@ living_room:
   - light.ai_livingroom_gascan
   - light.ai_livingroom_orb
   - light.chandelier
+  - light.flour_box
   - switch.accent_lights
   - switch.water_light
 kitchen:
@@ -99,10 +100,11 @@ shop:
   - light.the_sun
   - switch.pool_table_light
 bedroom:
-  name: Bedroom
+  name: Bedroom lights
   entities:
   - light.nightstand
   - switch.music_light
+  - light.nanoleaf
 front_wall:
   name: Front Wall
   entities:
@@ -110,6 +112,8 @@ front_wall:
   - light.ai_entry_umbrella
   - light.chandelier
   - switch.accent_lights
+  - switch.macrame_light
+  - light.nanoleaf
 back_wall:
   name: Wall behind couch
   entities:
@@ -119,6 +123,7 @@ back_wall:
   - light.ai_livingroom_sculpture
   - light.the_sun
   - light.ai_shop_gascan
+  - light.flour_box
 amazon_dots:
   view: false
   name: Amazon Echo Dots
@@ -150,6 +155,7 @@ all_light_switches:
   - switch.pool_table_light
   - switch.macrame_light
   - switch.music_light
+  - switch.wemo_shop
 all_sensor:
   view: yes
   name: Sensors
@@ -218,19 +224,6 @@ synchronize:
   - switch.is_kitchen_strip_on
   - input_boolean.tv_on
   - input_boolean.ac_on
-automations:
-  view: yes
-  name: Automations
-  icon: mdi:robot
-  entities:
-  - group.all_automations
-locations:
-  view: yes
-  name: Locations
-  icon: mdi:map-marker
-  entities:
-  - group.all_devices
-  - camera.iss
 gas_cans:
   view: no
   name: All Gas Cans
@@ -239,24 +232,12 @@ gas_cans:
   - light.ai_kitchen_gascan_nozzle
   - light.ai_livingroom_gascan
   - light.ai_shop_gascan
-tracked_devices:
-  view: yes
-  name: Tracked Devices
-  icon: mdi:cellphone-link
-  entities:
-  - group.all_devices
 someone_home:
   view: no
   name: Someone is home
   entities:
-  - device_tracker.christine_phone
+  - sensor.christine_home
   - sensor.donnie_home
-scripts:
-  view: yes
-  name: Scripts
-  icon: mdi:script
-  entities:
-  - group.all_scripts
 all_chromecasts:
   view: no
   name: All Chromecast media players
@@ -284,3 +265,4 @@ modes:
   entities:
   - input_select.house_mode
   - input_select.occupants
+

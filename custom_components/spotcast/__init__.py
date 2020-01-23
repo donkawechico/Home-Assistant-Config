@@ -7,7 +7,7 @@ from homeassistant.components.cast.media_player import KNOWN_CHROMECAST_INFO_KEY
 import random
 import time
 
-_VERSION = '2.0.0'
+_VERSION = '2.5.1'
 DOMAIN = 'spotcast'
 
 _LOGGER = logging.getLogger(__name__)
@@ -19,6 +19,7 @@ CONF_ACCOUNTS = 'accounts'
 CONF_SPOTIFY_ACCOUNT = 'account'
 CONF_TRANSFER_PLAYBACK = 'transfer_playback'
 CONF_RANDOM = 'random_song'
+CONF_REPEAT = 'repeat'
 
 SERVICE_START_COMMAND_SCHEMA = vol.Schema({
     vol.Optional(CONF_DEVICE_NAME): cv.string,
@@ -26,7 +27,8 @@ SERVICE_START_COMMAND_SCHEMA = vol.Schema({
     vol.Optional(CONF_SPOTIFY_URI): cv.string,
     vol.Optional(CONF_SPOTIFY_ACCOUNT): cv.string,
     vol.Optional(CONF_TRANSFER_PLAYBACK): cv.boolean,
-    vol.Optional(CONF_RANDOM): cv.boolean
+    vol.Optional(CONF_RANDOM): cv.boolean,
+    vol.Optional(CONF_REPEAT): cv.string
 })
 
 ACCOUNTS_SCHEMA = vol.Schema({
@@ -55,7 +57,7 @@ def setup(hass, config):
     # hass.helpers.discovery.load_platform('sensor', DOMAIN, {}, config)
 
     # service
-    def get_chromcast_device(device_name):
+    def get_chromecast_device(device_name):
         import pychromecast
 
         # Get cast from discovered devices of cast platform
@@ -71,14 +73,12 @@ def setup(hass, config):
 
         # Discover devices manually
         chromecasts = pychromecast.get_chromecasts()
-        cast = None
         for _cast in chromecasts:
             if _cast.name == device_name:
-                _LOGGER.debug('Found cast device: %s', cast)
+                _LOGGER.debug('Fallback, found cast device: %s', _cast)
                 return _cast
 
         raise HomeAssistantError('Could not find device with name {}'.format(device_name))
-
 
     def get_spotify_token(username, password):
         import spotify_token as st
@@ -87,7 +87,7 @@ def setup(hass, config):
         expires = data[1] - int(time.time())
         return access_token, expires
 
-    def play(client, spotify_device_id, uri, random_song):
+    def play(client, spotify_device_id, uri, random_song, repeat):
         # import spotipy
         # import http.client as http_client
         # spotipy.trace = True
@@ -113,6 +113,10 @@ def setup(hass, config):
 
             _LOGGER.debug('Playing context uri using context_uri for uri: "%s" (random_song: %s)', uri, random_song)
             client.start_playback(**kwargs)
+        if repeat:
+            _LOGGER.debug('Turning repeat on')
+            time.sleep(5)
+            client.repeat(state=repeat, device_id=spotify_device_id)
 
     def transfer_pb(client, spotify_device_id):
         _LOGGER.debug('Transfering playback')
@@ -127,6 +131,7 @@ def setup(hass, config):
 
         uri = call.data.get(CONF_SPOTIFY_URI)
         random_song = call.data.get(CONF_RANDOM, False)
+        repeat = call.data.get(CONF_REPEAT)
 
         # Get device name from tiehr device_name or entity_id
         device_name = None
@@ -146,7 +151,7 @@ def setup(hass, config):
             raise HomeAssistantError('device_name is empty')
 
         # Find chromecast device
-        cast = get_chromcast_device(device_name)
+        cast = get_chromecast_device(device_name)
         _LOGGER.debug('Found cast device: %s', cast)
         cast.wait()
 
@@ -197,7 +202,7 @@ def setup(hass, config):
         if transfer_playback == True:
             transfer_pb(client, spotify_device_id)
         else:
-            play(client, spotify_device_id, uri, random_song)
+            play(client, spotify_device_id, uri, random_song, repeat)
 
     hass.services.register(DOMAIN, 'start', start_casting,
                            schema=SERVICE_START_COMMAND_SCHEMA)

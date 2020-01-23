@@ -86,6 +86,14 @@
       turn_off:
         service: script.turn_on
         entity_id: script.turn_off_tv
+    shop_tv:
+      value_template: "{{ is_state('input_boolean.shop_tv_on','on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_shop_tv
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_shop_tv
     playstation:
       value_template: "{{ is_state('input_boolean.playstation_on','on') }}"
       turn_on:
@@ -94,14 +102,14 @@
       turn_off:
         service: script.turn_on
         entity_id: script.turn_off_playstation
-    plex:
-      value_template: "{{ is_state_attr('media_player.ps4_waker','source','Plex') }}"
-      turn_on:
-        service: script.turn_on
-        entity_id: script.turn_on_ps4_waker_plex
-      turn_off:
-        service: script.turn_on
-        entity_id: script.turn_off_ps4_waker_plex    
+    # plex:
+    #   value_template: "{{ is_state_attr('media_player.ps4_waker','source','Plex') }}"
+    #   turn_on:
+    #     service: script.turn_on
+    #     entity_id: script.turn_on_ps4_waker_plex
+    #   turn_off:
+    #     service: script.turn_on
+    #     entity_id: script.turn_off_ps4_waker_plex    
     chromecast:
       value_template: "{{ is_state('input_boolean.chromecast_on','on') }}"
       turn_on:
@@ -135,7 +143,7 @@
         service: script.turn_on
         entity_id: script.turn_off_bedtime_projector
     climate_control:
-      value_template: "{{ states.climate.living_room.attributes.hvac_action != 'off' }}"
+      value_template: "{{ states.climate.thermostat.attributes.hvac_action != 'off' }}"
       turn_on:
         service: script.turn_on
         entity_id: script.turn_on_climate_control

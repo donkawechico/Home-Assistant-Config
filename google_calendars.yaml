@@ -131,3 +131,10 @@
     ignore_availability: true
     name: Weather
     track: true
+
+- cal_id: family06871239645698714138@group.calendar.google.com
+  entities:
+  - device_id: family
+    ignore_availability: true
+    name: Family
+    track: true
