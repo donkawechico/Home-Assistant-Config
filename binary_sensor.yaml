@@ -1,5 +1,17 @@
   - platform: iss
     show_on_map: true
+  - platform: trend
+    sensors:
+      livingroom_temp_falling:
+        entity_id: sensor.multisensor_livingroom_temperature
+        sample_duration: 300 # 5 min
+        min_gradient: -0.00017 # About 0.1 degrees every 10 min (0.1 / (60*10))
+        device_class: cold
+      livingroom_temp_rising:
+        entity_id: sensor.multisensor_livingroom_temperature
+        sample_duration: 300
+        min_gradient: 0.00017
+        device_class: heat
   - platform: template
     sensors:
       dark_out:
@@ -18,3 +30,7 @@
         friendly_name: "Christine is at home"
         value_template: >
           {{ is_state('sensor.christine_home', 'home') }}
+      living_room_motion:
+        friendly_name: "Living Room Motion Detected"
+        value_template: >
+          {{ is_state('sensor.multisensor_livingroom_burglar', '8') }}

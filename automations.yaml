@@ -6,7 +6,7 @@
   condition: []
   action:
   - data:
-      entity_id: script.turn_off_heater
+      entity_id: script.turn_off_hvac
     service: script.turn_on
 - id: '1531621091643'
   alias: Turn Off AC on restart (ensures correct bool)
@@ -17,7 +17,7 @@
   condition: []
   action:
   - data:
-      entity_id: script.turn_off_ac
+      entity_id: script.turn_off_hvac
     service: script.turn_on
 - id: '1537471675803'
   alias: Set Climate 'Away Mode' when not at home
@@ -466,16 +466,137 @@
         '
     service: notify.telegram_donnie
 - id: '1579402567251'
-  alias: '[LIGHT][BLINDS] Close when it''s too bright'
+  alias: '[LIGHT][SHADES] Close when it''s too bright'
   description: ''
   trigger:
-  - above: '90'
+  - above: '300'
     entity_id: sensor.multisensor_livingroom_luminance
     platform: numeric_state
   condition:
   - condition: template
-    value_template: '{{ state_attr(''automation.light_blinds_close_when_it_s_too_bright'',''last_triggered'').astimezone().day
+    value_template: '{{ state_attr(''automation.light_shades_close_when_it_s_too_bright'',''last_triggered'').astimezone().day
       != now().day }}'
   action:
-  - entity_id: cover.blinds
+  - entity_id: cover.shades
     service: cover.close_cover
+- id: '1580018856284'
+  alias: When AC or Heater go on, HVAC is on
+  description: ''
+  trigger:
+  - entity_id: input_boolean.ac_on
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: input_boolean.hvac_on
+    service: input_boolean.turn_on
+- id: '1580018930733'
+  alias: When AC is on, Heater is off
+  description: ''
+  trigger:
+  - entity_id: input_boolean.ac_on
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: input_boolean.heater_on
+    service: input_boolean.turn_off
+- id: '1580018967885'
+  alias: When Heater is on, AC is off
+  description: ''
+  trigger:
+  - entity_id: input_boolean.heater_on
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: input_boolean.ac_on
+    service: input_boolean.turn_off
+- id: '1580157401711'
+  alias: Notify when entry sensor updates temp
+  description: ''
+  trigger:
+  - entity_id: sensor.trisensor_entry_temperature
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: Entry updated temp
+    service: notify.telegram_donnie
+- id: '1580347475732'
+  alias: Notify me when christine leaves work
+  description: ''
+  trigger:
+  - entity_id: person.christine
+    event: leave
+    platform: zone
+    zone: zone.christine_work
+  - entity_id: person.christine
+    event: enter
+    platform: zone
+    zone: zone.montgomery
+  - entity_id: person.christine
+    event: enter
+    platform: zone
+    zone: zone.19th_st
+  - entity_id: person.christine
+    event: enter
+    platform: zone
+    zone: zone.macarthur
+  - entity_id: person.christine
+    event: enter
+    platform: zone
+    zone: zone.ashby
+  - entity_id: person.donnie
+    event: leave
+    platform: zone
+    zone: zone.19th_st
+  condition: []
+  action:
+  - data_template:
+      message: Christine is {{ trigger.event }}ing  {{ trigger.zone.state.friendly_name
+        }}
+    service: notify.telegram_donnie
+- id: '1580362447123'
+  alias: lights home
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.someone_home
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+- id: '1580939983528'
+  alias: Notify me on phone if motion detected
+  description: ''
+  trigger:
+  - entity_id: input_boolean.motion_detected
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: Motion detected or stopped
+    service: notify.mobile_app_donnie
+- id: '1581495559638'
+  alias: Turn on kitchen lights when motion detected
+  description: ''
+  trigger:
+  - entity_id: input_boolean.motion_kitchen
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: light.ai_kitchen_gascan_main
+    service: light.turn_on
+- id: '1581495869865'
+  alias: Turn off kitchen lights when no motion
+  description: ''
+  trigger:
+  - entity_id: input_boolean.motion_kitchen
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - entity_id: light.ai_kitchen_gascan_main
+    service: light.turn_off

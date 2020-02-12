@@ -20,11 +20,12 @@
       - summary
       - icon
       - nearest_storm_distance
-  - platform: command_line
-    name: SSL cert expiry
-    unit_of_measurement: days
-    scan_interval: 10800
-    command: "ssl-cert-check -b -c /etc/letsencrypt/live/dk.servebeer.com/cert.pem | awk '{ print $NF }'"
+# Unnecessary now that it's an integration in frontend
+#  - platform: command_line
+#    name: SSL cert expiry
+#    unit_of_measurement: days
+#    scan_interval: 10800
+#    command: "ssl-cert-check -b -c /etc/letsencrypt/live/dk.servebeer.com/cert.pem | awk '{ print $NF }'"
   - platform: template
     sensors:
       donnie_home:
@@ -83,6 +84,45 @@
           {% else %}
             {{ states.sensor.dew_point_livingroom.state | round(2) }}
           {% endif %}
+  - platform: template
+    sensors:
+      withings_weight_lbs_donnie:
+        friendly_name: "withings weight_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_weight_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_bone_mass_lbs_donnie:
+        friendly_name: "withings bone_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_bone_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_fat_free_mass_lbs_donnie:
+        friendly_name: "withings fat_free_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_fat_free_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_fat_mass_lbs_donnie:
+        friendly_name: "withings fat_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_fat_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_muscle_mass_lbs_donnie:
+        friendly_name: "withings muscle_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_muscle_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
   - platform: time_date
     display_options:
       - 'time'

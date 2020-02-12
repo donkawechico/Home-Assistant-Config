@@ -48,3 +48,5 @@ test.*
 *.log*
 *bkup*
 google_calendars.yaml
+custom_components/hacs
+custom_components/spotcast

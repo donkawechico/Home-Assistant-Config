@@ -25,6 +25,14 @@ input_boolean:
     name: "Is Air Conditioner On"
     initial: off
     icon: mdi:snowflake
+  heater_on:
+    name: "Is Heater On"
+    initial: off
+    icon: mdi:radiator
+  hvac_on:
+    name: "Is HVAC On"
+    initial: off
+    icon: mdi:air-conditioner
   tv_on:
     name: "Is TV Set On"
     initial: off
@@ -47,6 +55,9 @@ input_boolean:
   donnie_home:
     name: "Set Donnie to Home"
     initial: off
+  motion_kitchen:
+    name: "Motion in Kitchen"
+    initial: off
 
 frontend:
   themes: !include_dir_merge_named themes
@@ -58,45 +69,46 @@ remote:
   - platform: harmony
     name: Harmony Hub
     delay_secs: 1.0
+    host: 192.168.1.144
     # hold_secs: 1.0
 
 cloud:
-  alexa:
-    filter:
-      include_entities:
-        - switch.bedtime
-        - script.scene_underwater
-        - script.bedtime_projector
-        - cover.blinds
-      include_domains:
-        - media_player
-      # exclude_domains:
-      #   - group
-      #   - automation
-    entity_config:
-      switch.bedtime:
-        name: Bedtime
-        description: Bedtime mode
-        display_categories: SWITCH
-      script.scene_underwater:
-        name: Scene Underwater
-        description: Scene Underwater
-        display_categories: SCENE_TRIGGER
-      script.bedtime_projector:
-        name: Bedtime Projector
-        description: Turn on projector in bedroom and set to sleep
-        display_categories: SCENE_TRIGGER
-      media_player.livingroomcast:
-        name: Livingroom Cast
-        description: Livingroom Chromecast
-        display_categories: OTHER
-      media_player.playstation_4:
-        name: Playstation Console
-        description: Playstation 4 Media Player
-        display_categories: MEDIA_PLAYER
-      cover.blinds:
-        name: Blinds
-        display_categories: INTERIOR_BLIND
+#  alexa:
+#    filter:
+#      include_entities:
+#        - switch.bedtime
+#        - script.scene_underwater
+#        - script.bedtime_projector
+#        - cover.shades
+#      include_domains:
+#        - media_player
+#      # exclude_domains:
+#      #   - group
+#      #   - automation
+#    entity_config:
+#      switch.bedtime:
+#        name: Bedtime
+#        description: Bedtime mode
+#        display_categories: SWITCH
+#      script.scene_underwater:
+#        name: Scene Underwater
+#        description: Scene Underwater
+#        display_categories: SCENE_TRIGGER
+#      script.bedtime_projector:
+#        name: Bedtime Projector
+#        description: Turn on projector in bedroom and set to sleep
+#        display_categories: SCENE_TRIGGER
+#      media_player.livingroomcast:
+#        name: Livingroom Cast
+#        description: Livingroom Chromecast
+#        display_categories: OTHER
+#      media_player.playstation_4:
+#        name: Playstation Console
+#        description: Playstation 4 Media Player
+#        display_categories: MEDIA_PLAYER
+#      cover.shades:
+#        name: Shades
+#        display_categories: INTERIOR_BLIND
 
 config:
 
@@ -112,6 +124,10 @@ http:
   - ::1
   ip_ban_enabled: false
   login_attempts_threshold: -1
+  cors_allowed_origins:
+    - https://www.home-assistant.io
+    - https://cast.home-assistant.io
+    - https://cast.home-assistant.io/
 
 # updater:
 
@@ -126,13 +142,27 @@ history:
       - sensor.chromecast_devices
       - input_select.privacy_mode
       - sensor.relevant_dew_point
+      - sensor.date
+      - sensor.date_time
   include:
     domains:
       - sensor
+      - binary_sensor
       - device_tracker
       - person
       - cover
-
+    entities:
+      - device_tracker.living_room_sculpture
+      - device_tracker.living_room_orb
+      - device_tracker.living_room_gas_can
+      - device_tracker.living_room_sculpture
+      - device_tracker.kitchen_gas_can_main
+      - device_tracker.kitchen_gas_can_nozzle
+      - device_tracker.shop_gas_can
+      - device_tracker.nanoleaf
+      - device_tracker.soma_connect
+      - device_tracker.echo_bathroom
+      - device_tracker.echo_entry
 
 # View all events in a logbook
 logbook:
@@ -213,6 +243,7 @@ alexa:
         - script.set_too_cold
         - script.set_too_warm
         - switch.shop_tv
+        - input_boolean.motion_kitchen
     entity_config:
       group.back_wall:
         name: Back Wall
@@ -258,12 +289,6 @@ alexa:
 intent_script: !include intents.yaml
 
 device_tracker:
-  - platform: ddwrt
-    host: !secret router_local_ip
-    username: !secret router_username
-    password: !secret router_password
-    interval_seconds: 10
-    consider_home: 180
   - platform: google_maps
     username: !secret googlebot_username
     max_gps_accuracy: 100
@@ -297,7 +322,7 @@ recorder:
   # Delete events and states older than 2 weeks
   purge_keep_days: 7
   purge_interval: 2
-  db_url: !secret mysql_connection_string
+#  db_url: !secret mysql_connection_string
   include:
     domains:
       - sensor
@@ -328,12 +353,6 @@ recorder:
       - sensor.time
       #- sensor.temperature_feels_like_livingroom
       #- sensor.temperature_feels_like_bedroom
-      - sensor.netgear_r6400_v1_dd_wrt_bytes_sent
-      - sensor.netgear_r6400_v1_dd_wrt_bytes_received
-      - sensor.netgear_r6400_v1_dd_wrt_packets_received
-      - sensor.netgear_r6400_v1_dd_wrt_packets_sent
-      - sensor.netgear_r6400_v1_dd_wrt_packets_sec_received
-      - sensor.netgear_r6400_v1_dd_wrt_packets_sec_sent
       - sensor.chromecast_devices
     event_types:
       - service_removed
@@ -348,74 +367,6 @@ recorder:
       - system_log_event
       - script_started
       - timer_out_of_sync
-
-zone:
-  - name: Work
-    latitude: !secret zone_work_lat
-    longitude: !secret zone_work_long
-    radius: 75
-    icon: mdi:briefcase
-    passive: false
-  - name: Aguirowitz
-    latitude: !secret zone_aguirowitz_lat
-    longitude: !secret zone_aguirowitz_long
-    radius: 20
-    passive: false
-  - name: Raquis Work
-    latitude: !secret raqui_work_lat
-    longitude: !secret raqui_work_long
-    radius: 150
-    passive: false
-  - name: Pool Hall BR
-    latitude: !secret pool_hall_br_lat
-    longitude: !secret pool_hall_br_long
-    radius: 50
-    passive: false
-  - name: Pool Hall D
-    latitude: !secret pool_hall_d_lat
-    longitude: !secret pool_hall_d_long
-    radius: 50
-    passive: false
-  - name: Christines Work
-    latitude: !secret christine_work_lat
-    longitude: !secret christine_work_long
-    radius: 50
-    passive: false
-  - name: Daniels Work
-    latitude: !secret daniel_work_lat
-    longitude: !secret daniel_work_long
-    radius: 50
-    passive: false
-  - name: Ashby
-    latitude: 37.85349
-    longitude: -122.27009
-    radius: 200
-    passive: false
-  - name: MacArthur
-    latitude: 37.8290643
-    longitude: -122.269241
-    radius: 50
-    passive: false
-  - name: Julias Home
-    latitude: !secret julia_home_lat
-    longitude: !secret julia_home_long
-    radius: 50
-    passive: false
-  - name: Costco OR
-    latitude: !secret julia_costco_lat
-    longitude: !secret julia_costco_long
-    radius: 200
-    passive: false
-  - name: Target OR
-    latitude: !secret julia_target_lat
-    longitude: !secret julia_target_long
-    radius: 200
-  - name: Berkeley Bowl
-    latitude: 37.85704
-    longitude: -122.26731
-    radius: 50
-    passive: false
-
 
 # Example configuration.yaml entry
 # media_extractor:
@@ -600,8 +551,6 @@ light:
     effect: true
     optimistic: false
 
-map:
-
 hue:
   bridges:
     - host: 192.168.1.130
@@ -625,15 +574,23 @@ camera:
     name: Raspicam
     input: tcp://127.0.0.1:9000
     extra_arguments: -vf "transpose=2,transpose=2"
+  - platform: generic
+    name: Outdoor
+    stream_source: !secret reolink_outdoor_stream
+    still_image_url: !secret reolink_outdoor_still
+  - platform: generic
+    name: Indoor
+    stream_source: !secret reolink_indoor_stream
+    still_image_url: !secret reolink_indoor_still
 
 shell_command:
-  take_photo_raspistill: !secret raspistill_script
-  take_photo_raspistill_pizero: !secret raspistill_script_pizero
-  take_photo_fridge: !secret usb_camera_script_fridge
-  take_photo_bedroom: !secret usb_camera_script_bedroom
+  #take_photo_raspistill: !secret raspistill_script
+  #take_photo_raspistill_pizero: !secret raspistill_script_pizero
+  #take_photo_fridge: !secret usb_camera_script_fridge
+  #take_photo_bedroom: !secret usb_camera_script_bedroom
   reboot_router: !secret reboot_script
-  record_raspicam_minute: ffmpeg -i tcp://127.0.0.1:9000 -an -c:v copy -t 00:01:00 /var/tmp/raspicam-{{ now().strftime("%Y-%m-%d_%H-%M-%S") }}.mkv
-  record_raspicam_five_seconds: ffmpeg -i tcp://127.0.0.1:9000 -an -c:v copy -t 00:00:05 /var/tmp/raspicam-{{ now().strftime("%Y-%m-%d_%H-%M-%S") }}.mkv
+  #record_raspicam_minute: ffmpeg -i tcp://127.0.0.1:9000 -an -c:v copy -t 00:01:00 /var/tmp/raspicam-{{ now().strftime("%Y-%m-%d_%H-%M-%S") }}.mkv
+  #record_raspicam_five_seconds: ffmpeg -i tcp://127.0.0.1:9000 -an -c:v copy -t 00:00:05 /var/tmp/raspicam-{{ now().strftime("%Y-%m-%d_%H-%M-%S") }}.mkv
 
 zwave:
   usb_path: /dev/zwave
@@ -647,6 +604,11 @@ notify:
   - name: telegram_group
     platform: telegram
     chat_id: -307549115
+  - platform: html5
+    name: chrome_browser
+    vapid_pub_key: !secret vapid_pub_key
+    vapid_prv_key: !secret vapid_prv_key
+    vapid_email: !secret vapid_email
 
 climate:
   - platform: generic_thermostat
@@ -676,11 +638,16 @@ vacuum:
 system_health:
 
 media_player:
-  - platform: spotify
-    client_id: !secret spotify_client_id
-    client_secret: !secret spotify_client_secret
-    cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
   - platform: plex
+# DEPRECATED
+#  - platform: spotify
+#    client_id: !secret spotify_client_id
+#    client_secret: !secret spotify_client_secret
+#    cache_path: /home/homeassistant/.homeassistant/.spotify-token-cache
+
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
 
 # Example configuration.yaml entry for the Telegram Bot
 telegram_bot:
@@ -709,7 +676,7 @@ person:
 cast:
   media_player:
     - host: 192.168.1.110
-    - host: 192.168.1.157
+#    - host: 192.168.1.157
 
 proximity:
   all_and_home:
@@ -748,28 +715,18 @@ proximity:
     devices:
       - device_tracker.google_maps_102217405067205510136
     tolerance: 20
-  christine_and_christine_home:
-    zone: christines_house
-    devices:
-      - device_tracker.google_maps_104973091759009457547
-    tolerance: 20
   christine_and_work:
-    zone: christines_work
+    zone: christine_work
     devices:
       - device_tracker.google_maps_104973091759009457547
-    tolerance: 20
-  donnie_and_christine_home:
-    zone: christines_house
-    devices:
-      - device_tracker.google_maps_102217405067205510136
     tolerance: 20
   daniel_and_work:
-    zone: daniels_work
+    zone: daniel_work
     devices:
       - device_tracker.google_maps_100705896910531391902
     tolerance: 20
   raqui_and_work:
-    zone: raquis_work
+    zone: raqui_work
     devices:
       - device_tracker.google_maps_105743070279004462174
     tolerance: 20
@@ -784,16 +741,12 @@ proximity:
       - device_tracker.google_maps_111911918163605295211
     tolerance: 20
   julia_and_home:
-    zone: julias_home
+    zone: julia_home
     devices:
       - device_tracker.google_maps_111911918163605295211
     tolerance: 20
 
 panel_custom:
-  - name: hello
-    sidebar_title: Hello World
-    sidebar_icon: mdi:hand-pointing-right
-    url_path: hello
   - name: aibulbs
     sidebar_title: AI Bulbs
     sidebar_icon: mdi:lightbulb-group-outline
@@ -804,8 +757,28 @@ wemo:
 
 cover:
   - platform: group
-    name: blinds
+    name: Shades
     entities:
-      - cover.left_blinds_1
+      - cover.left_shades
 
 stream:
+
+mobile_app:
+
+withings:
+  client_id: !secret withings_client_id
+  client_secret: !secret withings_client_secret
+  profiles:
+    - Donnie
+    - Christine
+
+#image_processing:
+#  - platform: opencv
+#    name: Front Door Faces
+#    source:
+#      - entity_id: camera.indoor
+#    classifier:
+#      body: ./opencv/haarcascade_fullbody.xml
+#      cat_face: ./opencv/haarcascade_frontalcatface.xml
+#      cat_face_extended: ./opencv/haarcascade_frontalcatface_extended.xml
+

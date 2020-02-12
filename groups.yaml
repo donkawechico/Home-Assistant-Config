@@ -1,5 +1,4 @@
 default_view:
-  view: yes
   icon: mdi:home
   entities:
   - binary_sensor.donnie_home
@@ -16,14 +15,15 @@ default_view:
   - light.all_color_lights
   - light.kitchen_lights
   - light.nanoleaf
-  - group.air_conditioner
+  - group.hvac
   - vacuum.roomba
-air_conditioner:
-  view: no
+hvac:
   icon: mdi:snowflake
   entities:
   - switch.climate_control
   - input_boolean.ac_on
+  - input_boolean.heater_on
+  - input_boolean.hvac_on
   - input_select.climate_room
   - climate.thermostat
   - script.set_too_cold
@@ -35,7 +35,6 @@ air_conditioner:
   - script.turn_on_heater
   - script.turn_off_heater
 cameras:
-  view: yes
   icon: mdi:camera
   entities:
   - script.take_photo_bedroom
@@ -49,7 +48,6 @@ cameras:
   - camera.tablet_camera_front
   - camera.tablet_camera_bedroom
 house_lights:
-  view: yes
   name: House Lights
   icon: mdi:ceiling-light
   entities:
@@ -57,7 +55,6 @@ house_lights:
   - group.all_light_switches
   - light.kitchen_strip
 scenes:
-  view: yes
   name: Scenes
   icon: mdi:palette
   entities:
@@ -81,7 +78,7 @@ living_room:
   - light.chandelier
   - light.flour_box
   - switch.accent_lights
-  - switch.water_light
+  - switch.macrame_light
 kitchen:
   name: Kitchen
   entities:
@@ -92,7 +89,7 @@ entry:
   name: Entryway
   entities:
   - light.ai_entry_umbrella
-  - switch.macrame_light
+  - light.nanoleaf
 shop:
   name: Shop
   entities:
@@ -104,7 +101,6 @@ bedroom:
   entities:
   - light.nightstand
   - switch.music_light
-  - light.nanoleaf
 front_wall:
   name: Front Wall
   entities:
@@ -112,8 +108,8 @@ front_wall:
   - light.ai_entry_umbrella
   - light.chandelier
   - switch.accent_lights
-  - switch.macrame_light
   - light.nanoleaf
+  - light.flour_box
 back_wall:
   name: Wall behind couch
   entities:
@@ -123,9 +119,8 @@ back_wall:
   - light.ai_livingroom_sculpture
   - light.the_sun
   - light.ai_shop_gascan
-  - light.flour_box
+  - switch.macrame_light
 amazon_dots:
-  view: false
   name: Amazon Echo Dots
   entities:
   - device_tracker.amazon6a82acc0d
@@ -133,7 +128,6 @@ amazon_dots:
   - device_tracker.amazonb2316426c
   - device_tracker.amazondbe97368b
 all_media_players:
-  view: yes
   name: Media Players
   icon: mdi:theater
   entities:
@@ -150,14 +144,13 @@ all_media_players:
 all_light_switches:
   name: Light Switches
   entities:
-  - switch.water_light
   - switch.accent_lights
   - switch.pool_table_light
   - switch.macrame_light
   - switch.music_light
   - switch.wemo_shop
+  - switch.wemo_other
 all_sensor:
-  view: yes
   name: Sensors
   icon: mdi:radio-tower
   entities:
@@ -172,7 +165,6 @@ all_sensor:
   - group.virtual_sensors
   - group.miflora_sensors
 multisensor_livingroom:
-  view: no
   name: Multisensor (Livingroom)
   entities:
   - sensor.multisensor_livingroom_alarm_type
@@ -182,7 +174,6 @@ multisensor_livingroom:
   - sensor.multisensor_livingroom_relative_humidity
   - sensor.multisensor_livingroom_temperature
 multisensor_bedroom:
-  view: no
   name: Multisensor (Bedroom)
   entities:
   - sensor.multisensor_bedroom_alarm_type
@@ -192,7 +183,6 @@ multisensor_bedroom:
   - sensor.multisensor_bedroom_relative_humidity
   - sensor.multisensor_bedroom_temperature
 trisensor_entry:
-  view: no
   name: Trisensor (Entry)
   entities:
   - sensor.trisensor_entry_alarm_type
@@ -212,12 +202,10 @@ virtual_sensors:
   - input_boolean.motion_detected
   - sensor.mqtt_kitchen_strip
 safe_to_turn_off:
-  view: false
   name: Safe to Turn Off Devices
   entities:
   - group.house_lights
 synchronize:
-  view: yes
   name: Synchronize
   icon: mdi:sync
   entities:
@@ -225,7 +213,6 @@ synchronize:
   - input_boolean.tv_on
   - input_boolean.ac_on
 gas_cans:
-  view: no
   name: All Gas Cans
   entities:
   - light.ai_kitchen_gascan_main
@@ -233,20 +220,17 @@ gas_cans:
   - light.ai_livingroom_gascan
   - light.ai_shop_gascan
 someone_home:
-  view: no
   name: Someone is home
   entities:
   - sensor.christine_home
   - sensor.donnie_home
 all_chromecasts:
-  view: no
   name: All Chromecast media players
   entities:
   - media_player.livingroomcast
   - media_player.suncast
   - media_player.entrycast
 miflora_sensors:
-  view: no
   name: Mi Flora Sensors
   entities:
   - sensor.mi_flora_battery
@@ -255,12 +239,10 @@ miflora_sensors:
   - sensor.mi_flora_temperature
   - sensor.mi_flora_conductivity
 notify_me_devices:
-  view: no
   name: Notify me when these devices change state
   entities:
    - input_boolean.ac_on
 modes:
-  view: no
   name: Various house modes
   entities:
   - input_select.house_mode

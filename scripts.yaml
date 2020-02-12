@@ -9,8 +9,8 @@ turn_on_ac:
   - data:
       entity_id: input_boolean.ac_on
     service: input_boolean.turn_on
-turn_off_ac:
-  alias: ACOff
+turn_off_hvac:
+  alias: HVACOff
   sequence:
   - data:
       command: PowerOff
@@ -19,6 +19,12 @@ turn_off_ac:
     service: remote.send_command
   - data:
       entity_id: input_boolean.ac_on
+    service: input_boolean.turn_off
+  - data:
+      entity_id: input_boolean.heater_on
+    service: input_boolean.turn_off
+  - data:
+      entity_id: input_boolean.hvac_on
     service: input_boolean.turn_off
 turn_on_heater:
   alias: HeaterOn
@@ -29,19 +35,8 @@ turn_on_heater:
       entity_id: remote.harmony_hub
     service: remote.send_command
   - data:
-      entity_id: input_boolean.ac_on
-    service: input_boolean.turn_off
-turn_off_heater:
-  alias: HeaterOff
-  sequence:
-  - service: remote.send_command
-    data:
-      command: PowerOff
-      device: 46416385
-      entity_id: remote.harmony_hub
-  - data:
-      entity_id: input_boolean.ac_on
-    service: input_boolean.turn_off
+      entity_id: input_boolean.heater_on
+    service: input_boolean.turn_on
 turn_on_kitchen_strip:
   alias: Turn on Kitchen Strip Light
   sequence:
