@@ -1,0 +1,606 @@
+- id: '1575082412411'
+  name: Normal
+  entities:
+    light.accent_lights:
+      state: 'on'
+    light.ai_kitchen_gascan_main:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_kitchen_gascan_nozzle:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_gascan:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_orb:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_sculpture:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_shop_gascan:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.chandelier:
+      brightness: 254
+      effect: none
+      hs_color:
+      - 29.667
+      - 70.588
+      rgb_color:
+      - 255
+      - 164
+      - 75
+      state: 'on'
+      xy_color:
+      - 0.537
+      - 0.392
+    light.kitchen_lights:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.macrame_light:
+      state: 'on'
+    light.music_light:
+      state: 'on'
+    light.nanoleaf:
+      brightness: 252
+      color_temp: 831
+      effect: '*Solid*'
+      hs_color:
+      - 30
+      - 71
+      rgb_color:
+      - 255
+      - 164
+      - 73
+      state: 'on'
+      xy_color:
+      - 0.539
+      - 0.393
+    light.nightstand:
+      brightness: 254
+      effect: none
+      hs_color:
+      - 29.667
+      - 70.588
+      rgb_color:
+      - 255
+      - 164
+      - 75
+      state: 'on'
+      xy_color:
+      - 0.537
+      - 0.392
+    light.pool_table_light:
+      state: 'on'
+    light.the_sun:
+      brightness: 254
+      effect: none
+      hs_color:
+      - 29.667
+      - 70.588
+      rgb_color:
+      - 255
+      - 164
+      - 75
+      state: 'on'
+      xy_color:
+      - 0.537
+      - 0.392
+    light.water_light:
+      state: 'on'
+- id: '1575082412412'
+  name: Normal
+  entities:
+    light.accent_lights:
+      state: 'on'
+    light.ai_kitchen_gascan_main:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_kitchen_gascan_nozzle:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_gascan:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_orb:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_sculpture:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_shop_gascan:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.chandelier:
+      brightness: 254
+      effect: none
+      hs_color:
+      - 29.667
+      - 70.588
+      rgb_color:
+      - 255
+      - 164
+      - 75
+      state: 'on'
+      xy_color:
+      - 0.537
+      - 0.392
+    light.kitchen_lights:
+      brightness: 255
+      color_temp: 153
+      effect: none
+      hs_color:
+      - 29.674
+      - 72.157
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      xy_color:
+      - 0.543
+      - 0.393
+    light.macrame_light:
+      state: 'on'
+    light.music_light:
+      state: 'on'
+    light.nanoleaf:
+      brightness: 252
+      color_temp: 831
+      effect: '*Solid*'
+      hs_color:
+      - 30
+      - 71
+      rgb_color:
+      - 255
+      - 164
+      - 73
+      state: 'on'
+      xy_color:
+      - 0.539
+      - 0.393
+    light.nightstand:
+      brightness: 254
+      effect: none
+      hs_color:
+      - 29.667
+      - 70.588
+      rgb_color:
+      - 255
+      - 164
+      - 75
+      state: 'on'
+      xy_color:
+      - 0.537
+      - 0.392
+    light.pool_table_light:
+      state: 'on'
+    light.the_sun:
+      brightness: 254
+      effect: none
+      hs_color:
+      - 29.667
+      - 70.588
+      rgb_color:
+      - 255
+      - 164
+      - 75
+      state: 'on'
+      xy_color:
+      - 0.537
+      - 0.392
+    light.water_light:
+      state: 'on'
+- id: '1581477599736'
+  name: Dinner Projector
+  entities:
+    light.accent_lights:
+      friendly_name: Accent Lights
+      state: 'on'
+      supported_features: 0
+    light.ai_kitchen_gascan_main:
+      brightness: 250
+      color_temp: 153
+      effect: none
+      effect_list:
+      friendly_name: ai_kitchen_gascan_main
+      hs_color:
+      - 29.838
+      - 72.549
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      supported_features: 191
+      white_value: 0
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_kitchen_gascan_nozzle:
+      brightness: 250
+      color_temp: 153
+      effect: none
+      effect_list:
+      friendly_name: ai_kitchen_gascan_nozzle
+      hs_color:
+      - 29.838
+      - 72.549
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      supported_features: 191
+      white_value: 0
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_gascan:
+      brightness: 40
+      color_temp: 153
+      effect: none
+      effect_list:
+      friendly_name: ai_livingroom_gascan
+      hs_color:
+      - 29.838
+      - 72.549
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      supported_features: 191
+      white_value: 0
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_livingroom_orb:
+      effect_list:
+      friendly_name: ai_livingroom_orb
+      max_mireds: 500
+      min_mireds: 153
+      state: 'off'
+      supported_features: 191
+    light.ai_livingroom_sculpture:
+      brightness: 40
+      color_temp: 244
+      effect: none
+      effect_list:
+      friendly_name: ai_livingroom_sculpture
+      hs_color:
+      - 29.838
+      - 72.549
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      supported_features: 191
+      white_value: 87
+      xy_color:
+      - 0.543
+      - 0.393
+    light.ai_shop_gascan:
+      brightness: 40
+      color_temp: 153
+      effect: none
+      effect_list:
+      friendly_name: ai_shop_gascan
+      hs_color:
+      - 29.838
+      - 72.549
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      supported_features: 191
+      white_value: 0
+      xy_color:
+      - 0.543
+      - 0.393
+    light.chandelier:
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Chandelier
+      max_mireds: 500
+      min_mireds: 153
+      state: 'off'
+      supported_features: 63
+    light.kitchen_strip:
+      friendly_name: Kitchen Strip
+      state: 'on'
+      supported_features: 0
+    light.macrame_light:
+      friendly_name: Macrame Light
+      state: 'off'
+      supported_features: 0
+    light.music_light:
+      friendly_name: Music Light
+      state: 'on'
+      supported_features: 0
+    light.nanoleaf:
+      brightness: 35
+      color_temp: 831
+      effect: '*Solid*'
+      effect_list:
+      - '*Bedtime Dynamic*'
+      - Bass Beat drop
+      - Be Zen
+      - Bedtime
+      - Black and White
+      - Blood Dripping
+      - Color Burst
+      - Colored Snakes
+      - Cops
+      - Disco Color
+      - Emergency
+      - Fifty Gray
+      - Firefly
+      - Fireworks
+      - Fireworks and Firecrackers
+      - Flames
+      - Forest
+      - Inner Peace
+      - Knight Rider
+      - Koi Pond
+      - Lightning
+      - Marceline the Vampire Queen
+      - Matrix
+      - Meteor Shower
+      - Nemo
+      - Netflix And Chill
+      - Nightclub
+      - Northern Lights
+      - Ocean
+      - Oceanworks
+      - Paint Splatter
+      - Party
+      - Pulse
+      - Pulse Pop Beats
+      - Rain
+      - Retro
+      - Rhythmic Northern Lights
+      - Ripple
+      - Romantic
+      - Snowfall
+      - Sound Bar
+      - Streaking Notes
+      - Synthwave
+      - TV Simulation
+      - Triluminox Energy Crystal
+      - Tron Legacy
+      - Twinkling Midnight Sky
+      - Vibrant Sunrise
+      - Vintage Modern
+      - burning coals
+      friendly_name: Nanoleaf
+      hs_color:
+      - 30
+      - 71
+      icon: mdi:triangle-outline
+      max_mireds: 833
+      min_mireds: 154
+      rgb_color:
+      - 255
+      - 164
+      - 73
+      state: 'on'
+      supported_features: 55
+      xy_color:
+      - 0.539
+      - 0.393
+    light.nightstand:
+      brightness: 40
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Nightstand
+      hs_color:
+      - 29.831
+      - 69.412
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 166
+      - 77
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.533
+      - 0.393
+    light.pool_table_light:
+      friendly_name: Pool Table Light
+      state: 'off'
+      supported_features: 0
+    light.the_sun:
+      brightness: 40
+      color_temp: 366
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: The Sun
+      max_mireds: 500
+      min_mireds: 153
+      state: 'on'
+      supported_features: 63
+    light.water_light:
+      friendly_name: Water Light
+      state: 'on'
+      supported_features: 0
+    switch.wemo_shop:
+      restored: true
+      state: unavailable
+      supported_features: 0

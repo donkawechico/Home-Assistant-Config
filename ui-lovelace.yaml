@@ -1,0 +1,11 @@
+resources:
+  - type: module
+    url: >-
+      https://cdn.jsdelivr.net/gh/custom-cards/spotify-card@1.8/dist/spotify-card.umd.js
+views:
+- name: Example
+  cards:
+    - type: 'custom:spotify-card'
+      client_id: 15bf21922b92428d83ae6e7816abb01d
+      limit: 6
+      device: livingroomcast

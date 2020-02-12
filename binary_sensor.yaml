@@ -1,19 +1,23 @@
   - platform: iss
     show_on_map: true
+  - platform: trend
+    sensors:
+      livingroom_temp_falling:
+        entity_id: sensor.multisensor_livingroom_temperature
+        sample_duration: 300 # 5 min
+        min_gradient: -0.00017 # About 0.1 degrees every 10 min (0.1 / (60*10))
+        device_class: cold
+      livingroom_temp_rising:
+        entity_id: sensor.multisensor_livingroom_temperature
+        sample_duration: 300
+        min_gradient: 0.00017
+        device_class: heat
   - platform: template
     sensors:
       dark_out:
         friendly_name: "Dark Outside"
         value_template: >
           {{ states.sun.sun.attributes.elevation|float < 0 }}
-      lights_permitted:
-        friendly_name: "Allow Automations to Turn On Lights"
-        value_template: >
-          {% if is_state('binary_sensor.dark_out', 'on') %}
-            off
-          {% else %}
-            on
-          {% endif %}
       someone_home:
         friendly_name: "Someone is at home"
         value_template: >
@@ -22,7 +26,11 @@
         friendly_name: "Donnie is at home"
         value_template: >
           {{ is_state('sensor.donnie_home', 'home') }}
-      should_save_media_state:
-        friendly_name: "Should media state be actively saving"
+      christine_home:
+        friendly_name: "Christine is at home"
         value_template: >
-          {{ is_state('switch.should_save_media_state', 'on') }}
+          {{ is_state('sensor.christine_home', 'home') }}
+      living_room_motion:
+        friendly_name: "Living Room Motion Detected"
+        value_template: >
+          {{ is_state('sensor.multisensor_livingroom_burglar', '8') }}

@@ -1,12 +1,12 @@
 name: red
 entities:
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness_pct: 100
     rgb_color: [229, 6, 0]
     white_value: 0
     transition: 3
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     brightness_pct: 100
     rgb_color: [255, 86, 143]
@@ -21,13 +21,13 @@ entities:
     brightness_pct: 100
     rgb_color: [253, 162, 255]
     transition: 3
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness_pct: 100
     rgb_color: [215, 6, 0]
     transition: 3
     white_value: 0
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness_pct: 100
     rgb_color: [251, 1, 0]
@@ -40,13 +40,13 @@ entities:
     brightness_pct: 100
     rgb_color: [255, 68, 2]
     transition: 3
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [246, 1, 0]
     transition: 3
     white_value: 0
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [195, 17, 0]
@@ -57,7 +57,7 @@ entities:
     brightness_pct: 100
     rgb_color: [255, 75, 28]
     transition: 3
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness_pct: 100
     rgb_color: [255, 0, 0]

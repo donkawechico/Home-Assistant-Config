@@ -1,6 +1,6 @@
 name: Green
 entities:
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness_pct: 100
     rgb_color: [0,255,0]
@@ -12,11 +12,11 @@ entities:
     state: on
     brightness_pct: 100
     color_temp: 154
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness_pct: 100
     color_temp: 1
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness_pct: 100
     color_temp: 154
@@ -25,19 +25,19 @@ entities:
     brightness_pct: 100
     color_temp: 100
     rgb_color: [0,255,0]
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     brightness_pct: 100
     color_temp: 156
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness_pct: 100
     color_temp: 14
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness_pct: 100
     color_temp: 154
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     brightness_pct: 100
     color_temp: 154

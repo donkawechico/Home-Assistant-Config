@@ -1,13 +1,9 @@
 default_view:
-  view: yes
   icon: mdi:home
   entities:
-#  - group.house_lights
-  - device_tracker.donkawechico_s7
-  - device_tracker.nearable_bike
   - binary_sensor.donnie_home
   - binary_sensor.someone_home
-  - sensor.bart_departures_civic_center
+  - binary_sensor.christine_home
   - sensor.ssl_cert_expiry
   - group.modes
   - group.living_room
@@ -16,32 +12,29 @@ default_view:
   - group.entry
   - group.bedroom
   - group.synchronize
-  - group.travel_times
-  - input_text.chromecast_url
-  - input_text.last_video_sender
-  - input_text.rpi_speaker_url
-  - light.gas_cans
+  - light.all_color_lights
   - light.kitchen_lights
-  - group.leave_by_alerts
-  - light.aurora
-  - light.test_light
-  - group.scene_saver
-  - group.coffee_maker
-  - switch.should_save_media_state
-  - group.air_conditioner
+  - light.nanoleaf
+  - group.hvac
   - vacuum.roomba
-air_conditioner:
-  view: no
+hvac:
   icon: mdi:snowflake
   entities:
   - switch.climate_control
   - input_boolean.ac_on
-  - climate.living_room
+  - input_boolean.heater_on
+  - input_boolean.hvac_on
+  - input_select.climate_room
+  - climate.thermostat
   - script.set_too_cold
   - script.set_too_warm
-  - sensor.dew_point_preference
+  - script.turn_on_ac
+  - script.turn_off_ac
+  - sensor.dew_point_bedroom
+  - sensor.dew_point_livingroom
+  - script.turn_on_heater
+  - script.turn_off_heater
 cameras:
-  view: yes
   icon: mdi:camera
   entities:
   - script.take_photo_bedroom
@@ -55,20 +48,16 @@ cameras:
   - camera.tablet_camera_front
   - camera.tablet_camera_bedroom
 house_lights:
-  view: yes
   name: House Lights
   icon: mdi:ceiling-light
   entities:
-  - group.all_color_lights
+  - light.all_color_lights
   - group.all_light_switches
   - light.kitchen_strip
 scenes:
-  view: yes
   name: Scenes
   icon: mdi:palette
   entities:
-  - scene.previous
-  - scene.current
   - scene.david_lynch
   - scene.theater
   - scene.Green
@@ -83,66 +72,55 @@ scenes:
 living_room:
   name: Living Room
   entities:
-  - light.ailivingroomsculpture
-  - light.ailivingroomgascan
-  - light.ailivingroomorb
+  - light.ai_livingroom_sculpture
+  - light.ai_livingroom_gascan
+  - light.ai_livingroom_orb
   - light.chandelier
+  - light.flour_box
   - switch.accent_lights
-  - switch.water_light
-  - switch.ikea_lamp
+  - switch.macrame_light
 kitchen:
   name: Kitchen
   entities:
-  - light.aikitchengascanmain
-  - light.aikitchengascannozzle
+  - light.ai_kitchen_gascan_main
+  - light.ai_kitchen_gascan_nozzle
   - light.kitchen_strip
 entry:
   name: Entryway
   entities:
-  - light.aientryumbrella
+  - light.ai_entry_umbrella
+  - light.nanoleaf
 shop:
   name: Shop
   entities:
-  - light.aishopgascan
+  - light.ai_shop_gascan
   - light.the_sun
   - switch.pool_table_light
 bedroom:
-  name: Bedroom
+  name: Bedroom lights
   entities:
   - light.nightstand
-all_color_lights:
-  name: Color Lights
-  entities:
-  - light.aikitchengascanmain
-  - light.aikitchengascannozzle
-  - light.ailivingroomorb
-  - light.ailivingroomgascan
-  - light.aientryumbrella
-  - light.the_sun
-  - light.chandelier
-  - light.nightstand
-  - light.aishopgascan
-  - light.ailivingroomsculpture
-  - light.aurora
-  #- light.kitchen_strip
+  - switch.music_light
 front_wall:
   name: Front Wall
   entities:
-  - light.ailivingroomorb
-  - light.aientryumbrella
+  - light.ai_livingroom_orb
+  - light.ai_entry_umbrella
   - light.chandelier
   - switch.accent_lights
+  - light.nanoleaf
+  - light.flour_box
 back_wall:
   name: Wall behind couch
   entities:
-  - light.ailivingroomgascan
-  - light.aikitchengascannozzle
-  - light.aikitchengascanmain
-  - light.ailivingroomsculpture
+  - light.ai_livingroom_gascan
+  - light.ai_kitchen_gascan_nozzle
+  - light.ai_kitchen_gascan_main
+  - light.ai_livingroom_sculpture
   - light.the_sun
-  - light.aishopgascan
+  - light.ai_shop_gascan
+  - switch.macrame_light
 amazon_dots:
-  view: false
   name: Amazon Echo Dots
   entities:
   - device_tracker.amazon6a82acc0d
@@ -150,59 +128,73 @@ amazon_dots:
   - device_tracker.amazonb2316426c
   - device_tracker.amazondbe97368b
 all_media_players:
-  view: yes
   name: Media Players
   icon: mdi:theater
   entities:
   - media_player.livingroomcast
-  - media_player.home_assistant_speaker
   - media_player.plex_a9w8mh48b5u5b0xxxftt9q8w
   - media_player.suncast
   - media_player.entrycast
-  - media_player.ps4_waker
   - switch.plex
   - group.music_spotify
   - media_player.spotify
   - switch.chromecast
   - switch.playstation
+  - media_player.playstation_4
 all_light_switches:
   name: Light Switches
   entities:
-  - switch.ikea_lamp
-  - switch.water_light
   - switch.accent_lights
   - switch.pool_table_light
+  - switch.macrame_light
+  - switch.music_light
+  - switch.wemo_shop
+  - switch.wemo_other
 all_sensor:
-  view: yes
   name: Sensors
   icon: mdi:radio-tower
   entities:
   - sensor.front_door
-  - sensor.aeotech_multisensor_6_burglar
+  - sensor.multisensor_livingroom_burglar
+  - sensor.multisensor_bedroom_burglar
+  - sensor.trisensor_entry_burglar
   - sensor.weather
-  - group.aeotech_multisensor
+  - group.multisensor_livingroom
+  - group.multisensor_bedroom
+  - group.trisensor_entry
   - group.virtual_sensors
   - group.miflora_sensors
-aeotech_multisensor:
-  view: no
-  name: Aeotech Multisensor 6
+multisensor_livingroom:
+  name: Multisensor (Livingroom)
   entities:
-  - zwave.aeotech_multisensor_6
-  - binary_sensor.aeotech_multisensor_6_sensor
-  - sensor.aeotech_multisensor_6_alarm_type
-  - sensor.aeotech_multisensor_6_alarm_level
-  - sensor.aeotech_multisensor_6_burglar
-  - sensor.aeotech_multisensor_6_luminance
-  - sensor.aeotech_multisensor_6_relative_humidity
-  - sensor.aeotech_multisensor_6_sourcenodeid
-  - sensor.aeotech_multisensor_6_ultraviolet
-  - sensor.aeotech_multisensor_6_temperature
-  - sensor.temperature_feels_like
+  - sensor.multisensor_livingroom_alarm_type
+  - sensor.multisensor_livingroom_alarm_level
+  - sensor.multisensor_livingroom_burglar
+  - sensor.multisensor_livingroom_luminance
+  - sensor.multisensor_livingroom_relative_humidity
+  - sensor.multisensor_livingroom_temperature
+multisensor_bedroom:
+  name: Multisensor (Bedroom)
+  entities:
+  - sensor.multisensor_bedroom_alarm_type
+  - sensor.multisensor_bedroom_alarm_level
+  - sensor.multisensor_bedroom_burglar
+  - sensor.multisensor_bedroom_luminance
+  - sensor.multisensor_bedroom_relative_humidity
+  - sensor.multisensor_bedroom_temperature
+trisensor_entry:
+  name: Trisensor (Entry)
+  entities:
+  - sensor.trisensor_entry_alarm_type
+  - sensor.trisensor_entry_alarm_level
+  - sensor.trisensor_entry_burglar
+  - sensor.trisensor_entry_luminance
+  - sensor.trisensor_entry_sourcenodeid
+  - sensor.trisensor_entry_temperature
 physical_sensors:
   name: Physical Sensors
   entities:
   - sensor.front_door
-  - sensor.motion_sensor
 virtual_sensors:
   name: Virtual Sensors
   entities:
@@ -210,118 +202,35 @@ virtual_sensors:
   - input_boolean.motion_detected
   - sensor.mqtt_kitchen_strip
 safe_to_turn_off:
-  view: false
   name: Safe to Turn Off Devices
   entities:
   - group.house_lights
-automations_to_turn_on_when_almost_dark:
-  view: false
-  name: Dark Out Automations
-  entities:
-  - automation.turn_on_lights_when_dark_outside
 synchronize:
-  view: yes
   name: Synchronize
   icon: mdi:sync
   entities:
   - switch.is_kitchen_strip_on
   - input_boolean.tv_on
-automations:
-  view: yes
-  name: Automations
-  icon: mdi:robot
-  entities:
-  - group.automations_to_turn_off_when_no_one_home
-  - group.automations_to_turn_off_when_dark
-  - group.all_automations
-locations:
-  view: yes
-  name: Locations
-  icon: mdi:map-marker
-  entities:
-  - group.all_devices
-  - group.beacons
-  - group.nearables
-  - camera.iss
+  - input_boolean.ac_on
 gas_cans:
-  view: no
   name: All Gas Cans
   entities:
-  - light.aikitchengascanmain
-  - light.aikitchengascannozzle
-  - light.ailivingroomgascan
-  - light.aishopgascan
-tracked_devices:
-  view: yes
-  name: Tracked Devices
-  icon: mdi:cellphone-link
-  entities:
-  - group.all_devices
-nearables:
-  view: no
-  name: Estimote Nearable Stickers
-  entities:
-  - device_tracker.beacon_nearable_bike
-  - device_tracker.beacon_nearable_car
-  - device_tracker.beacon_nearable_chair
-automations_to_turn_off_when_no_one_home:
-  view: no
-  name: Turn these off when no one's home
-  entities:
-  - automation.turn_on_lights_when_dark_outside
-turn_on_when_bedtime:
-  view: no
-  name: Turn these on when it's bedtime
-  entities:
-  - automation.turn_on_nightlight_during_bedtime
-  - light.nightstand
-turn_off_when_bedtime:
-    view: no
-    name: Turn these off when it's bedtime
-    entities:
-    - group.house_lights
-    - group.all_media_players
-modes:
-  view: no
-  name: House Modes
-  entities:
-  - input_select.house_mode
-  - input_select.privacy_mode
+  - light.ai_kitchen_gascan_main
+  - light.ai_kitchen_gascan_nozzle
+  - light.ai_livingroom_gascan
+  - light.ai_shop_gascan
 someone_home:
-  view: no
   name: Someone is home
   entities:
-  - device_tracker.donkawechico_s7
-  - device_tracker.donkawechico_sailfish
-  - device_tracker.christine_phone
-  - device_tracker.smg930v
+  - sensor.christine_home
   - sensor.donnie_home
-scripts:
-  view: yes
-  name: Scripts
-  icon: mdi:script
-  entities:
-  - group.all_scripts
-delay_activation_after_restart:
-  view: no
-  name: These entities are activated some time after restart
-  entities:
-  - automation.turn_on_lights_when_home
 all_chromecasts:
-  view: no
   name: All Chromecast media players
   entities:
   - media_player.livingroomcast
   - media_player.suncast
   - media_player.entrycast
-  - media_player.home_assistant_speaker
-automations_that_should_match_dark_state:
-  view: no
-  name: Automations that should be on when dark and off when light
-  entities:
-  - automation.turn_on_lights_when_home
 miflora_sensors:
-  view: no
   name: Mi Flora Sensors
   entities:
   - sensor.mi_flora_battery
@@ -329,10 +238,13 @@ miflora_sensors:
   - sensor.mi_flora_light_intensity
   - sensor.mi_flora_temperature
   - sensor.mi_flora_conductivity
-coffee_maker:
-  view: no
-  name: Coffee Maker
+notify_me_devices:
+  name: Notify me when these devices change state
   entities:
-  - switch.is_coffee_loaded
-  - switch.coffeemaker
-  #- input_text.coffeemaker_time
+   - input_boolean.ac_on
+modes:
+  name: Various house modes
+  entities:
+  - input_select.house_mode
+  - input_select.occupants
+

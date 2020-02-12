@@ -1,18 +1,16 @@
 name: Warm
 entities:
-  switch.star_field:
-    state: off
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]
   switch.accent_lights:
     state: on
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]
@@ -24,19 +22,19 @@ entities:
     state: on
     brightness_pct: 100
     rgb_color: [255, 178, 67]
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness_pct: 100
     rgb_color: [255, 136, 13]

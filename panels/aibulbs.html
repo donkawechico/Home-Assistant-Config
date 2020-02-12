@@ -1,0 +1,53 @@
+<dom-module id='ha-panel-aibulbs'>
+  <template>
+    <style>
+      a {
+        font-weight: bold;
+      }
+      div {
+        padding: 10px 0px 10px 20px;
+      }
+    </style>
+    <div><a href="http://ai-livingroom-sculpture/" target="_blank">Livingroom sculpture</a></div>
+    <div><a href="http://ai-livingroom-orb/" target="_blank">Livingroom Orb</a></div>
+    <div><a href="http://ai-livingroom-gascan/" target="_blank">Livingroom Gascan</a></div>
+    <div><a href="http://ai-kitchen-gascan-main/" target="_blank">Kitchen Gascan Main</a></div>
+    <div><a href="http://ai-kitchen-gascan-nozzle/" target="_blank">Kitchen Gascan Nozzle</a></div>
+    <div><a href="http://ai-shop-gascan/" target="_blank">Shop Gascan</a></div>
+  </template>
+</dom-module>
+
+<script>
+class HaPanelAIBulbs extends Polymer.Element {
+  static get is() { return 'ha-panel-aibulbs'; }
+
+  static get properties() {
+    return {
+      // Home Assistant object
+      hass: Object,
+      // If should render in narrow mode
+      narrow: {
+        type: Boolean,
+        value: false,
+      },
+      // If sidebar is currently shown
+      showMenu: {
+        type: Boolean,
+        value: false,
+      },
+      // Home Assistant panel info
+      // panel.config contains config passed to register_panel serverside
+      panel: Object,
+      who: {
+        type: String,
+        computed: 'computeWho(panel)',
+      },
+    };
+  }
+
+  computeWho(panel) {
+    return panel && panel.config && panel.config.who ? panel.config.who : 'World';
+  }
+}
+customElements.define(HaPanelAIBulbs.is, HaPanelAIBulbs);
+</script>

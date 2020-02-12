@@ -1,6 +1,0 @@
-name: bedtime
-entities:
-  group.all_color_lights: off
-  group.all_switches: off
-  light.nightstand: on
-  light.the_sun: on

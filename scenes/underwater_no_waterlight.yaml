@@ -4,37 +4,37 @@ entities:
     state: on
     brightness_pct: 100
     rgb_color: [153, 128, 255]
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness_pct: 100
     rgb_color: [231, 111, 255]
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness_pct: 100
     rgb_color: [127, 0, 147]
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     brightness_pct: 100
     rgb_color: [228, 60, 255]
   switch.accent_lights:
     state: off
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness_pct: 100
     rgb_color: [53, 248, 255]
   switch.water_light:
     state: off
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [114, 255, 101]
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness_pct: 100
     rgb_color: [0, 22, 195]
   switch.star_field:
     state: off
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness_pct: 100
     rgb_color: [37, 255, 236]

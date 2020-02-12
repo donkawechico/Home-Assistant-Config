@@ -1,6 +1,6 @@
 name: david_lynch
 entities:
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     transition: 5
     brightness: 45
@@ -8,21 +8,21 @@ entities:
     rgb_color: [255, 29, 22]
   switch.accent_lights:
     state: on
-  switch.ikea_lamp:
+  switch.pool_table_light:
     state: off
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     transition: 5
     brightness: 45
     white_value: 0
     rgb_color: [255, 29, 22]
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     transition: 5
     brightness: 45
     white_value: 0
     rgb_color: [255, 29, 22]
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     transition: 5
     brightness: 45
@@ -33,13 +33,13 @@ entities:
     transition: 5
     brightness: 45
     rgb_color: [194, 52, 8]
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     transition: 5
     brightness: 45
     white_value: 0
     rgb_color: [255, 29, 22]
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     transition: 5
     brightness: 45
@@ -52,7 +52,7 @@ entities:
     transition: 5
     brightness: 45
     rgb_color: [194, 52, 8]
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     transition: 5
     brightness: 45

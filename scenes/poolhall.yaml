@@ -1,88 +1,88 @@
-name: Underwater
+name: pool hall
 entities:
   light.kitchen_strip:
     state: on
     transition: 3
   switch.accent_lights:
-    state: off
+    state: on
   light.nanoleaf:
     state: on
     transition: 3
-    brightness: 86
-    rgb_color: [255, 255, 255]
-    effect: Koi Pond
-  switch.pool_table_light:
-    state: off
+    brightness: 61
+    rgb_color: [255, 127, 0]
+    effect: Vintage Modern
+  switch.water_light:
+    state: on
   switch.music_light:
     state: on
-  switch.water_light:
+  switch.pool_table_light:
     state: on
   switch.macrame_light:
     state: on
+  light.ai_livingroom_gascan:
+    state: on
+    transition: 3
+    brightness: 77
+    white_value: 0
+    rgb_color: [255, 126, 0]
+    effect: none
+  light.ai_livingroom_sculpture:
+    state: on
+    transition: 3
+    brightness: 63
+    white_value: 0
+    rgb_color: [255, 126, 0]
+    effect: none
   light.ai_kitchen_gascan_nozzle:
     state: on
     transition: 3
-    brightness: 255
+    brightness: 46
     white_value: 0
-    rgb_color: [37, 255, 236]
+    rgb_color: [255, 126, 0]
     effect: none
   light.ai_kitchen_gascan_main:
     state: on
     transition: 3
-    brightness: 255
+    brightness: 46
     white_value: 0
-    rgb_color: [220, 0, 255]
+    rgb_color: [255, 126, 0]
     effect: none
   light.ai_shop_gascan:
     state: on
     transition: 3
     brightness: 255
     white_value: 0
-    rgb_color: [0, 27, 255]
-    effect: none
-  light.ai_livingroom_orb:
-    state: on
-    transition: 3
-    brightness: 48
-    white_value: 0
-    rgb_color: [51, 247, 255]
+    rgb_color: [255, 126, 0]
     effect: none
   light.ai_entry_umbrella:
     state: on
     transition: 3
     brightness: 255
     white_value: 0
-    rgb_color: [229, 109, 255]
+    rgb_color: [255, 126, 0]
     effect: none
-  light.ai_livingroom_gascan:
+  light.ai_livingroom_orb:
     state: on
     transition: 3
-    brightness: 255
+    brightness: 45
     white_value: 0
-    rgb_color: [114, 255, 101]
+    rgb_color: [255, 126, 0]
     effect: none
-  light.ai_livingroom_sculpture:
+  light.chandelier:
     state: on
     transition: 3
-    brightness: 255
-    white_value: 0
-    rgb_color: [227, 58, 255]
-    effect: none
-  light.nightstand:
-    state: on
-    transition: 3
-    brightness: 254
-    rgb_color: [153, 129, 255]
+    brightness: 58
+    rgb_color: [255, 128, 25]
     effect: none
   light.the_sun:
     state: on
     transition: 3
     brightness: 254
-    rgb_color: [71, 0, 255]
+    rgb_color: [255, 128, 25]
     effect: none
-  light.chandelier:
+  light.nightstand:
     state: on
     transition: 3
     brightness: 254
-    rgb_color: [69, 11, 255]
+    rgb_color: [255, 128, 25]
     effect: none

@@ -6,17 +6,17 @@ entities:
     state: off
   switch.water_light:
     state: off
-  light.ailivingroomorb:
+  light.ai_livingroom_orb:
     state: on
     brightness: 255
     rgb_color: [0, 0, 255]
-  light.aientryumbrella:
+  light.ai_entry_umbrella:
     state: on
     brightness: 255
     rgb_color: [255, 136, 13]
   switch.accent_lights:
     state: on
-  light.ailivingroomgascan:
+  light.ai_livingroom_gascan:
     state: on
     brightness: 255
     rgb_color: [255, 255, 0]
@@ -24,17 +24,17 @@ entities:
     state: on
     brightness: 254
     rgb_color: [255, 66, 0]
-  light.aikitchengascanmain:
+  light.ai_kitchen_gascan_main:
     state: on
     brightness: 255
     rgb_color: [255, 0, 191]
-  light.aikitchengascannozzle:
+  light.ai_kitchen_gascan_nozzle:
     state: on
     brightness: 255
     rgb_color: [255, 0, 128]
-  switch.ikea_lamp:
+  switch.pool_table_light:
     state: off
-  light.ailivingroomsculpture:
+  light.ai_livingroom_sculpture:
     state: on
     brightness: 255
     rgb_color: [255, 0, 255]
@@ -46,7 +46,7 @@ entities:
     state: on
     brightness: 175
     rgb_color: [30, 255, 65]
-  light.aishopgascan:
+  light.ai_shop_gascan:
     state: on
     brightness: 255
     rgb_color: [255, 128, 0]

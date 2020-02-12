@@ -11,9 +11,6 @@
   - platform: mqtt
     state_topic: "hass/light/kitchen/strip"
     name: "MQTT Kitchen Strip"
-  - platform: mqtt
-    state_topic: "hass/climate/livingroom/preference"
-    name: "Dew Point Preference"
   - platform: darksky
     api_key: !secret darksky_api_key
     name: weather
@@ -23,21 +20,32 @@
       - summary
       - icon
       - nearest_storm_distance
+# Unnecessary now that it's an integration in frontend
+#  - platform: command_line
+#    name: SSL cert expiry
+#    unit_of_measurement: days
+#    scan_interval: 10800
+#    command: "ssl-cert-check -b -c /etc/letsencrypt/live/dk.servebeer.com/cert.pem | awk '{ print $NF }'"
   - platform: template
     sensors:
       donnie_home:
         friendly_name: "Donnie is at home"
         value_template: >-
           {% 
-            if (is_state('device_tracker.donkawechico_s7', 'home') or
-                is_state('device_tracker.donkawechico_s7', 'livingroom') or
-                is_state('device_tracker.donkawechico_s7', 'bedroom') or
-                is_state('device_tracker.donkawechico_s7', 'entryway') or
-                is_state('device_tracker.donnie_pixel_2', 'home'))
+            if  is_state('person.donnie', 'home') or
+                is_state('input_boolean.donnie_home', 'on')
           %} 
           home
           {% else %}
           not_home
+          {% endif %}
+      christine_home:
+        friendly_name: "Christine is at home"
+        value_template: >-
+          {% if is_state('person.christine', 'home') %} 
+            home
+          {% else %}
+            not_home
           {% endif %}
       camera_privacy_mode:
         friendly_name: "Camera Privacy Mode"
@@ -48,15 +56,76 @@
           {% else %}
             Open
           {% endif %}
-      temperature_feels_like:
-        friendly_name: 'Feels Like'
-        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
-        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.aeotech_multisensor_6_temperature.state|float)) + (10.14333127 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) - (0.22475541 * (states.sensor.aeotech_multisensor_6_temperature.state|float) * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.aeotech_multisensor_6_temperature.state|float) * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.aeotech_multisensor_6_temperature.state|float)**2 * (states.sensor.aeotech_multisensor_6_relative_humidity.state|float)**2))|round(2))*100 }}'
-        unit_of_measurement: '°F x 100'
-      dew_point:
-        friendly_name: 'Dew Point'
-        value_template: '{{ (((states.sensor.aeotech_multisensor_6_temperature.state | float - ((100 - states.sensor.aeotech_multisensor_6_relative_humidity.state | float) /5))))*100}}'
-        unit_of_measurement: '°F x 100'
+#      temperature_feels_like_livingroom:
+#        friendly_name: 'Livingroom Feels Like'
+#        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
+#        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.multisensor_livingroom_temperature.state|float)) + (10.14333127 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) - (0.22475541 * (states.sensor.multisensor_livingroom_temperature.state|float) * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.multisensor_livingroom_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.multisensor_livingroom_temperature.state|float)**2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.multisensor_livingroom_temperature.state|float) * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.multisensor_livingroom_temperature.state|float)**2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2))|round(2)) }}'
+#        unit_of_measurement: '°F'
+      dew_point_livingroom:
+        friendly_name: 'Livingroom Dew Point'
+        value_template: '{{ states.sensor.multisensor_livingroom_temperature.state | float - (9/25) * (100 - states.sensor.multisensor_livingroom_relative_humidity.state | round(2)) }}'
+        unit_of_measurement: '°F'
+#      temperature_feels_like_bedroom:
+#        friendly_name: 'Bedroom Feels Like'
+#        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
+#        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.multisensor_bedroom_temperature.state|float)) + (10.14333127 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) - (0.22475541 * (states.sensor.multisensor_bedroom_temperature.state|float) * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.multisensor_bedroom_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.multisensor_bedroom_temperature.state|float)**2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.multisensor_bedroom_temperature.state|float) * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.multisensor_bedroom_temperature.state|float)**2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2))|round(2)) }}'
+#        unit_of_measurement: '°F'
+      dew_point_bedroom:
+        friendly_name: 'Bedroom Dew Point'
+        value_template: '{{ states.sensor.multisensor_bedroom_temperature.state | float - (9/25) * (100 - states.sensor.multisensor_bedroom_relative_humidity.state | round(2)) }}'
+        unit_of_measurement: '°F'
+      relevant_dew_point:
+        friendly_name: 'Dew Point measurement to use for climate control'
+        value_template: >
+          {% if is_state('input_select.climate_room', 'Bedroom') %}
+            {{ states.sensor.dew_point_bedroom.state | round(2)}}
+          {% elif is_state('input_select.climate_room', 'Livingroom') %}
+            {{ states.sensor.dew_point_livingroom.state | round(2) }}
+          {% else %}
+            {{ states.sensor.dew_point_livingroom.state | round(2) }}
+          {% endif %}
+  - platform: template
+    sensors:
+      withings_weight_lbs_donnie:
+        friendly_name: "withings weight_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_weight_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_bone_mass_lbs_donnie:
+        friendly_name: "withings bone_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_bone_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_fat_free_mass_lbs_donnie:
+        friendly_name: "withings fat_free_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_fat_free_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_fat_mass_lbs_donnie:
+        friendly_name: "withings fat_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_fat_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
+
+  - platform: template
+    sensors:
+      withings_muscle_mass_lbs_donnie:
+        friendly_name: "withings muscle_mass_lbs_donnie"
+        unit_of_measurement: 'lbs'
+        value_template: "{{ (states('sensor.withings_muscle_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+        icon_template: mdi:weight-pound
   - platform: time_date
     display_options:
       - 'time'
+      - 'date'
+      - 'date_time'
+  # - platform: spotcast
