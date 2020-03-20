@@ -31,9 +31,9 @@
   payload_off: "OFF"
   retain: true
 - platform: mqtt
-  name: "Water Light"
-  state_topic: "stat/waterlight/POWER"
-  command_topic: "cmnd/waterlight/POWER"
+  name: "Ceiling Lights"
+  state_topic: "stat/ceiling_lights/POWER"
+  command_topic: "cmnd/ceiling_lights/POWER"
   qos: 1
   payload_on: "ON"
   payload_off: "OFF"
@@ -63,6 +63,7 @@
 - platform: template
   switches:
     air_conditioner:
+      friendly_name: "Air Conditioner"
       value_template: "{{ is_state('input_boolean.ac_on','on') }}"
       turn_on:
         service: script.turn_on
@@ -71,6 +72,7 @@
         service: script.turn_on
         entity_id: script.turn_off_hvac
     heater:
+      friendly_name: "Heater"
       value_template: "{{ is_state('input_boolean.heater_on','on') }}"
       turn_on:
         service: script.turn_on
@@ -79,6 +81,7 @@
         service: script.turn_on
         entity_id: script.turn_off_hvac
     television:
+      friendly_name: "TV"
       value_template: "{{ is_state('input_boolean.tv_on','on') }}"
       turn_on:
         service: script.turn_on
@@ -87,6 +90,7 @@
         service: script.turn_on
         entity_id: script.turn_off_tv
     shop_tv:
+      friendly_name: "Shop TV"
       value_template: "{{ is_state('input_boolean.shop_tv_on','on') }}"
       turn_on:
         service: script.turn_on
@@ -95,22 +99,17 @@
         service: script.turn_on
         entity_id: script.turn_off_shop_tv
     playstation:
-      value_template: "{{ is_state('input_boolean.playstation_on','on') }}"
+      friendly_name: "Playstation"
+      value_template: "{{ is_state('input_boolean.is_playstation_on','on') }}"
+ # Change this to use unifi TX stats (since ps4 is prone to shutting down suddenly)
       turn_on:
         service: script.turn_on
         entity_id: script.turn_on_playstation
       turn_off:
         service: script.turn_on
         entity_id: script.turn_off_playstation
-    # plex:
-    #   value_template: "{{ is_state_attr('media_player.ps4_waker','source','Plex') }}"
-    #   turn_on:
-    #     service: script.turn_on
-    #     entity_id: script.turn_on_ps4_waker_plex
-    #   turn_off:
-    #     service: script.turn_on
-    #     entity_id: script.turn_off_ps4_waker_plex    
     chromecast:
+      friendly_name: "Chromecast"
       value_template: "{{ is_state('input_boolean.chromecast_on','on') }}"
       turn_on:
         service: script.turn_on
@@ -119,6 +118,7 @@
         service: script.turn_on
         entity_id: script.turn_off_chromecast
     projector:
+      friendly_name: "Projector"
       value_template: "{{ is_state('input_boolean.projector_on','on') }}"
       turn_on:
         service: script.turn_on
@@ -127,6 +127,7 @@
         service: script.turn_on
         entity_id: script.turn_off_projector
     sun_projector:
+      friendly_name: "Sun Projector"
       value_template: "{{ is_state('input_boolean.sun_projector_on','on') }}"
       turn_on:
         service: script.turn_on
@@ -135,6 +136,7 @@
         service: script.turn_on
         entity_id: script.turn_off_sun_projector
     bedtime_projector:
+      friendly_name: "Bedtime Projector"
       value_template: "{{ is_state('input_boolean.bedtime_projector','on') }}"
       turn_on:
         service: script.turn_on
@@ -143,7 +145,8 @@
         service: script.turn_on
         entity_id: script.turn_off_bedtime_projector
     climate_control:
-      value_template: "{{ states.climate.thermostat.attributes.hvac_action != 'off' }}"
+      friendly_name: "Climate Control"
+      value_template: "{{ not is_state('climate.thermostat.attributes.hvac_action', 'off') }}"
       turn_on:
         service: script.turn_on
         entity_id: script.turn_on_climate_control

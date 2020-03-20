@@ -1,353 +1,3 @@
-- id: '1575082412411'
-  name: Normal
-  entities:
-    light.accent_lights:
-      state: 'on'
-    light.ai_kitchen_gascan_main:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_kitchen_gascan_nozzle:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_livingroom_gascan:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_livingroom_orb:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_livingroom_sculpture:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_shop_gascan:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.chandelier:
-      brightness: 254
-      effect: none
-      hs_color:
-      - 29.667
-      - 70.588
-      rgb_color:
-      - 255
-      - 164
-      - 75
-      state: 'on'
-      xy_color:
-      - 0.537
-      - 0.392
-    light.kitchen_lights:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.macrame_light:
-      state: 'on'
-    light.music_light:
-      state: 'on'
-    light.nanoleaf:
-      brightness: 252
-      color_temp: 831
-      effect: '*Solid*'
-      hs_color:
-      - 30
-      - 71
-      rgb_color:
-      - 255
-      - 164
-      - 73
-      state: 'on'
-      xy_color:
-      - 0.539
-      - 0.393
-    light.nightstand:
-      brightness: 254
-      effect: none
-      hs_color:
-      - 29.667
-      - 70.588
-      rgb_color:
-      - 255
-      - 164
-      - 75
-      state: 'on'
-      xy_color:
-      - 0.537
-      - 0.392
-    light.pool_table_light:
-      state: 'on'
-    light.the_sun:
-      brightness: 254
-      effect: none
-      hs_color:
-      - 29.667
-      - 70.588
-      rgb_color:
-      - 255
-      - 164
-      - 75
-      state: 'on'
-      xy_color:
-      - 0.537
-      - 0.392
-    light.water_light:
-      state: 'on'
-- id: '1575082412412'
-  name: Normal
-  entities:
-    light.accent_lights:
-      state: 'on'
-    light.ai_kitchen_gascan_main:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_kitchen_gascan_nozzle:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_livingroom_gascan:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_livingroom_orb:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_livingroom_sculpture:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.ai_shop_gascan:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.chandelier:
-      brightness: 254
-      effect: none
-      hs_color:
-      - 29.667
-      - 70.588
-      rgb_color:
-      - 255
-      - 164
-      - 75
-      state: 'on'
-      xy_color:
-      - 0.537
-      - 0.392
-    light.kitchen_lights:
-      brightness: 255
-      color_temp: 153
-      effect: none
-      hs_color:
-      - 29.674
-      - 72.157
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      xy_color:
-      - 0.543
-      - 0.393
-    light.macrame_light:
-      state: 'on'
-    light.music_light:
-      state: 'on'
-    light.nanoleaf:
-      brightness: 252
-      color_temp: 831
-      effect: '*Solid*'
-      hs_color:
-      - 30
-      - 71
-      rgb_color:
-      - 255
-      - 164
-      - 73
-      state: 'on'
-      xy_color:
-      - 0.539
-      - 0.393
-    light.nightstand:
-      brightness: 254
-      effect: none
-      hs_color:
-      - 29.667
-      - 70.588
-      rgb_color:
-      - 255
-      - 164
-      - 75
-      state: 'on'
-      xy_color:
-      - 0.537
-      - 0.392
-    light.pool_table_light:
-      state: 'on'
-    light.the_sun:
-      brightness: 254
-      effect: none
-      hs_color:
-      - 29.667
-      - 70.588
-      rgb_color:
-      - 255
-      - 164
-      - 75
-      state: 'on'
-      xy_color:
-      - 0.537
-      - 0.392
-    light.water_light:
-      state: 'on'
 - id: '1581477599736'
   name: Dinner Projector
   entities:
@@ -355,12 +5,30 @@
       friendly_name: Accent Lights
       state: 'on'
       supported_features: 0
-    light.ai_kitchen_gascan_main:
+    light.chandelier:
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Chandelier
+      max_mireds: 500
+      min_mireds: 153
+      state: 'off'
+      supported_features: 63
+    light.flour_box:
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Flour Box
+      max_mireds: 500
+      min_mireds: 153
+      state: 'off'
+      supported_features: 63
+    light.kitchen_gascan_main:
       brightness: 250
-      color_temp: 153
+      color_temp: 656
       effect: none
       effect_list:
-      friendly_name: ai_kitchen_gascan_main
+      friendly_name: Kitchen Gascan Main
       hs_color:
       - 29.838
       - 72.549
@@ -376,12 +44,12 @@
       xy_color:
       - 0.543
       - 0.393
-    light.ai_kitchen_gascan_nozzle:
+    light.kitchen_gascan_nozzle:
       brightness: 250
-      color_temp: 153
+      color_temp: 656
       effect: none
       effect_list:
-      friendly_name: ai_kitchen_gascan_nozzle
+      friendly_name: Kitchen Gascan Nozzle
       hs_color:
       - 29.838
       - 72.549
@@ -397,12 +65,16 @@
       xy_color:
       - 0.543
       - 0.393
-    light.ai_livingroom_gascan:
+    light.kitchen_strip:
+      friendly_name: Kitchen Strip
+      state: 'on'
+      supported_features: 0
+    light.living_room_gascan:
       brightness: 40
-      color_temp: 153
+      color_temp: 656
       effect: none
       effect_list:
-      friendly_name: ai_livingroom_gascan
+      friendly_name: Living Room Gascan
       hs_color:
       - 29.838
       - 72.549
@@ -418,19 +90,19 @@
       xy_color:
       - 0.543
       - 0.393
-    light.ai_livingroom_orb:
+    light.living_room_orb:
       effect_list:
-      friendly_name: ai_livingroom_orb
+      friendly_name: Living Room Orb
       max_mireds: 500
       min_mireds: 153
       state: 'off'
       supported_features: 191
-    light.ai_livingroom_sculpture:
+    light.living_room_sculpture:
       brightness: 40
-      color_temp: 244
+      color_temp: 656
       effect: none
       effect_list:
-      friendly_name: ai_livingroom_sculpture
+      friendly_name: Living Room Sculpture
       hs_color:
       - 29.838
       - 72.549
@@ -446,40 +118,6 @@
       xy_color:
       - 0.543
       - 0.393
-    light.ai_shop_gascan:
-      brightness: 40
-      color_temp: 153
-      effect: none
-      effect_list:
-      friendly_name: ai_shop_gascan
-      hs_color:
-      - 29.838
-      - 72.549
-      max_mireds: 500
-      min_mireds: 153
-      rgb_color:
-      - 255
-      - 162
-      - 70
-      state: 'on'
-      supported_features: 191
-      white_value: 0
-      xy_color:
-      - 0.543
-      - 0.393
-    light.chandelier:
-      effect_list:
-      - colorloop
-      - random
-      friendly_name: Chandelier
-      max_mireds: 500
-      min_mireds: 153
-      state: 'off'
-      supported_features: 63
-    light.kitchen_strip:
-      friendly_name: Kitchen Strip
-      state: 'on'
-      supported_features: 0
     light.macrame_light:
       friendly_name: Macrame Light
       state: 'off'
@@ -489,8 +127,8 @@
       state: 'on'
       supported_features: 0
     light.nanoleaf:
-      brightness: 35
-      color_temp: 831
+      brightness: 28
+      color_temp: 656
       effect: '*Solid*'
       effect_list:
       - '*Bedtime Dynamic*'
@@ -545,20 +183,20 @@
       - burning coals
       friendly_name: Nanoleaf
       hs_color:
-      - 30
-      - 71
+      - 29
+      - 70
       icon: mdi:triangle-outline
       max_mireds: 833
       min_mireds: 154
       rgb_color:
       - 255
-      - 164
-      - 73
+      - 162
+      - 76
       state: 'on'
       supported_features: 55
       xy_color:
       - 0.539
-      - 0.393
+      - 0.389
     light.nightstand:
       brightness: 40
       effect: none
@@ -567,14 +205,14 @@
       - random
       friendly_name: Nightstand
       hs_color:
-      - 29.831
-      - 69.412
+      - 30
+      - 69.02
       max_mireds: 500
       min_mireds: 153
       rgb_color:
       - 255
       - 166
-      - 77
+      - 78
       state: 'on'
       supported_features: 63
       xy_color:
@@ -584,6 +222,27 @@
       friendly_name: Pool Table Light
       state: 'off'
       supported_features: 0
+    light.shop_gascan:
+      brightness: 40
+      color_temp: 656
+      effect: none
+      effect_list:
+      friendly_name: Shop Gascan
+      hs_color:
+      - 29.838
+      - 72.549
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 162
+      - 70
+      state: 'on'
+      supported_features: 191
+      white_value: 0
+      xy_color:
+      - 0.543
+      - 0.393
     light.the_sun:
       brightness: 40
       color_temp: 366
@@ -596,11 +255,239 @@
       min_mireds: 153
       state: 'on'
       supported_features: 63
-    light.water_light:
-      friendly_name: Water Light
+    switch.wemo_shop:
+      friendly_name: Wemo Shop
+      state: 'on'
+- id: '1583894964420'
+  name: Normal
+  entities:
+    light.accent_lights:
+      friendly_name: Accent Lights
       state: 'on'
       supported_features: 0
-    switch.wemo_shop:
-      restored: true
-      state: unavailable
+    light.chandelier:
+      brightness: 252
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Chandelier
+      hs_color:
+      - 29.663
+      - 69.804
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 165
+      - 76
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.535
+      - 0.393
+    light.flour_box:
+      brightness: 252
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Flour Box
+      hs_color:
+      - 29.663
+      - 69.804
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 165
+      - 76
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.535
+      - 0.393
+    light.industrial_lamp:
+      friendly_name: Industrial Lamp
+      state: 'on'
+      supported_features: 0
+    light.kitchen_gascan_main:
+      brightness: 252
+      color_temp: 730
+      effect: none
+      effect_list:
+      friendly_name: Kitchen Gascan Main
+      hs_color:
+      - 29.503
+      - 70.98
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 163
+      - 74
+      state: 'on'
+      supported_features: 191
+      white_value: 14
+      xy_color:
+      - 0.539
+      - 0.392
+    light.kitchen_gascan_nozzle:
+      brightness: 252
+      color_temp: 730
+      effect: none
+      effect_list:
+      friendly_name: Kitchen Gascan Nozzle
+      hs_color:
+      - 29.503
+      - 70.98
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 163
+      - 74
+      state: 'on'
+      supported_features: 191
+      white_value: 14
+      xy_color:
+      - 0.539
+      - 0.392
+    light.kitchen_strip:
+      friendly_name: Kitchen Strip
+      state: 'on'
+      supported_features: 0
+    light.living_room_gascan:
+      brightness: 252
+      color_temp: 730
+      effect: none
+      effect_list:
+      friendly_name: Living Room Gascan
+      hs_color:
+      - 29.503
+      - 70.98
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 163
+      - 74
+      state: 'on'
+      supported_features: 191
+      white_value: 14
+      xy_color:
+      - 0.539
+      - 0.392
+    light.living_room_orb:
+      brightness: 252
+      color_temp: 730
+      effect: none
+      effect_list:
+      friendly_name: Living Room Orb
+      hs_color:
+      - 29.503
+      - 70.98
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 163
+      - 74
+      state: 'on'
+      supported_features: 191
+      white_value: 14
+      xy_color:
+      - 0.539
+      - 0.392
+    light.living_room_sculpture:
+      brightness: 252
+      color_temp: 730
+      effect: none
+      effect_list:
+      friendly_name: Living Room Sculpture
+      hs_color:
+      - 29.503
+      - 70.98
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 163
+      - 74
+      state: 'on'
+      supported_features: 191
+      white_value: 14
+      xy_color:
+      - 0.539
+      - 0.392
+    light.nightstand:
+      brightness: 252
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Nightstand
+      hs_color:
+      - 29.663
+      - 69.804
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 165
+      - 76
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.535
+      - 0.393
+    light.pool_table_light:
+      friendly_name: Pool Table Light
+      state: 'on'
+      supported_features: 0
+    light.shop_gascan:
+      brightness: 252
+      color_temp: 730
+      effect: none
+      effect_list:
+      friendly_name: Shop Gascan
+      hs_color:
+      - 29.503
+      - 70.98
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 163
+      - 74
+      state: 'on'
+      supported_features: 191
+      white_value: 14
+      xy_color:
+      - 0.539
+      - 0.392
+    light.the_sun:
+      brightness: 252
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: The Sun
+      hs_color:
+      - 29.663
+      - 69.804
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 165
+      - 76
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.535
+      - 0.393
+    light.wemo_bedroom:
+      friendly_name: Wemo Bedroom
+      state: 'on'
       supported_features: 0

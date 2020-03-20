@@ -54,8 +54,6 @@ turn_on_kitchen_strip:
       retain: 1
       topic: hass/light/kitchen/strip
     service: mqtt.publish
-  - entity_id: input_boolean.kitchen_strip_on
-    service: input_boolean.turn_on
 turn_off_kitchen_strip:
   alias: Turn off Kitchen Strip Light
   sequence:
@@ -73,8 +71,21 @@ turn_off_kitchen_strip:
       retain: 1
       topic: hass/light/kitchen/strip
     service: mqtt.publish
-  - entity_id: input_boolean.kitchen_strip_on
-    service: input_boolean.turn_off
+turn_on_playstation_flex:
+  alias: Turn on playstation by setting variables
+  sequence:
+  - data:
+      entity_id: media_player.playstation_4
+    service: media_player.turn_on
+  - data_template:
+      activity: '{{ activity_id }}'
+      entity_id: remote.harmony_hub
+    service: remote.turn_on
+  - entity_id: input_boolean.is_playstation_on
+    service: input_boolean.turn_on
+  - data_template:
+      entity_id: input_boolean.{{ display_entity_boolean }}
+    service: input_boolean.turn_on
 turn_on_playstation:
   alias: Turn on playstation and auto-select monitor
   sequence:
@@ -82,10 +93,12 @@ turn_on_playstation:
       entity_id: media_player.playstation_4
     service: media_player.turn_on
   - data_template:
-      entity_id: remote.harmony_hub
       activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27544124\n\
         {% else %}\n  41943956\n{% endif %}\n"
+      entity_id: remote.harmony_hub
     service: remote.turn_on
+  - entity_id: input_boolean.is_playstation_on
+    service: input_boolean.turn_on
 turn_off_playstation:
   alias: Turn off playstation and auto-select monitor
   sequence:
@@ -93,10 +106,12 @@ turn_off_playstation:
       entity_id: media_player.playstation_4
     service: media_player.turn_off
   - data_template:
-      entity_id: remote.harmony_hub
       activity: "{% if is_state(\"binary_sensor.dark_out\", \"on\") %}\n  27544124\n\
         {% else %}\n  41943956\n{% endif %}\n"
+      entity_id: remote.harmony_hub
     service: remote.turn_off
+  - entity_id: input_boolean.is_playstation_on
+    service: input_boolean.turn_off
 turn_on_shop_tv:
   alias: Turn on Shop TV
   sequence:
@@ -217,17 +232,6 @@ take_photo_livingroom:
     entity_id: input_select.privacy_mode
     state: Open
   - service: shell_command.take_photo_raspistill
-scene_underwater:
-  alias: scene underwater
-  sequence:
-  - service: scene.turn_on
-    data:
-      entity_id: scene.underwater
-  - service: light.turn_on
-    data:
-      entity_id: light.nanoleaf
-      effect: Koi Pond
-      brightness_pct: 25
 turn_on_bedtime_projector:
   alias: Turn On Bedtime Projector
   sequence:
@@ -239,6 +243,9 @@ turn_on_bedtime_projector:
       device: 44803053
       entity_id: remote.harmony_hub
     service: remote.send_command
+  - data: {}
+    entity_id: input_boolean.bedtime_projector_on
+    service: input_boolean.turn_on
   - delay: 00:00:15
   - data:
       entity_id: script.set_bedtime_projector_sleeptime
@@ -332,6 +339,9 @@ turn_off_bedtime_projector:
       device: 44803053
       entity_id: remote.harmony_hub
     service: remote.send_command
+  - data: {}
+    entity_id: input_boolean.bedtime_projector_on
+    service: input_boolean.turn_off
 turn_on_climate_control:
   alias: Turn on climate control
   sequence:
@@ -360,3 +370,82 @@ set_too_warm:
       entity_id: climate.thermostat
       temperature: '{{ (states(''sensor.relevant_dew_point'') | float) - 0.3 }}'
     service: climate.set_temperature
+  - condition: state
+    entity_id: climate.thermostat
+    state: 'off'
+  - data: {}
+    entity_id: climate.thermostat
+    service: climate.turn_on
+set_theme_ios_dark_mode:
+  alias: Set theme to ios dark mode
+  sequence:
+  - data:
+      name: ios-dark-mode
+    service: frontend.set_theme
+set_theme_ios_light_mode:
+  alias: Set theme to ios light mode
+  sequence:
+  - data:
+      name: ios-light-mode
+    service: frontend.set_theme
+'1581645123886':
+  alias: Increment edges_c
+  sequence:
+  - entity_id: counter.edges_c
+    service: counter.increment
+'1581645148555':
+  alias: Increment finished_c
+  sequence:
+  - entity_id: counter.finished_c
+    service: counter.increment
+'1583033016235':
+  alias: Turn on auto kitchen light feature
+  sequence:
+  - data: {}
+    entity_id: automation.turn_off_kitchen_lights_when_no_motion
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.turn_on_kitchen_lights_when_motion_detected
+    service: automation.turn_on
+'1583033076740':
+  alias: Turn off auto kitchen light feature
+  sequence:
+  - data: {}
+    entity_id: automation.turn_off_kitchen_lights_when_no_motion
+    service: automation.turn_off
+  - data: {}
+    entity_id: automation.turn_on_kitchen_lights_when_motion_detected
+    service: automation.turn_off
+notify_presence:
+  sequence:
+    service: notify.telegram_donnie
+    data_template:
+      title: '{{trigger}}: {{ states[entityid.split(''.'')[0]][entityid.split(''.'')[1]].name
+        }} notification
+
+        '
+      message: "{% set name = states[entityid.split('.')[0]][entityid.split('.')[1]].name\
+        \ %} {{as_timestamp(now()) | timestamp_custom(\"%X\") }} : {% if tostate ==\
+        \ 'not_home' %}\n  {{-name }} left {{fromstate}}\n{% elif fromstate == 'not_home'\
+        \ %}\n  {{-name }} arrived at {{tostate}}\n{% else %}\n  {{-name }} left {{fromstate}}\
+        \ and arrived at {{tostate}}\n{% endif %}\n"
+'1583790474272':
+  alias: Alexa TTS
+  sequence:
+  - data_template:
+      data:
+        type: tts
+      target:
+      - '{{ target }}'
+      message: '{{ message }}'
+    service: notify.alexa_media
+'1583791558443':
+  alias: Alexa Announce
+  sequence:
+  - data_template:
+      data:
+        type: announce
+      message: '{{ message }}'
+      target:
+      - '{{ target }}'
+    service: notify.alexa_media

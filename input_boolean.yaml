@@ -1,0 +1,34 @@
+ac_on:
+  name: "Is Air Conditioner On"
+  icon: mdi:snowflake
+heater_on:
+  name: "Is Heater On"
+  icon: mdi:radiator
+hvac_on:
+  name: "Is HVAC On"
+  icon: mdi:air-conditioner
+tv_on:
+  name: "Is TV Set On"
+  icon: mdi:television-classic
+shop_tv_on:
+  name: "Is Shop TV On"
+  icon: mdi:television-classic
+sun_projector_on:
+  name: "Is Sun Projector On"
+  icon: mdi:weather-sunny
+main_projector_on:
+  name: "Is Living Room Projector On"
+  icon: mdi:weather-sunny
+bedtime_projector_on:
+  name: "Is Bedtime Projector On"
+  icon: mdi:bed
+donnie_home:
+  name: "Set Donnie to Home"
+motion_kitchen:
+  name: "Motion in Kitchen"
+  initial: off
+is_playstation_on:
+  name: "Is Playstation On"
+  icon: mdi:sony-playstation
+
+  

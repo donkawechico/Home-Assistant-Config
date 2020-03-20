@@ -1,0 +1,36 @@
+privacy_mode:
+  name: Privacy Mode
+  options:
+    - Open
+    - No Cameras
+    - Total Privacy
+  initial: Open
+  icon: mdi:home-modern
+climate_room:
+  name: Climate Room
+  options:
+    - Bedroom
+    - Living Room
+occupants:
+  name: People in house
+  options:
+    - Empty
+    - Guests
+    - Owners
+    - Intruder
+    - Unknown
+house_mode:
+  name: House Mode
+  options:
+    - Bedtime
+    - Theater
+    - Normal
+    - Pool Hall
+    - Party
+    - Away
+alarm_mode:
+  name: Alarm System
+  options:
+    - Activated
+    - Deactivated
+    - Debug

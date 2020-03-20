@@ -1,131 +1,247 @@
-  - platform: yr
-  - platform: mqtt
-    state_topic: "stat/sensor/door/POWER"
-    name: "Front Door"
-    value_template: >
-      {% if value=='OFF' %}
-        CLOSED
-      {% else %}
-        OPEN
-      {% endif %}
-  - platform: mqtt
-    state_topic: "hass/light/kitchen/strip"
-    name: "MQTT Kitchen Strip"
-  - platform: darksky
-    api_key: !secret darksky_api_key
-    name: weather
-    latitude: !secret zone_home_lat
-    longitude: !secret zone_home_long
-    monitored_conditions:
-      - summary
-      - icon
-      - nearest_storm_distance
-# Unnecessary now that it's an integration in frontend
-#  - platform: command_line
-#    name: SSL cert expiry
-#    unit_of_measurement: days
-#    scan_interval: 10800
-#    command: "ssl-cert-check -b -c /etc/letsencrypt/live/dk.servebeer.com/cert.pem | awk '{ print $NF }'"
-  - platform: template
-    sensors:
-      donnie_home:
-        friendly_name: "Donnie is at home"
-        value_template: >-
-          {% 
-            if  is_state('person.donnie', 'home') or
-                is_state('input_boolean.donnie_home', 'on')
-          %} 
+# - platform: history_stats
+#   name: Work Bathroom This Week
+#   entity_id: sensor.donnie_find3_location_guess
+#   state: 'work_bathroom'
+#   type: time
+#   start: '{{ now().replace(day=now().day-now().weekday()).replace(hour=0).replace(minute=0).replace(second=0) }}'
+#   end: '{{ now() }}'
+
+- platform: systemmonitor
+  resources:
+  - type: disk_use_percent
+    arg: /home
+  - type: memory_use_percent
+  - type: processor_use
+# - platform: yr
+#   name: Weather
+#   forecast: 24
+#   monitored_conditions:
+#     - temperature
+#     - humidity
+#     - dewpointTemperature
+- platform: mqtt
+  state_topic: "stat/sensor/door/POWER"
+  name: "Front Door"
+  value_template: >
+    {% if value=='OFF' %}
+      CLOSED
+    {% else %}
+      OPEN
+    {% endif %}
+- platform: mqtt
+  state_topic: "hass/light/kitchen/strip"
+  name: "MQTT Kitchen Strip"
+- platform: mqtt
+  state_topic: 'donnie/location/phone'
+  name: "Donnie FIND3 Location Guess"
+  value_template: '{{ value_json.guesses[0].location }}'
+- platform: mqtt
+  state_topic: 'donnie/location/phone'
+  name: "Donnie FIND3 Location Confident"
+  value_template: >
+    {% if value_json.guesses[0].probability > 0.85 %}
+      {{ value_json.guesses[0].location }}
+    {% else %}
+      unknown
+    {% endif %}
+- platform: darksky
+  api_key: !secret darksky_secret
+  name: weather
+  latitude: !secret zone_home_lat
+  longitude: !secret zone_home_long
+  monitored_conditions:
+    - summary
+    - icon
+    - nearest_storm_distance
+    - temperature
+    - visibility
+    - dew_point
+    - temperature_low
+    - temperature_high
+    - uv_index
+    - moon_phase
+    - humidity
+# - platform: command_line
+#   name: SSL cert expiry
+#   unit_of_measurement: days
+#   scan_interval: 10800
+#   command: "ssl-cert-check -b -c /etc/letsencrypt/live/dk.servebeer.com/cert.pem | awk '{ print $NF }'"
+# - platform: cert_expiry
+#   host: dk.servebeer.com
+#   port: 443
+- platform: template
+  sensors:
+# 115 azimuth and 25 elevation hits corner of table in morning
+# 116 and 26.19 hits the mirror
+# 140.88 and 42.42 has hit the corner of table through middle window with left shades down
+# 178 azimuth results in highest living room luminance (50 degrees elevation on 3/13)
+# With phone at pool table, measured ~60 degrees is the angle at which sun touches table
+
+    sun_azimuth:
+      friendly_name: "Sun Azimuth"
+      value_template: >
+        {{ state_attr('sun.sun', 'azimuth') | float }}
+      unit_of_measurement: '°'
+    sun_elevation:
+      friendly_name: "Sun Elevation"
+      value_template: >
+        {{ state_attr('sun.sun', 'elevation') | float }}
+      unit_of_measurement: '°'
+    living_room_temp_trend:
+      friendly_name: "Living Room Temperature Trend"
+      value_template: >
+        {% if is_state("binary_sensor.livingroom_temp_falling","on") %}
+          Cooling
+        {% elif is_state("binary_sensor.livingroom_temp_rising","on") %}
+          Warming
+        {% else %}
+          Neutral
+        {% endif %}
+    outside_temp_trend:
+      friendly_name: "Outside Temperature Trend"
+      value_template: >
+        {% if is_state("binary_sensor.outside_temp_falling","on") %}
+          Cooling
+        {% elif is_state("binary_sensor.outside_temp_rising","on") %}
+          Warming
+        {% else %}
+          Neutral
+        {% endif %}
+    donnie_home_status:
+      friendly_name: "Donnie Home Status"
+      value_template: >-
+        {% 
+          if  is_state('person.donnie', 'home') or
+              is_state('input_boolean.donnie_home', 'on')
+        %} 
+        home
+        {% else %}
+        not_home
+        {% endif %}
+    christine_home_status:
+      friendly_name: "Christine Home Status"
+      value_template: >-
+        {% if is_state('person.christine', 'home') %} 
           home
-          {% else %}
+        {% else %}
           not_home
-          {% endif %}
-      christine_home:
-        friendly_name: "Christine is at home"
-        value_template: >-
-          {% if is_state('person.christine', 'home') %} 
-            home
-          {% else %}
-            not_home
-          {% endif %}
-      camera_privacy_mode:
-        friendly_name: "Camera Privacy Mode"
-        value_template: >
-          {% if is_state('input_select.privacy_mode', 'No Cameras') or
-                is_state('input_select.privacy_mode', 'Total Privacy') %}
-            Locked
-          {% else %}
-            Open
-          {% endif %}
-#      temperature_feels_like_livingroom:
-#        friendly_name: 'Livingroom Feels Like'
-#        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
-#        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.multisensor_livingroom_temperature.state|float)) + (10.14333127 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) - (0.22475541 * (states.sensor.multisensor_livingroom_temperature.state|float) * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.multisensor_livingroom_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.multisensor_livingroom_temperature.state|float)**2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.multisensor_livingroom_temperature.state|float) * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.multisensor_livingroom_temperature.state|float)**2 * (states.sensor.multisensor_livingroom_relative_humidity.state|float)**2))|round(2)) }}'
-#        unit_of_measurement: '°F'
-      dew_point_livingroom:
-        friendly_name: 'Livingroom Dew Point'
-        value_template: '{{ states.sensor.multisensor_livingroom_temperature.state | float - (9/25) * (100 - states.sensor.multisensor_livingroom_relative_humidity.state | round(2)) }}'
-        unit_of_measurement: '°F'
-#      temperature_feels_like_bedroom:
-#        friendly_name: 'Bedroom Feels Like'
-#        #formula taken from http://www.srh.noaa.gov/ama/?n=heatindex
-#        value_template: '{{ ((-42.379 + (2.04901523 * (states.sensor.multisensor_bedroom_temperature.state|float)) + (10.14333127 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) - (0.22475541 * (states.sensor.multisensor_bedroom_temperature.state|float) * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) - (6.83783 * 10**(-3) * (states.sensor.multisensor_bedroom_temperature.state|float)**2) - (5.481717 * 10**-2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2 )+ (1.22874 * 10**-3 * (states.sensor.multisensor_bedroom_temperature.state|float)**2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)) + (8.5282*10**-4 * (states.sensor.multisensor_bedroom_temperature.state|float) * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2) - (1.99 * 10**-6 * (states.sensor.multisensor_bedroom_temperature.state|float)**2 * (states.sensor.multisensor_bedroom_relative_humidity.state|float)**2))|round(2)) }}'
-#        unit_of_measurement: '°F'
-      dew_point_bedroom:
-        friendly_name: 'Bedroom Dew Point'
-        value_template: '{{ states.sensor.multisensor_bedroom_temperature.state | float - (9/25) * (100 - states.sensor.multisensor_bedroom_relative_humidity.state | round(2)) }}'
-        unit_of_measurement: '°F'
-      relevant_dew_point:
-        friendly_name: 'Dew Point measurement to use for climate control'
-        value_template: >
-          {% if is_state('input_select.climate_room', 'Bedroom') %}
-            {{ states.sensor.dew_point_bedroom.state | round(2)}}
-          {% elif is_state('input_select.climate_room', 'Livingroom') %}
-            {{ states.sensor.dew_point_livingroom.state | round(2) }}
-          {% else %}
-            {{ states.sensor.dew_point_livingroom.state | round(2) }}
-          {% endif %}
-  - platform: template
-    sensors:
-      withings_weight_lbs_donnie:
-        friendly_name: "withings weight_lbs_donnie"
-        unit_of_measurement: 'lbs'
-        value_template: "{{ (states('sensor.withings_weight_kg_donnie') | float * 2.20462262185) | round(2) }}"
-        icon_template: mdi:weight-pound
-
-  - platform: template
-    sensors:
-      withings_bone_mass_lbs_donnie:
-        friendly_name: "withings bone_mass_lbs_donnie"
-        unit_of_measurement: 'lbs'
-        value_template: "{{ (states('sensor.withings_bone_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
-        icon_template: mdi:weight-pound
-
-  - platform: template
-    sensors:
-      withings_fat_free_mass_lbs_donnie:
-        friendly_name: "withings fat_free_mass_lbs_donnie"
-        unit_of_measurement: 'lbs'
-        value_template: "{{ (states('sensor.withings_fat_free_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
-        icon_template: mdi:weight-pound
-
-  - platform: template
-    sensors:
-      withings_fat_mass_lbs_donnie:
-        friendly_name: "withings fat_mass_lbs_donnie"
-        unit_of_measurement: 'lbs'
-        value_template: "{{ (states('sensor.withings_fat_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
-        icon_template: mdi:weight-pound
-
-  - platform: template
-    sensors:
-      withings_muscle_mass_lbs_donnie:
-        friendly_name: "withings muscle_mass_lbs_donnie"
-        unit_of_measurement: 'lbs'
-        value_template: "{{ (states('sensor.withings_muscle_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
-        icon_template: mdi:weight-pound
-  - platform: time_date
-    display_options:
-      - 'time'
-      - 'date'
-      - 'date_time'
-  # - platform: spotcast
+        {% endif %}
+    camera_privacy_mode:
+      friendly_name: "Camera Privacy Mode"
+      value_template: >
+        {% if is_state('input_select.privacy_mode', 'No Cameras') or
+              is_state('input_select.privacy_mode', 'Total Privacy') %}
+          Locked
+        {% else %}
+          Open
+        {% endif %}
+    wemo_insight_watts:
+      friendly_name: "Wemos Insight Watts"
+      unit_of_measurement: "Watts"
+      value_template: >
+        {{ state_attr('switch.wemo_power_insight', 'current_power_w') | float }}
+    living_room_dew_point:
+      friendly_name: 'Living Room Dew Point'
+      unit_of_measurement: '°F (Dew Point)'
+      value_template: >
+        {% set temperature = states("sensor.multisensor_living_room_temperature") | float %}
+        {% set rel_humidity = states("sensor.multisensor_living_room_relative_humidity") | float %}
+        {% if (temperature is defined) and (rel_humidity is defined) %} 
+          {{ (temperature - (9/25) * (100 - rel_humidity)) | round(2) }}
+        {% else %}
+          unknown
+        {% endif %}
+    bedroom_dew_point:
+      friendly_name: 'Bedroom Dew Point'
+      unit_of_measurement: '°F (Dew Point)'
+      value_template: >
+        {% set temperature = states("sensor.multisensor_bedroom_temperature") | float %}
+        {% set rel_humidity = states("sensor.multisensor_bedroom_relative_humidity") | float %}
+        {% if (temperature) %} 
+          {{ (temperature - (9/25) * (100 - rel_humidity)) | round(2) }}
+        {% else %}
+          unknown
+        {% endif %}
+    relevant_dew_point:
+      friendly_name: 'Dew Point measurement to use for climate control'
+      unit_of_measurement: '°F (Dew Point)'
+      value_template: >
+        {% if is_state('input_select.climate_room', 'Bedroom') %}
+          {{ states("sensor.bedroom_dew_point") }}
+        {% elif is_state('input_select.climate_room', 'Living Room') %}
+          {{ states("sensor.living_room_dew_point") }}
+        {% else %}
+          {{ states("sensor.living_room_dew_point") }}
+        {% endif %}
+    living_room_occupied_dew_point:
+      friendly_name: 'Livingroom dew point when house is occupied'
+      unit_of_measurement: '°F (Dew Point)'
+      value_template: >
+        {% if is_state('binary_sensor.someone_home', 'on') %}
+          {{ states("sensor.living_room_dew_point") }}
+        {% endif %}
+    living_room_unoccupied_dew_point:
+      friendly_name: 'Livingroom dew point when house is not occupied'
+      value_template: >
+        {% if is_state('binary_sensor.someone_home', 'off') %}
+          {{ states("sensor.living_room_dew_point") }}
+        {% endif %}
+      unit_of_measurement: '°F (Dew Point)'
+    withings_weight_lbs_donnie:
+      friendly_name: "withings weight_lbs_donnie"
+      unit_of_measurement: 'lbs'
+      value_template: "{{ (states('sensor.withings_weight_kg_donnie') | float * 2.20462262185) | round(2) }}"
+      icon_template: mdi:weight-pound
+    withings_bone_mass_lbs_donnie:
+      friendly_name: "withings bone_mass_lbs_donnie"
+      unit_of_measurement: 'lbs'
+      value_template: "{{ (states('sensor.withings_bone_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+      icon_template: mdi:weight-pound
+    withings_fat_free_mass_lbs_donnie:
+      friendly_name: "withings fat_free_mass_lbs_donnie"
+      unit_of_measurement: 'lbs'
+      value_template: "{{ (states('sensor.withings_fat_free_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+      icon_template: mdi:weight-pound
+    withings_fat_mass_lbs_donnie:
+      friendly_name: "withings fat_mass_lbs_donnie"
+      unit_of_measurement: 'lbs'
+      value_template: "{{ (states('sensor.withings_fat_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+      icon_template: mdi:weight-pound
+    withings_muscle_mass_lbs_donnie:
+      friendly_name: "withings muscle_mass_lbs_donnie"
+      unit_of_measurement: 'lbs'
+      value_template: "{{ (states('sensor.withings_muscle_mass_kg_donnie') | float * 2.20462262185) | round(2) }}"
+      icon_template: mdi:weight-pound
+    simple_date_time:
+      friendly_name: "Simple Date Time"
+      entity_id: sensor.time
+      # https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django
+      # https://support.sendwithus.com/jinja/jinja_time/
+      value_template: "{{ as_timestamp(now()) | timestamp_custom('%-m/%-d		%-I:%M %p') }}"
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+# - platform: statistics
+#   name: 'Occupied living room dew point stats'
+#   entity_id: sensor.living_room_occupied_dew_point
+# - platform: statistics
+#   name: 'Unoccupied living room dew point stats'
+#   entity_id: sensor.living_room_unoccupied_dew_point
+# - platform: gtfs
+#   name: Ashby to Civic Center
+#   origin: ASHB
+#   destination: CIVC
+#   data: /home/homeassistant/.homeassistant/bart.zip
+#   offset: 6
+# - platform: gtfs
+#   name: Civic Center to Ashby
+#   origin: CIVC
+#   destination: ASHB
+#   data: /home/homeassistant/.homeassistant/bart.zip
+#   offset: 5
+- platform: command_line
+  name: "Latest Tasmota"
+  command: "curl -s https://github.com/arendst/Tasmota/releases/latest | cut -d'\"' -f2 | rev | cut -d'/' -f1 | rev"
+  scan_interval: 600

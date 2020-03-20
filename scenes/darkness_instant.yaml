@@ -1,8 +1,0 @@
-name: darkness_instant
-entities:
-  light.all_color_lights:
-    state: off
-  group.all_light_switches:
-    state: off
-  light.kitchen_strip:
-    state: off

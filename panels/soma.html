@@ -1,0 +1,56 @@
+<dom-module id='ha-panel-soma'>
+  <template>
+    <style>
+      a {
+        font-weight: bold;
+      }
+      div {
+        padding: 10px 0px 10px 20px;
+      }
+    </style>
+    <div><a href="https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API" target="_blank">Soma HTTP API</a></div>
+    <hr />
+    <div><a href="http://192.168.1.131:3000/list_devices" target="_blank">List Devices</a></div>
+    <div><a href="http://192.168.1.131:3000/get_shade_state/c7:5f:63:4f:dc:bf" target="_blank">Left Shade State</a></div>
+    <div><a href="http://192.168.1.131:3000/get_battery_level/c7:5f:63:4f:dc:bf" target="_blank">Left Shade Battery Level (10mV units. 320-420 range. 360 is too low for motors)</a></div>
+    <div><a href="http://192.168.1.131:3000/set_shade_position/c7:5f:63:4f:dc:bf/50" target="_blank">Set Left Shade Position to 50</a></div>
+    <div><a href="http://192.168.1.131:3000/open_shade/c7:5f:63:4f:dc:bf" target="_blank">Open Left Shade</a></div>
+    <div><a href="http://192.168.1.131:3000/close_shade/c7:5f:63:4f:dc:bf" target="_blank">Close Left Shade</a></div>
+    <div><a href="http://192.168.1.131:3000/stop_shade/c7:5f:63:4f:dc:bf" target="_blank">Stop Left Shade</a></div>
+  </template>
+</dom-module>
+
+<script>
+class HaPanelSoma extends Polymer.Element {
+  static get is() { return 'ha-panel-soma'; }
+
+  static get properties() {
+    return {
+      // Home Assistant object
+      hass: Object,
+      // If should render in narrow mode
+      narrow: {
+        type: Boolean,
+        value: false,
+      },
+      // If sidebar is currently shown
+      showMenu: {
+        type: Boolean,
+        value: false,
+      },
+      // Home Assistant panel info
+      // panel.config contains config passed to register_panel serverside
+      panel: Object,
+      who: {
+        type: String,
+        computed: 'computeWho(panel)',
+      },
+    };
+  }
+
+  computeWho(panel) {
+    return panel && panel.config && panel.config.who ? panel.config.who : 'World';
+  }
+}
+customElements.define(HaPanelSoma.is, HaPanelSoma);
+</script>

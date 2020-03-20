@@ -1,0 +1,68 @@
+ smart_home:
+   endpoint: https://api.amazonalexa.com/v3/events
+   client_id: !secret alexa_skill_client_id
+   client_secret: !secret alexa_skill_client_secret
+   filter:
+     exclude_domains:
+       - script
+       - automation
+       - group
+       - media_player
+       - binary_sensor
+       - input_boolean
+       - cover
+     exclude_entities:
+       - light.livingroom_lights
+       - switch.macrame_light
+       - switch.accent_lights
+       - switch.music_light
+       - switch.pool_table_light
+       - switch.water_light
+       - sensor.dew_point_bedroom
+       - sensor.multisensor_livingroom_temperature
+     include_entities:
+       - group.bedroom
+       - group.house_lights
+       - script.set_too_cold
+       - script.set_too_warm
+       - switch.shop_tv
+       - input_boolean.motion_kitchen
+   entity_config:
+     group.back_wall:
+       name: Back Wall
+       description: Wall behind couch
+     group.house_lights:
+       name: House Lights
+       description: All House Lights
+     group.bedroom:
+       name: Bedroom lights
+       description: Lights in the bedroom
+     light.livingroom_gascan:
+       name: Livingroom Gas Can
+       description: Livingroom Gas Can Light
+     switch.television:
+       name: TV
+       description: Roku Television
+     switch.shop_tv:
+       name: Vizio
+       description: Shop TV
+     light.livingroom_sculpture:
+       name: "Sculpture"
+     light.entry_umbrella:
+       name: Umbrella
+     light.kitchen_gascan_main:
+       name: Kitchen Gas Can Main
+     light.kitchen_gascan_nozzle:
+       name: Kitchen Gas Can Nozzle
+     light.livingroom_orb:
+       name: Orb
+     light.shop_gascan:
+       name: Shop Gas Can
+     script.set_too_cold:
+       name: Increase climate target temp
+     script.set_too_warm:
+       name: Decrease climate target temp
+     scene.normal:
+       name: Scene normal
+     scene.projector:
+       name: Scene projector

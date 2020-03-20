@@ -1,0 +1,66 @@
+all_and_home:
+  devices:
+    - device_tracker.google_maps_102217405067205510136
+    - device_tracker.google_maps_104973091759009457547
+    - device_tracker.google_maps_100705896910531391902
+    - device_tracker.google_maps_105743070279004462174
+  tolerance: 20
+  unit_of_measurement: mi
+donnie_and_home:
+  devices:
+    - device_tracker.google_maps_102217405067205510136
+  tolerance: 20
+christine_and_home:
+  devices:
+    - device_tracker.google_maps_104973091759009457547
+  tolerance: 20
+donnie_and_work:
+  zone: work
+  devices:
+    - device_tracker.google_maps_102217405067205510136
+  tolerance: 20
+raqui_and_aguirowitz:
+  zone: aguirowitz
+  devices:
+    - device_tracker.google_maps_105743070279004462174
+  tolerance: 20
+daniel_and_aguirowitz:
+  zone: aguirowitz
+  devices:
+    - device_tracker.google_maps_100705896910531391902
+  tolerance: 20
+donnie_and_aguirowitz:
+  zone: aguirowitz
+  devices:
+    - device_tracker.google_maps_102217405067205510136
+  tolerance: 20
+christine_and_work:
+  zone: christine_work
+  devices:
+    - device_tracker.google_maps_104973091759009457547
+  tolerance: 20
+daniel_and_work:
+  zone: daniel_work
+  devices:
+    - device_tracker.google_maps_100705896910531391902
+  tolerance: 20
+raqui_and_work:
+  zone: raqui_work
+  devices:
+    - device_tracker.google_maps_105743070279004462174
+  tolerance: 20
+julia_and_costco:
+  zone: costco_or
+  devices:
+    - device_tracker.google_maps_111911918163605295211
+  tolerance: 20
+julia_and_target:
+  zone: target_or
+  devices:
+    - device_tracker.google_maps_111911918163605295211
+  tolerance: 20
+julia_and_home:
+  zone: julia_home
+  devices:
+    - device_tracker.google_maps_111911918163605295211
+  tolerance: 20

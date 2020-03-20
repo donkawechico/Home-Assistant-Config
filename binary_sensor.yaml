@@ -1,36 +1,88 @@
-  - platform: iss
-    show_on_map: true
-  - platform: trend
-    sensors:
-      livingroom_temp_falling:
-        entity_id: sensor.multisensor_livingroom_temperature
-        sample_duration: 300 # 5 min
-        min_gradient: -0.00017 # About 0.1 degrees every 10 min (0.1 / (60*10))
-        device_class: cold
-      livingroom_temp_rising:
-        entity_id: sensor.multisensor_livingroom_temperature
-        sample_duration: 300
-        min_gradient: 0.00017
-        device_class: heat
-  - platform: template
-    sensors:
-      dark_out:
-        friendly_name: "Dark Outside"
-        value_template: >
-          {{ states.sun.sun.attributes.elevation|float < 0 }}
-      someone_home:
-        friendly_name: "Someone is at home"
-        value_template: >
-          {{ is_state('group.someone_home', 'home') }}
-      donnie_home:
-        friendly_name: "Donnie is at home"
-        value_template: >
-          {{ is_state('sensor.donnie_home', 'home') }}
-      christine_home:
-        friendly_name: "Christine is at home"
-        value_template: >
-          {{ is_state('sensor.christine_home', 'home') }}
-      living_room_motion:
-        friendly_name: "Living Room Motion Detected"
-        value_template: >
-          {{ is_state('sensor.multisensor_livingroom_burglar', '8') }}
+- platform: iss
+  show_on_map: true
+- platform: trend
+  sensors:
+    livingroom_temp_falling:
+      entity_id: sensor.multisensor_living_room_temperature
+      sample_duration: 300 # 5 min
+      min_gradient: -0.00017 # About 0.1 degrees every 10 min (0.1 / (60*10))
+      max_samples: 10
+      device_class: cold
+    livingroom_temp_rising:
+      entity_id: sensor.multisensor_living_room_temperature
+      sample_duration: 300
+      min_gradient: 0.00017
+      max_samples: 10
+      device_class: heat
+    outside_temp_falling:
+      entity_id: sensor.weather_temperature
+      sample_duration: 3600 # 60 minutes
+      min_gradient: -0.00017 # About 0.1 degrees every 10 min (0.1 / (60*10))
+      max_samples: 25
+      device_class: cold
+    outside_temp_rising:
+      entity_id: sensor.weather_temperature
+      sample_duration: 3600 # 60 minutes
+      min_gradient: 0.00017
+      max_samples: 25
+      device_class: heat
+- platform: template
+  sensors:
+    donnie_phone_charging:
+      friendly_name: "Donnie Phone Charging"
+      value_template: >
+        {{ state_attr("sensor.donnie_battery_level","is_charging") }}
+    christine_phone_charging:
+      friendly_name: "Christine Phone Charging"
+      value_template: >
+        {{ state_attr("sensor.christine_battery_level","is_charging") }}
+    dark_out:
+      friendly_name: "Dark Outside"
+      value_template: >
+        {{ states.sun.sun.attributes.elevation|float < 0 }}
+    someone_home:
+      friendly_name: "Someone is at home"
+      value_template: >
+        {{ is_state('group.someone_home', 'home') }}
+    donnie_home_or_unknown:
+      friendly_name: "Donnie is at home or unavailable"
+      value_template: >
+        {% if is_state('sensor.donnie_home_status', 'home') %}
+          On
+        {% elif is_state('sensor.donnie_home_status', 'unknown') %}
+          Unknown
+        {% else %}
+          Off
+        {% endif %}
+    donnie_home:
+      friendly_name: "Donnie is at home"
+      value_template: >
+        {{ is_state('sensor.donnie_home_status', 'home') }}
+    christine_home:
+      friendly_name: "Christine is at home"
+      value_template: >
+        {{ is_state('sensor.christine_home_status', 'home') }}
+    living_room_motion:
+      friendly_name: "Living Room Motion Detected"
+      value_template: >
+        {{ is_state('sensor.multisensor_living_room_burglar', '8') }}
+    kitchen_motion:
+      friendly_name: "Kitchen Motion Detected"
+      value_template: >
+        {{ is_state('input_boolean.motion_kitchen', 'on') }}
+    bedroom_motion:
+      friendly_name: "Bedroom Motion Detected"
+      value_template: >
+        {{ is_state('sensor.multisensor_bedroom_burglar', '8') }}
+    entry_motion:
+      friendly_name: "Entry Motion Detected"
+      value_template: >
+        {{ is_state('sensor.trisensor_entry_burglar', '8') }}
+    motion_detected_anywhere:
+      friendly_name: "Motion Detected Anywhere"
+      value_template: >
+        {% set sensors = [states.binary_sensor.living_room_motion,
+                          states.binary_sensor.kitchen_motion,
+                          states.binary_sensor.bedroom_motion,
+                          states.binary_sensor.entry_motion] %}
+        {{ sensors | selectattr('state','eq','on') | list | count > 0 }}

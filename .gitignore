@@ -50,3 +50,6 @@ test.*
 google_calendars.yaml
 custom_components/hacs
 custom_components/spotcast
+*.code-workspace
+log
+alexa_media.donniekarnsinsb@hotmail.com.pickle

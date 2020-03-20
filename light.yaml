@@ -1,0 +1,169 @@
+- platform: switch
+  name: "Macrame Light"
+  entity_id: switch.macrame_light
+- platform: switch
+  name: "Accent Lights"
+  entity_id: switch.accent_lights
+- platform: switch
+  name: "Music Light"
+  entity_id: switch.music_light
+- platform: switch
+  name: "Pool Table Light"
+  entity_id: switch.pool_table_light
+- platform: switch
+  name: "Wemo Bedroom"
+  entity_id: switch.wemo_other
+- platform: switch
+  name: "Industrial Lamp"
+  entity_id: switch.wemo_shop
+- platform: template
+  lights:
+    kitchen_strip:
+      friendly_name: "Kitchen Strip"
+      value_template: "{{ is_state('sensor.mqtt_kitchen_strip', 'ON') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.turn_on_kitchen_strip
+      turn_off:
+        service: script.turn_on
+        entity_id: script.turn_off_kitchen_strip
+- platform: group
+  name: Kitchen Lights
+  entities:
+    - light.kitchen_gascan_main
+    - light.kitchen_gascan_nozzle
+    - light.kitchen_strip
+- platform: group
+  name: Shop Lights
+  entities:
+    - light.pool_table_light
+    - light.the_sun
+    - light.shop_gascan
+    - light.industrial_lamp
+- platform: group
+  name: Living Room Lights
+  entities:
+    - light.living_room_gascan
+    - light.living_room_sculpture
+    - light.living_room_orb
+    - light.macrame_light
+    - light.accent_lights
+    - light.flour_box
+    - light.chandelier
+- platform: group
+  name: Entryway Lights
+  entities:
+    - light.nanoleaf
+    - light.pool_table_light
+- platform: group
+  name: Bedroom Lights
+  entities:
+    - light.nightstand
+    - light.music_light
+    - light.wemo_bedroom
+- platform: group
+  name: All Color Lights
+  entities:
+    - light.kitchen_gascan_main
+    - light.kitchen_gascan_nozzle
+    - light.living_room_orb
+    - light.living_room_gascan
+    - light.the_sun
+    - light.chandelier
+    - light.nightstand
+    - light.flour_box
+    - light.shop_gascan
+    - light.living_room_sculpture
+    - light.nanoleaf
+- platform: group
+  name: All Gas Cans
+  entities:
+    - light.kitchen_gascan_main
+    - light.kitchen_gascan_nozzle
+    - light.living_room_gascan
+    - light.shop_gascan
+- platform: group
+  name: All Light Switches
+  entities:
+  - light.accent_lights
+  - light.pool_table_light
+  - light.macrame_light
+  - light.music_light
+  - light.industrial_lamp
+  - light.wemo_bedroom
+- platform: group
+  name: House Lights
+  entities:
+  - light.all_color_lights
+  - light.all_light_switches
+  - light.kitchen_strip
+- platform: nanoleaf
+  name: Nanoleaf
+  host: !secret nanoleaf_ip
+  token: !secret nanoleaf_token
+- platform: mqtt
+  schema: json
+  name: 'Living Room Orb'
+  state_topic: 'home/livingroom/light/orb'
+  command_topic: 'home/livingroom/light/orb/set'
+  color_temp: true
+  brightness: true
+  rgb: true
+  white_value: true
+  effect: true
+  optimistic: false
+- platform: mqtt
+  schema: json
+  name: 'Living Room Sculpture'
+  state_topic: 'home/livingroom/light/sculpture'
+  command_topic: 'home/livingroom/light/sculpture/set'
+  color_temp: true
+  brightness: true
+  rgb: true
+  white_value: true
+  effect: true
+  optimistic: false
+- platform: mqtt
+  schema: json
+  name: 'Living Room Gascan'
+  state_topic: 'home/livingroom/light/gascan'
+  command_topic: 'home/livingroom/light/gascan/set'
+  color_temp: true
+  brightness: true
+  rgb: true
+  white_value: true
+  effect: true
+  optimistic: false
+- platform: mqtt
+  schema: json
+  name: 'Kitchen Gascan Main'
+  state_topic: 'home/kitchen/light/gascan/main'
+  command_topic: 'home/kitchen/light/gascan/main/set'
+  color_temp: true
+  brightness: true
+  rgb: true
+  white_value: true
+  effect: true
+  optimistic: false
+- platform: mqtt
+  schema: json
+  name: 'Kitchen Gascan Nozzle'
+  state_topic: 'home/kitchen/light/gascan/nozzle'
+  command_topic: 'home/kitchen/light/gascan/nozzle/set'
+  color_temp: true
+  brightness: true
+  rgb: true
+  white_value: true
+  effect: true
+  optimistic: false
+- platform: mqtt
+  schema: json
+  name: 'Shop Gascan'
+  state_topic: 'home/shop/light/gascan'
+  command_topic: 'home/shop/light/gascan/set'
+  color_temp: true
+  brightness: true
+  rgb: true
+  white_value: true
+  effect: true
+  optimistic: false
